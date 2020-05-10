@@ -1,0 +1,33 @@
+play:
+  title: A Fake Play
+  author: Flaminio Scala
+
+network:
+  weighted: false
+  directed: false
+
+characters:
+  &Pant Pantalone: 
+    gender: male
+    archetype: vecchi
+  &Fran Franceschina: 
+    gender: female
+    archetype: servi
+  &Pedr Pedrolino: 
+    gender: male
+    archetype: servi
+  &Isa Isabella: 
+    gender: female
+    archetype: lover
+
+edges:
+  Act1:
+    Scene1:
+      *Pant : *Pedr
+    Scene2:
+      *Fran : *Isa
+  Act2:
+    Scene1:
+      *Isa : *Fran
+
+  

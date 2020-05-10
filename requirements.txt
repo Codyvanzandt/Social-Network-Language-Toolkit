@@ -3,6 +3,6 @@ pytest
 coverage
 pytest-cov
 black
-pyyaml >=4.2b1
+pyyaml
 
 # Configuring project dependencies

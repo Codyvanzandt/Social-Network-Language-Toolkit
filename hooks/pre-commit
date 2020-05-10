@@ -1,0 +1,11 @@
+#!/bin/bash
+
+PROJECT_ROOT="${GITPOD_REPO_ROOT:-../}"
+
+echo "Running pre-commit hooks on ${PROJECT_ROOT}"
+
+# Running tests and test coverage report
+python3 -m pytest -s --disable-pytest-warnings --cov-report term-missing --cov $PROJECT_ROOT
+
+# Formatting code
+black $PROJECT_ROOT

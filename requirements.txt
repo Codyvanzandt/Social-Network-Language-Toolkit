@@ -1,0 +1,8 @@
+# Configuring testing tools and code formatters
+pytest
+coverage
+pytest-cov
+black
+pyyaml >=4.2b1
+
+# Configuring project dependencies

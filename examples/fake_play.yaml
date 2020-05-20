@@ -10,6 +10,8 @@ characters:
   &Pant Pantalone: 
     gender: male
     archetype: vecchi
+
+    
   &Fran Franceschina: 
     gender: female
     archetype: servi
@@ -23,11 +25,7 @@ characters:
 edges:
   Act1:
     Scene1:
-      *Pant : *Pedr
-    Scene2:
-      *Fran : *Isa
-  Act2:
-    Scene1:
-      *Isa : *Fran
-
+      - [*Pedr, *Isa]
+      
+      
   

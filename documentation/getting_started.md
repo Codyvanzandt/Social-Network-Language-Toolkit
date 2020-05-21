@@ -48,7 +48,7 @@ characters:
   Alice: 
     occupation: engineer
     protagonist: true
-    alias: A  # For convenience, you can assign and use an alias in place of a character name.
+    alias: A  # For convenience, you can assign and use a short alias in place of a longer character name.
   Bob:                      
     occupation: carpenter       
     protagonist: false
@@ -85,16 +85,16 @@ edges:
 
 
 # Enter-Exit Notation is the least explicit and least labor-intensive notation.
-# In each scene, you specify who has exited and entered from the previous scene.
+# In each scene, you specify who has entered and exited from the previous scene.
 # An edge is created between every pair of characters who remain.
 # In a undirected network, this creates an edge between every combination of two characters.
 # In a directed network, this creates an edge between every permutation of two characters.
 # In a weighted network, each edge will be given a weight of 1.
 
-edges:
-  - [+Alice, +Bob,]     # Alice and Bob enter. Undirected edges: Alice-Bob
-  - [-Bob, +Charlie]    # Bob exits, Charlie enters. Undirected edges: Alice-Charlie
-  - [+Bob]              # Bob enters. Undirected edges: Alice-Bob, Alice-Charlie, Bob-Charlie
+edges:                  # If we assume an undirected network then...
+  - [+Alice, +Bob,]     # Alice and Bob enter. Edges: Alice-Bob
+  - [-Bob, +Charlie]    # Bob exits, Charlie enters. Edges: Alice-Charlie
+  - [+Bob]              # Bob enters. Edges: Alice-Bob, Alice-Charlie, Bob-Charlie
 
 
 # Using Character Aliases

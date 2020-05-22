@@ -2,10 +2,6 @@ play:
   title: Some Play
   author: Some Author
 
-network:
-  weighted: true
-  directed: true
-
 characters:
   &Pant Pantalone: 
     gender: male
@@ -20,10 +16,16 @@ characters:
     gender: female
     archetype: lover
 
+network:
+  weighted: true
+  directed: true
+
+# edges:
+#   Act1:
+#     Scene1:
+#       Isabella:
+#         - Pantalone: 1
+
 edges:
-  Act1:
-    Scene1:
-      - [*Pedr, *Isa]
-      
-      
-  
+  - [+Isabella, +Pantalone]
+  - [-Pantalone, +Flavio, +Pedrolino]

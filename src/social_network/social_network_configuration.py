@@ -30,12 +30,21 @@ class SocialNetworkConfiguration:
                 possible_values=key_to_loader.keys(),
             )
 
+    # TODO: test file path, and string
     def _get_drama_yaml_data(self, drama_yaml_data):
         try:
-            return self.yaml_loader(drama_yaml_data) or dict()
-        except AttributeError:
-            possible_values = ["a string or an open text/yaml file object"]
-            raise SocialNetworkArgumentError("data", drama_yaml_data, possible_values)
+            with open(drama_yaml_data, "r") as input_file:
+                return self.yaml_loader(input_file.read())
+        except (TypeError, OSError, FileNotFoundError):
+            try:
+                return self.yaml_loader(drama_yaml_data) or dict()
+            except AttributeError:
+                possible_values = [
+                    "a DramaYAML string, a path to a DramaYAML file, or an open text file object containing DramaYAML"
+                ]
+                raise SocialNetworkArgumentError(
+                    "data", drama_yaml_data, possible_values
+                )
 
     def _get_play_data(self):
         return Play(self.data.get("play", None))

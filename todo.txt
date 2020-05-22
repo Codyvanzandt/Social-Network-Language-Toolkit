@@ -5,4 +5,6 @@ Create SocialNetwork from file X
 Create play object X
 Create Division objects
 Create Character objects X
-Create Edges (where to put them? network? edges?)
+Create Edges (where to put them? network? edges?) Probably network.edges
+Incorporate edge data into the edges themselves
+Change out character names for character objects

@@ -60,8 +60,7 @@ def test_get_yaml_data(social_network_configuration, valid_drama_yaml):
     valid_string_config = social_network_configuration(data=valid_drama_yaml)
     assert isinstance(valid_string_config.data, dict)
 
-    with open("examples/fake_play.yaml", "r") as yaml_file:
-        valid_file_config = social_network_configuration(data=yaml_file)
+    valid_file_config = social_network_configuration(data="examples/fake_play.yaml")
     assert isinstance(valid_file_config.data, dict)
 
     with pytest.raises(SocialNetworkArgumentError) as arg_error:

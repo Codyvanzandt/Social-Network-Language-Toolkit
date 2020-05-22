@@ -10,3 +10,8 @@ class SocialNetwork:
         self.play = self._social_network_config.play
         self.network = self._social_network_config.network
         self.characters = self._social_network_config.characters
+
+    def __repr__(self):
+        title = getattr(self.play, "title", str())
+        formatted_title = title if title == str() else f"title={repr(title)}"
+        return f"{self.__class__.__name__}({formatted_title})"

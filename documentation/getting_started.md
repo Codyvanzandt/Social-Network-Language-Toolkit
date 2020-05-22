@@ -60,9 +60,9 @@ characters:
 
 
 # Specify edges underneath the `edges` key.
-# There are a number edge notations, each with its own tradeoff between explicitness and labor intensiveness.
+# There are two different edge notations, each with its own tradeoff between explicitness and labor intensiveness.
 
-# Character Mapping Notation is the most explicit and most labor-intensive notation.
+# Character Mapping Notation is more explicit and more labor-intensive notation.
 edges: 
     Alice:      
       Bob: 1        # Alice-Bob, weight=1 
@@ -71,20 +71,7 @@ edges:
       Bob: 1        # Charlie-Bob, weight=1
 
 
-# Character Array Notation is moderately explicit and moderately labor-intensive.
-# It creates an edge between every pair of characters in an array.
-# In a undirected network, this creates an edge between every combination of two characters.
-# In a directed network, this creates an edge between every permutation of two characters.
-# In a weighted network, each edge will be given a weight of 1.
-# Note: you must prefix each new array with a `-` (dash).
-edges:
-  - [Alice, Bob, Charlie] # In an undirected network, this creates three edges: 
-                          # Alice-Bob, Alice-Charlie, Bob-Charlie.
-                          # In a directed network, this creates six edges:
-                          # Alice-Bob, Bob-Alice, Alice-Charlie, Charlie-Alice, Bob-Charlie, Charlie-Bob.  
-
-
-# Enter-Exit Notation is the least explicit and least labor-intensive notation.
+# Enter-Exit Notation is less explicit and less labor-intensive notation.
 # In each scene, you specify who has entered and exited from the previous scene.
 # An edge is created between every pair of characters who remain.
 # In a undirected network, this creates an edge between every combination of two characters.

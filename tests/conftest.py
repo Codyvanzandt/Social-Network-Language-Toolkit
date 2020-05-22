@@ -21,16 +21,16 @@ def valid_drama_yaml():
 
 @pytest.fixture
 def generic_play_object():
-    def _generic_play_object(data_dict=None):
-        return GenericPlayObject(data_dict)
+    def _generic_play_object(data=None):
+        return GenericPlayObject(data)
 
     return _generic_play_object
 
 
 @pytest.fixture
 def play():
-    def _play(*args, **kwargs):
-        return Play(*args, **kwargs)
+    def _play(title=str(), data=None, *args, **kwargs):
+        return Play(data=data, *args, **kwargs)
 
     return _play
 
@@ -45,8 +45,8 @@ def network():
 
 @pytest.fixture
 def character():
-    def _character(name=str(), data_dict=dict(), *args, **kwargs):
-        return Character(name, data_dict, *args, **kwargs)
+    def _character(name=str(), play=str(), data=dict(), *args, **kwargs):
+        return Character(name=name, play=play, data=data, *args, **kwargs)
 
     return _character
 

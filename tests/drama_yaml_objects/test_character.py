@@ -13,24 +13,24 @@ def test_initialization(character):
     assert isinstance(default_character, Character)
 
     data_dict = {"occupation": "engineer"}
-    alice_character = character("Alice", data_dict)
+    alice_character = character("Alice", data=data_dict)
     assert alice_character.name == "Alice"
     assert alice_character.occupation == "engineer"
 
 
 def test_equal(character):
-    data_dict = {"occupation": "engineer"}
-    alice_character = character("Alice", data_dict)
-    assert alice_character == alice_character
+    alice0 = character(name="Alice", play="Play0")
+    alice1 = character(name="Alice", play="Play1")
 
-    assert copy.deepcopy(alice_character) == alice_character
+    assert alice0 == alice0
+    assert copy.deepcopy(alice0) == alice0
 
-    assert alice_character != character("Bob", data_dict)
-
-    assert alice_character != "Something that definitely isn't a Character"
+    assert alice0 != alice1
+    assert alice0 != character("Bob", play="Play0")
+    assert alice0 != "Something that definitely isn't a Character"
 
 
 def test_repr(character):
     data_dict = {"occupation": "engineer"}
-    alice_character = character("Alice", data_dict)
+    alice_character = character("Alice", data=data_dict)
     assert repr(alice_character) == f"Character('Alice', {data_dict})"

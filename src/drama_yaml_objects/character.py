@@ -2,20 +2,23 @@ from src.drama_yaml_objects.generic_play_object import GenericPlayObject
 
 
 class Character(GenericPlayObject):
-    def __init__(self, name, data_dict):
+    def __init__(self, name, play=str(), data=None):
         self.name = name
-        self._data_dict = data_dict
-        super().__init__(data_dict)
+        self.play = play
+        self.data = dict() if data is None else data
+        super().__init__(self.data)
 
     def __eq__(self, other):
-        if other is self:
-            return True
-        elif type(self) == type(other):
-            return self._data_dict == other._data_dict and self.name == other.name
-        return False
+        try:
+            return (self.play, self.name) == (other.play, other.name)
+        except AttributeError:
+            return False
+
+    def __hash__(self):
+        return hash((self.play, self.name))
 
     def __repr__(self):
-        return f"{self.__class__.__name__}({repr(self.name)}, {self._data_dict})"
+        return f"{self.__class__.__name__}({repr(self.name)}, {self.data})"
 
     def __str__(self):
         return self.name

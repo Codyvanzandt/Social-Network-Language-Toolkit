@@ -58,7 +58,7 @@ class SocialNetworkConfiguration:
         for character_name in possible_character_variable_names:
             if character_name in self.data:
                 return CharacterCollection(
-                    Character(char_name, char_data)
+                    Character(name=char_name, play=self.play.title, data=char_data)
                     for char_name, char_data in self.data[character_name].items()
                 )
             else:

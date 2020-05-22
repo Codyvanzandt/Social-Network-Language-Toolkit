@@ -7,8 +7,8 @@ def test_character_collection(character_collection, character):
     empty_character_collection = character_collection()
     assert len(empty_character_collection) == 0
 
-    alice = character("Alice", data_dict={"occupation": "engineer"})
-    doctor_alice = character("Alice", data_dict={"occupation": "doctor"})
+    alice = character("Alice", data={"occupation": "engineer"})
+    doctor_alice = character("Alice", data={"occupation": "doctor"})
 
     # __getitem__, getattr,
     populated_character_collection = character_collection([alice])

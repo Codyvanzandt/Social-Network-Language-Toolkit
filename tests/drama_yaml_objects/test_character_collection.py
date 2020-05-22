@@ -38,18 +38,26 @@ def test_character_collection(character_collection, character):
     assert populated_character_collection == populated_character_collection
     assert populated_character_collection != "Definitely not a character collection"
 
+    # repr
+    assert (
+        repr(populated_character_collection)
+        == f"CharacterCollection( ({repr(doctor_alice)}) )"
+    )
+
+    # keys, values, items
+    assert list(populated_character_collection.keys()) == list(
+        populated_character_collection.character_mapping.keys()
+    )
+
+    assert list(populated_character_collection.values()) == list(
+        populated_character_collection.character_mapping.values()
+    )
+
+    assert list(populated_character_collection.items()) == list(
+        populated_character_collection.character_mapping.items()
+    )
+
     # __delitem__, get
     del populated_character_collection["Alice"]
     assert populated_character_collection.get("Alice", None) is None
     assert hasattr(populated_character_collection, "Alice") == False
-
-    # keys, values, items
-    assert set(populated_character_collection.keys()) == set(
-        populated_character_collection.character_mapping.keys()
-    )
-    assert set(populated_character_collection.values()) == set(
-        populated_character_collection.character_mapping.values()
-    )
-    assert set(populated_character_collection.items()) == set(
-        populated_character_collection.character_mapping.items()
-    )

@@ -28,32 +28,31 @@ def test_get_yaml_loader(social_network_configuration):
     assert default_loader.func == yaml.load
     assert default_loader.keywords == {"Loader": yaml.FullLoader}
 
-    base_config = social_network_configuration(yaml_loader_key="base")
+    base_config = social_network_configuration(yaml_loader="base")
     base_loader = base_config.yaml_loader
     assert base_loader.func == yaml.load
     assert base_loader.keywords == {"Loader": yaml.BaseLoader}
 
-    safe_config = social_network_configuration(yaml_loader_key="safe")
+    safe_config = social_network_configuration(yaml_loader="safe")
     safe_loader = safe_config.yaml_loader
     assert safe_loader.func == yaml.load
     assert safe_loader.keywords == {"Loader": yaml.SafeLoader}
 
-    full_config = social_network_configuration(yaml_loader_key="full")
+    full_config = social_network_configuration(yaml_loader="full")
     full_loader = full_config.yaml_loader
     assert full_loader.func == yaml.load
     assert full_loader.keywords == {"Loader": yaml.FullLoader}
 
-    unsafe_config = social_network_configuration(yaml_loader_key="unsafe")
+    unsafe_config = social_network_configuration(yaml_loader="unsafe")
     unsafe_loader = unsafe_config.yaml_loader
     assert unsafe_loader.func == yaml.load
     assert unsafe_loader.keywords == {"Loader": yaml.UnsafeLoader}
 
     with pytest.raises(SocialNetworkArgumentError) as arg_error:
-        bad_loader_key = "arbitrary_bad_key"
-        bad_config = social_network_configuration(yaml_loader_key=bad_loader_key)
-    assert (
-        f"`{bad_loader_key}` is an invalid option for `yaml_loader` argument."
-        in str(arg_error.value)
+        bad_loader = "arbitrary_bad_loader"
+        bad_config = social_network_configuration(yaml_loader=bad_loader)
+    assert f"`{bad_loader}` is an invalid option for `yaml_loader` argument." in str(
+        arg_error.value
     )
 
 
@@ -119,10 +118,8 @@ def test_get_character_data(social_network_configuration):
         occupation: doctor
     """
     populated_character_config = social_network_configuration(data=character_yaml)
-    alice, bob = populated_character_config.characters
-    assert isinstance(alice, Character)
-    assert alice.name == "Alice"
-    assert alice.height.value == 65
-
-    assert isinstance(bob, Character)
-    assert bob.occupation == "doctor"
+    assert isinstance(populated_character_config.characters, CharacterCollection)
+    assert isinstance(populated_character_config.characters.Alice, Character)
+    assert populated_character_config.characters.Alice.name == "Alice"
+    assert populated_character_config.characters.Alice.occupation == "engineer"
+    assert populated_character_config.characters.Alice.height.value == 65

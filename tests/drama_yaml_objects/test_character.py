@@ -28,3 +28,9 @@ def test_equal(character):
     assert alice_character != character("Bob", data_dict)
 
     assert alice_character != "Something that definitely isn't a Character"
+
+
+def test_repr(character):
+    data_dict = {"occupation": "engineer"}
+    alice_character = character("Alice", data_dict)
+    assert repr(alice_character) == f"Character('Alice')"

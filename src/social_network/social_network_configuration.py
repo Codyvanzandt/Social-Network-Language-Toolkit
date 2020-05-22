@@ -7,14 +7,14 @@ from src.drama_yaml_objects.character_collection import CharacterCollection
 
 
 class SocialNetworkConfiguration:
-    def __init__(self, data, yaml_loader_key="full"):
-        self.yaml_loader = self._get_yaml_loader(yaml_loader_key)
+    def __init__(self, data, yaml_loader="full"):
+        self.yaml_loader = self._get_yaml_loader(yaml_loader)
         self.data = self._get_drama_yaml_data(data)
         self.play = self._get_play_data()
         self.network = self._get_network_data()
         self.characters = self._get_character_data()
 
-    def _get_yaml_loader(self, yaml_loader_key):
+    def _get_yaml_loader(self, yaml_loader):
         key_to_loader = {
             "base": partial(yaml.load, Loader=yaml.BaseLoader),
             "safe": partial(yaml.load, Loader=yaml.SafeLoader),
@@ -22,11 +22,11 @@ class SocialNetworkConfiguration:
             "unsafe": partial(yaml.load, Loader=yaml.UnsafeLoader),
         }
         try:
-            return key_to_loader[yaml_loader_key]
+            return key_to_loader[yaml_loader]
         except KeyError:
             raise SocialNetworkArgumentError(
                 parameter="yaml_loader",
-                value=yaml_loader_key,
+                value=yaml_loader,
                 possible_values=key_to_loader.keys(),
             )
 

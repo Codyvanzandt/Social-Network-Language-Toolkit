@@ -45,8 +45,8 @@ def network():
 
 @pytest.fixture
 def character():
-    def _character(name=str(), play=str(), data=dict(), *args, **kwargs):
-        return Character(name=name, play=play, data=data, *args, **kwargs)
+    def _character(name=str(), data=dict(), *args, **kwargs):
+        return Character(name=name, data=data, *args, **kwargs)
 
     return _character
 

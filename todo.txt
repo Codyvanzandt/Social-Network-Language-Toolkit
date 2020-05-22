@@ -4,4 +4,4 @@
 4. Create SocialNetwork from file X
 5. Create play object X
 6. Create Division objects
-7. Create Character objects
+7. Create Character objects X

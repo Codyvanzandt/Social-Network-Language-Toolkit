@@ -18,4 +18,4 @@ def test_basic_data_storage(generic_play_object):
 
 
 def test_repr(generic_play_object):
-    assert repr(generic_play_object()) == r"GenericPlayObject(data_dict={})"
+    assert repr(generic_play_object()) == r"GenericPlayObject(data={})"

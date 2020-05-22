@@ -2,7 +2,7 @@ from src.drama_yaml_objects.generic_play_object import GenericPlayObject
 
 
 class Network(GenericPlayObject):
-    def __init__(self, data_dict=None):
+    def __init__(self, data=None):
         self.weighted = False
         self.directed = False
-        super().__init__(data_dict)
+        super().__init__(data)

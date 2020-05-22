@@ -108,6 +108,9 @@ def test_get_character_data(social_network_configuration):
     assert len(default_character_config.characters) == 0
 
     character_yaml = """
+    play:
+      title: Play Title
+
     characters:
       Alice:
         occupation: engineer
@@ -123,3 +126,4 @@ def test_get_character_data(social_network_configuration):
     assert populated_character_config.characters.Alice.name == "Alice"
     assert populated_character_config.characters.Alice.occupation == "engineer"
     assert populated_character_config.characters.Alice.height.value == 65
+    assert populated_character_config.characters.Alice.play.title == "Play Title"

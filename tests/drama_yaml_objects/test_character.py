@@ -19,15 +19,14 @@ def test_initialization(character):
 
 
 def test_equal(character):
-    alice0 = character(name="Alice", play="Play0")
-    alice1 = character(name="Alice", play="Play1")
+    alice = character(name="Alice")
+    bob = character(name="Bob")
 
-    assert alice0 == alice0
-    assert copy.deepcopy(alice0) == alice0
+    assert alice == alice
+    assert copy.deepcopy(alice) == alice
 
-    assert alice0 != alice1
-    assert alice0 != character("Bob", play="Play0")
-    assert alice0 != "Something that definitely isn't a Character"
+    assert alice != bob
+    assert alice != "Something that definitely isn't a Character"
 
 
 def test_repr(character):

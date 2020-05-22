@@ -38,31 +38,22 @@ class SocialNetworkConfiguration:
             raise SocialNetworkArgumentError("data", drama_yaml_data, possible_values)
 
     def _get_play_data(self):
-        possible_play_variable_names = ["play", "Play"]
-        for play_name in possible_play_variable_names:
-            if play_name in self.data:
-                return Play(self.data[play_name])
-        else:
-            return Play()
+        return Play(self.data.get("play", None))
 
     def _get_network_data(self):
-        possible_play_network_names = ["network", "Network"]
-        for network_name in possible_play_network_names:
-            if network_name in self.data:
-                return Network(self.data[network_name])
-        else:
-            return Network()
+        return Network(self.data.get("network", None))
 
     def _get_character_data(self):
-        possible_character_variable_names = ["characters", "Characters"]
-        for character_name in possible_character_variable_names:
-            if character_name in self.data:
-                return CharacterCollection(
-                    Character(name=char_name, play=self.play.title, data=char_data)
-                    for char_name, char_data in self.data[character_name].items()
+        return CharacterCollection(self._yield_individual_characters())
+
+    def _yield_individual_characters(self):
+        all_character_data = self.data.get("characters", dict())
+        for character_name, character_datum in all_character_data.items():
+            if "play" not in character_datum:
+                character_datum["play"] = getattr(
+                    self, "play", Play(data={"title": str()})
                 )
-            else:
-                return CharacterCollection()
+            yield Character(name=character_name, data=character_datum)
 
 
 class SocialNetworkArgumentError(Exception):

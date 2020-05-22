@@ -1,7 +1,8 @@
-1. Add pyyaml parser X
-2. Add pyyaml instance variable X
-3. Create SocialNetwork from string X
-4. Create SocialNetwork from file X
-5. Create play object X
-6. Create Division objects
-7. Create Character objects X
+Add pyyaml parser X
+Add pyyaml instance variable X
+Create SocialNetwork from string X
+Create SocialNetwork from file X
+Create play object X
+Create Division objects
+Create Character objects X
+Create Edges (where to put them? network? edges?)

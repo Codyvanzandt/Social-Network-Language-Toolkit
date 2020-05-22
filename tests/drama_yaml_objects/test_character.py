@@ -33,4 +33,4 @@ def test_equal(character):
 def test_repr(character):
     data_dict = {"occupation": "engineer"}
     alice_character = character("Alice", data_dict)
-    assert repr(alice_character) == f"Character('Alice')"
+    assert repr(alice_character) == f"Character('Alice', {data_dict})"

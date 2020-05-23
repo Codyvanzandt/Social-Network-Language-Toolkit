@@ -1,5 +1,5 @@
 import pytest
-from src.drama_yaml_objects.play import Play
+from src.drama_toml_objects.play import Play
 
 # FUNCTIONAL TESTS
 

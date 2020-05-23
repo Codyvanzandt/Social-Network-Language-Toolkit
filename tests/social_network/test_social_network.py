@@ -1,50 +1,21 @@
 import pytest
-import yaml
 from src.social_network.social_network import SocialNetwork
-from src.drama_yaml_objects.character import Character
-
-TEST_DRAMA_YAML = """
-play:
-  author: AUTHOR
-  title: TITLE
-  multi:
-    level:
-      data: DATA
-
-network:
-  directed: true
-  weighted: true
-
-characters:
-  Alice:
-    key: ALICE_VALUE
-    multi:
-      level:
-        data: ALICE_DATA
-  Bob:
-    key: BOB_VALUE
-"""
-
-TEST_NETWORK = SocialNetwork(TEST_DRAMA_YAML)
+from src.drama_toml_objects.character import Character
 
 # FUNCTIONAL TESTS
 
-
-def test_yaml_loader():
-    assert TEST_NETWORK.yaml_loader(TEST_DRAMA_YAML) == yaml.load(
-        TEST_DRAMA_YAML, Loader=yaml.FullLoader
-    )
+TEST_NETWORK = SocialNetwork("examples/fake_play.toml")
 
 
 def test_data():
     assert isinstance(TEST_NETWORK.data, dict)
-    assert TEST_NETWORK.data["play"]["author"] == "AUTHOR"
+    assert TEST_NETWORK.data["play"]["author"] == "Some Author"
+    assert TEST_NETWORK.data["play"]["title"] == "Some Title"
 
 
 def test_play():
-    assert TEST_NETWORK.play.author == "AUTHOR"
-    assert TEST_NETWORK.play.title == "TITLE"
-    assert TEST_NETWORK.play.multi.level.data == "DATA"
+    assert TEST_NETWORK.play.author == "Some Author"
+    assert TEST_NETWORK.play.title == "Some Title"
 
 
 def test_network():
@@ -53,16 +24,21 @@ def test_network():
 
 
 def test_characters():
-    assert [character.name for character in TEST_NETWORK.characters] == ["Alice", "Bob"]
+    assert [character.name for character in TEST_NETWORK.characters] == [
+        "Isabella",
+        "Flavio",
+        "Pantalone",
+    ]
 
-    assert isinstance(TEST_NETWORK.characters.Alice, Character)
-    assert TEST_NETWORK.characters.Alice.name == "Alice"
-    assert TEST_NETWORK.characters.Alice.key == "ALICE_VALUE"
-    assert TEST_NETWORK.characters.Alice.multi.level.data == "ALICE_DATA"
+    assert isinstance(TEST_NETWORK.characters.Isabella, Character)
+    assert TEST_NETWORK.characters.Isabella.name == "Isabella"
+    assert TEST_NETWORK.characters.Isabella.gender == "female"
+    assert TEST_NETWORK.characters.Isabella.archetype == "innamorati"
 
-    assert isinstance(TEST_NETWORK.characters.Bob, Character)
-    assert TEST_NETWORK.characters.Bob.name == "Bob"
-    assert TEST_NETWORK.characters.Bob.key == "BOB_VALUE"
+    assert isinstance(TEST_NETWORK.characters.Pantalone, Character)
+    assert TEST_NETWORK.characters.Pantalone.name == "Pantalone"
+    assert TEST_NETWORK.characters.Pantalone.gender == "male"
+    assert TEST_NETWORK.characters.Pantalone.archetype == "vecchi"
 
 
 # UNIT TESTS

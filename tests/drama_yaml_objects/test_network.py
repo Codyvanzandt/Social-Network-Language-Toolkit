@@ -1,5 +1,5 @@
 import pytest
-from src.drama_yaml_objects.network import Network
+from src.drama_toml_objects.network import Network
 
 # FUNCTIONAL TESTS
 

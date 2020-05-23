@@ -1,4 +1,4 @@
-from src.drama_yaml_objects.generic_play_object import GenericPlayObject
+from src.drama_toml_objects.generic_play_object import GenericPlayObject
 
 
 class Character(GenericPlayObject):

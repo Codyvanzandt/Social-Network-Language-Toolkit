@@ -1,6 +1,6 @@
 import pytest
 import copy
-from src.drama_yaml_objects.character import Character
+from src.drama_toml_objects.character import Character
 
 # FUNCTIONAL TESTS
 

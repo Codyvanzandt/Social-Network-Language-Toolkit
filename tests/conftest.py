@@ -1,19 +1,19 @@
 import pytest
+import toml
 from src.social_network.social_network import SocialNetwork
 from src.social_network.social_network_configuration import SocialNetworkConfiguration
-from src.drama_yaml_objects.play import Play
-from src.drama_yaml_objects.network import Network
-from src.drama_yaml_objects.character import Character
-from src.drama_yaml_objects.generic_play_object import GenericPlayObject
-from src.drama_yaml_objects.character_collection import CharacterCollection
+from src.drama_toml_objects.play import Play
+from src.drama_toml_objects.network import Network
+from src.drama_toml_objects.character import Character
+from src.drama_toml_objects.generic_play_object import GenericPlayObject
+from src.drama_toml_objects.character_collection import CharacterCollection
 
 # FIXTURE CONSTANTS
 
 
 @pytest.fixture
-def valid_drama_yaml():
-    with open("examples/fake_play.yaml", "r") as fake_play:
-        return fake_play.read()
+def valid_drama_toml():
+    return toml.load("examples/fake_play.toml")
 
 
 # FIXTURE FACTORIES

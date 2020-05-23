@@ -1,4 +1,4 @@
-from src.drama_yaml_objects.character_collection import CharacterCollection
+from src.drama_toml_objects.character_collection import CharacterCollection
 import copy
 
 

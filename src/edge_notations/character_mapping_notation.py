@@ -1,6 +1,11 @@
 from itertools import chain
 
 
+class CharacterMappingNotation2:
+    def __init__(self, edge_data):
+        self.edges = self.get_edges(edge_data)
+
+
 class CharacterMappingNotation:
     def __init__(self, edge_data):
         self.edges = self.get_edges(edge_data)

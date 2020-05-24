@@ -3,5 +3,5 @@ from pprint import pprint
 import toml
 import yaml
 
-with open("examples/fake_play.yaml","r") as fake_play:
-    pprint(yaml.load( fake_play, Loader=yaml.FullLoader))
+with open("examples/fake_play.yaml", "r") as fake_play:
+    pprint(yaml.load(fake_play, Loader=yaml.FullLoader))

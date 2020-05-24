@@ -7,4 +7,3 @@ pyyaml
 
 # Configuring project dependencies
 networkx
-toml

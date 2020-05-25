@@ -38,7 +38,17 @@ def serialize_sdl(sdl_document):
 
 def serialize_edge_section(sdl_document):
     edge_section = sdl_document.section("edges")
-    return list(serialize_edges(edge_section))
+    return _serialize_edge_section(edge_section)
+    
+
+def _serialize_edge_section(edge_section):
+    try:
+        return list( serialize_edges(edge_section) )
+    except:
+        return {
+            subsection.string_key() : _serialize_edge_section(subsection)
+            for subsection in ( subsection.to_section() for subsection in edge_section.elements() )
+        }
 
 
 def serialize_edges(edges_section):

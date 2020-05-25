@@ -12,6 +12,8 @@ weighted : true
 directed : true
 
 # edges
+## act1
+### scene1
 Isabella.Pantalone : { weight : 1, type : hit }
 Isabella.Flavio : { weight : 2, type : kissed }
 Flavio.Pantalone : { weight: 3, type : hit}

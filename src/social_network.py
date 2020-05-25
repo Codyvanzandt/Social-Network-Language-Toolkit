@@ -1,5 +1,5 @@
 import toml
-from src.edge_notations.character_mapping_notation import CharacterMappingNotation
+from src.edge_notations.character_mapping_notation import DashNotation
 
 
 class SocialNetwork:

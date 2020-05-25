@@ -6,4 +6,6 @@ black
 pyyaml
 
 # Configuring project dependencies
+toml
+enolib
 networkx

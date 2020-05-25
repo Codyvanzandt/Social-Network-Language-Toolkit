@@ -14,23 +14,17 @@ characters:
     archetype : vecchi
 
 network:
-  directed: true
-  weighted: true
-  default_weight: 1
+  directed : false
   
-
-Act1:
-  Scene1:
-    Isabella-Pantalone:
-      type : hit
-      weight : 1
-    Isabella-Flavio:
-      type : kissed
-      weight : 3
-    Flavio-Pantalone:
-      type : hit
-      weight: 5
-Act2:
-  Scene2:
-    Isabella-Pantalone: None
-    Isabella-Flavio: None
+edges:
+  Act1:
+    Scene1:
+      Isabella-Pantalone:
+        type : hit
+        weight : 1
+      Isabella-Flavio:
+        type : kissed
+        weight : 3
+      Flavio-Pantalone:
+        type : hit
+        weight: 4

@@ -7,3 +7,4 @@ Create Division objects
 Create Character objects X
 Add YAML parser that handles my custom "- syntax"
 Exchange all the TOML stuff for YAML
+Provide support for multigraphs

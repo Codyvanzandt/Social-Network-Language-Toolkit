@@ -1,0 +1,17 @@
+# play
+title : Some Title
+Author : Some Author
+
+# characters
+Isabella : { gender: female, archetype: innamorati }
+Flavio : { gender : male, archetype : innamorati }
+Pantalone : { gender : male, archetype : vecchi }
+
+# network
+weighted : true
+directed : true
+
+# edges
+Isabella.Pantalone : { weight : 1, type : hit }
+Isabella.Flavio : { weight : 2, type : kissed }
+Flavio.Pantalone : { weight: 3, type : hit}

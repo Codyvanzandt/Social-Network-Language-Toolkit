@@ -3,6 +3,7 @@ import yaml
 
 # Top-level API
 
+
 def load_sdl_string(data):
     sdl_document = parse_sdl_string(data)
     return serialize_sdl(sdl_document)
@@ -12,7 +13,9 @@ def load_sdl_file(data):
     sdl_document = parse_sdl_file(data)
     return serialize_sdl(sdl_document)
 
+
 # Parsing
+
 
 def parse_sdl_file(data):
     try:
@@ -25,7 +28,9 @@ def parse_sdl_file(data):
 def parse_sdl_string(data):
     return enolib.parse(data)
 
+
 # Serializing
+
 
 def serialize_sdl(sdl_document):
     return {
@@ -35,6 +40,7 @@ def serialize_sdl(sdl_document):
         "edges": serialize_edges_section(sdl_document),
     }
 
+
 def serialize_section(sdl_document, section_name):
     section = sdl_document.section(section_name)
     section_data = dict()
@@ -42,6 +48,7 @@ def serialize_section(sdl_document, section_name):
         field_key, field_value = get_field_key_value(element)
         section_data[field_key] = field_value
     return section_data
+
 
 def get_field_key_value(sdl_element):
     if sdl_element.yields_field():
@@ -51,6 +58,7 @@ def get_field_key_value(sdl_element):
         return sdl_key, sdl_value
     else:
         raise ValueError(f"{str(sdl_element)} must be of the format `key : value`")
+
 
 def valid_yaml(value):
     return yaml.load(value, Loader=yaml.FullLoader)
@@ -72,12 +80,14 @@ def _serialize_edge_section(edge_section):
             )
         }
 
+
 def serialize_edges(edges_section):
     for edge in edges_section.elements():
         edge = edge.to_field()
         source_character, target_character = parse_edge_key(edge.string_key())
         edge_data = edge.required_value(valid_yaml)
         yield (source_character, target_character, edge_data)
+
 
 def parse_edge_key(value):
     try:

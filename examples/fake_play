@@ -9,7 +9,7 @@ Pantalone : { gender : male, archetype : vecchi }
 
 # network
 weighted : true
-directed : true
+directed : false
 
 # edges
 ## act1

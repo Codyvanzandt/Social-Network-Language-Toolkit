@@ -5,6 +5,7 @@ Create SocialNetwork from file X
 Create play object X
 Create Division objects
 Create Character objects X
-Add YAML parser that handles my custom "- syntax"
-Exchange all the TOML stuff for YAML
-Provide support for multigraphs
+Add YAML parser that handles my custom "- syntax" X
+Exchange all the TOML stuff for YAML/Eno X
+Provide support for multigraphs X
+Convert one and convert many for edgelists, networkx, etc

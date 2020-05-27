@@ -1,4 +1,5 @@
 import yaml
+from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges, valid_yaml
 
 def serialize_sdl(sdl_document):
     return {
@@ -28,10 +29,6 @@ def get_field_key_value(sdl_element):
         raise ValueError(f"{str(sdl_element)} must be of the format `key : value`")
 
 
-def valid_yaml(value):
-    return yaml.load(value, Loader=yaml.FullLoader)
-
-
 def serialize_edges_section(sdl_document):
     edge_section = sdl_document.section("edges")
     return _serialize_edge_section(edge_section)
@@ -39,7 +36,7 @@ def serialize_edges_section(sdl_document):
 
 def _serialize_edge_section(edge_section):
     try:
-        return list(serialize_edges(edge_section))
+        return list(serialize_mapped_edges(edge_section))
     except:
         return {
             subsection.string_key(): _serialize_edge_section(subsection)
@@ -49,17 +46,4 @@ def _serialize_edge_section(edge_section):
         }
 
 
-def serialize_edges(edges_section):
-    for edge in edges_section.elements():
-        edge = edge.to_field()
-        source_character, target_character = serialize_edge_key(edge.string_key())
-        edge_data = edge.required_value(valid_yaml)
-        yield (source_character, target_character, edge_data)
 
-
-def serialize_edge_key(value):
-    try:
-        source_character, target_character = value.split(".")
-        return source_character, target_character
-    except ValueError:
-        raise ValueError(f"Edge `{value}` must be of the form `character1.character2`")

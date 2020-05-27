@@ -1,5 +1,6 @@
 import enolib
 
+
 def parse_sdl_file(data):
     try:
         return enolib.parse(data.read(), source=data.name)

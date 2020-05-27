@@ -16,7 +16,9 @@ class DramaNetwork:
         )
 
     def to_networkx(self, play_data=False, division_data=False):
-        return convert_to_networkx(self, play_data=play_data, division_data=division_data)
+        return convert_to_networkx(
+            self, play_data=play_data, division_data=division_data
+        )
 
     def to_string(self):
         return convert_to_string(self)

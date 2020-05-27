@@ -2,8 +2,15 @@ from src.drama_network import DramaNetwork
 from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
+from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
 from pprint import pprint
+from src.sdl_tools.sdl_parser import parse_sdl_file
+from src.sdl_tools.sdl_serializer import serialize_edges_section
 import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
+
+sdl_doc = parse_sdl_file("examples/fake_play2")
+edges_section = sdl_doc.section("edges")
+print( edges_section.elements())

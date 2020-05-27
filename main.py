@@ -6,4 +6,5 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
-print(dn)
+for edge in dn.to_edge_list(play_data=True, division_data=True):
+    pprint(edge)

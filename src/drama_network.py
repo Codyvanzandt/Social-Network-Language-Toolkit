@@ -3,12 +3,15 @@ from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.networkx_converter import convert_to_networkx
 from pprint import pformat
 
+
 class DramaNetwork:
     def __init__(self, data):
         self.data = self._load_sdl_data(data)
 
-    def to_edge_list(self):
-        return list( convert_to_edge_list(self) )
+    def to_edge_list(self, play_data=False, division_data=False):
+        return list(
+            convert_to_edge_list(self, play_data=play_data, division_data=division_data)
+        )
 
     def to_networkx(self):
         return convert_to_networkx(self)
@@ -23,5 +26,5 @@ class DramaNetwork:
         return f"{self.__class__.__name__}({pformat(self.data)})"
 
     def __repr__(self):
-        title = self.data.get("play",dict()).get("title",str())
+        title = self.data.get("play", dict()).get("title", str())
         return f"{self.__class__.__name__}({title})"

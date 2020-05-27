@@ -8,4 +8,8 @@ Create Character objects X
 Add YAML parser that handles my custom "- syntax" X
 Exchange all the TOML stuff for YAML/Eno X
 Provide support for multigraphs X
-Convert one and convert many for edgelists, networkx, etc
+Edge list converter X
+String converter X
+file converter X
+networkx converter X
+write parser for enter-exit syntax

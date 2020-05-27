@@ -2,11 +2,11 @@ import networkx
 from src.converters.edge_list_converter import convert_to_edge_list
 
 
-def convert_to_networkx(social_network):
+def convert_to_networkx(social_network, play_data=False, division_data=False):
     graph = _get_empty_graph(social_network)
     _add_play_data(social_network, graph)
     _add_character_data(social_network, graph)
-    _add_edge_data(social_network, graph)
+    _add_edge_data(social_network, graph, play_data, division_data)
     return graph
 
 
@@ -33,6 +33,6 @@ def _add_character_data(social_network, graph):
         graph.add_node(character_name, **character_data)
 
 
-def _add_edge_data(social_network, graph):
-    edges = convert_to_edge_list(social_network)
+def _add_edge_data(social_network, graph, play_data, division_data):
+    edges = convert_to_edge_list(social_network, play_data, division_data)
     graph.add_edges_from(edges)

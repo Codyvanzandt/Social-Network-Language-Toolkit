@@ -36,10 +36,10 @@ def convert_yaml_data_to_string(yaml_data):
 
 def convert_edges_section_to_string(social_network):
     edges_data = social_network.data.get("edges", dict())
-    return (
-        convert_section_name_to_string("edges")
-        + convert_edges_data_to_string(edges_data)
-    ) 
+    return convert_section_name_to_string("edges") + convert_edges_data_to_string(
+        edges_data
+    )
+
 
 def convert_edges_data_to_string(edges_data, section_level=1):
     try:

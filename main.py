@@ -7,4 +7,3 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
-print(convert_to_string(dn))

@@ -8,7 +8,7 @@ Flavio : { gender : male, archetype : innamorati }
 Pantalone : { gender : male, archetype : vecchi }
 
 # network
-weighted : true
+multigraph: false
 directed : false
 
 # edges

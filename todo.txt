@@ -1,3 +1,8 @@
+TODO
+Write all of the tests, both unit and functional
+Big old refactor, especially of edge mappings
+
+DONE
 Add pyyaml parser X
 Add pyyaml instance variable X
 Create SocialNetwork from string X
@@ -12,5 +17,6 @@ Edge list converter X
 String converter X
 file converter X
 networkx converter X
-write parser for enter-exit syntax
-Add special exeunt syntax
+write parser for enter-exit syntax X
+Add special exeunt syntax X
+

@@ -41,7 +41,7 @@ def _serialize_edge_section(edge_section):
         return list(serialize_mapped_edges(edge_section))
     except:
         try:
-            return list( serialize_enter_exit_edges(edge_section.elements()) )
+            return list(serialize_enter_exit_edges(edge_section.elements()))
         except:
             return {
                 subsection.string_key(): _serialize_edge_section(subsection)

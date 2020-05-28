@@ -2,6 +2,7 @@ from itertools import combinations, product, chain
 
 EXEUNT = "EXEUNT"
 
+
 def serialize_enter_exit_edges(edges_data):
     on_stage = set()
     entrants = set()
@@ -41,12 +42,15 @@ def parse_entries_and_exits(entries_and_exits):
 
 def parse_entry_or_exit(entry_or_exit):
     stripped_entry_or_exit = entry_or_exit.strip()
-    entry_exit, character = stripped_entry_or_exit[-1], stripped_entry_or_exit[:-1]
-    if entry_exit not in ("+", "-"):
-        raise ValueError(
-            f"Entry-Exit record {entry_or_exit} must be formatted as a '+' or '-' followed by a single character name."
-        )
-    return entry_exit, character
+    if stripped_entry_or_exit == EXEUNT:
+        return "-", EXEUNT
+    else:
+        entry_exit, character = stripped_entry_or_exit[-1], stripped_entry_or_exit[:-1]
+        if entry_exit not in ("+", "-"):
+            raise ValueError(
+                f"Entry-Exit record {entry_or_exit} must be formatted as a '+' or '-' followed by a single character name."
+            )
+        return entry_exit, character
 
 
 def generate_edges(on_stage, entrants):

@@ -9,5 +9,6 @@ from src.sdl_tools.sdl_serializer import serialize_edges_section
 import toml
 import yaml
 
-dn = DramaNetwork("examples/fake_play2")
-print(dn.to_string())
+dn = DramaNetwork("examples/fake_play")
+net = dn.to_networkx(directed=True, multigraph=True)
+pprint(net.edges(data=True))

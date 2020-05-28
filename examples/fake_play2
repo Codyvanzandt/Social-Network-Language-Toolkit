@@ -13,6 +13,5 @@ directed : false
 
 # edges
 ## act1
-### scene2
-+Isabella, +Flavio, +Pantalone
-+Pedrolino, -Isabella
+### scene1
+Isabella+, Flavio+, Pantalone+

@@ -10,3 +10,4 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play2")
+print(dn.to_string())

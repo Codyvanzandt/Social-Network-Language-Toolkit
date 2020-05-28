@@ -2,7 +2,9 @@ import networkx
 from src.converters.edge_list_converter import convert_to_edge_list
 
 
-def convert_to_networkx(social_network, directed, multigraph, play_data=False, division_data=False):
+def convert_to_networkx(
+    social_network, directed, multigraph, play_data=False, division_data=False
+):
     graph = _get_empty_graph(social_network, directed, multigraph)
     _add_play_data(social_network, graph)
     _add_character_data(social_network, graph)
@@ -20,7 +22,9 @@ def _get_empty_graph(social_network, directed, multigraph):
     elif not directed and not multigraph:
         return networkx.Graph()
     else:
-        raise ValueError("The values for `directed` and `multigraph` must be one of: (true, false) ")
+        raise ValueError(
+            "The values for `directed` and `multigraph` must be one of: (true, false) "
+        )
 
 
 def _add_play_data(social_network, graph):
@@ -37,10 +41,11 @@ def _add_character_data(social_network, graph):
 
 def _add_edge_data(social_network, graph, play_data, division_data):
     edges = convert_to_edge_list(social_network, play_data, division_data)
-    if isinstance(graph, ( networkx.MultiGraph, networkx.MultiDiGraph ) ):
+    if isinstance(graph, (networkx.MultiGraph, networkx.MultiDiGraph)):
         graph.add_edges_from(edges)
     else:
         _add_nonmulti_edge_data(graph, edges)
+
 
 def _add_nonmulti_edge_data(graph, edges):
     for source, target, edge_data in edges:

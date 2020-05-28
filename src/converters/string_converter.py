@@ -5,7 +5,6 @@ def convert_to_string(social_network):
     return (
         convert_section_to_string(social_network, "play")
         + convert_section_to_string(social_network, "characters")
-        + convert_section_to_string(social_network, "network")
         + convert_edges_section_to_string(social_network)
     )
 

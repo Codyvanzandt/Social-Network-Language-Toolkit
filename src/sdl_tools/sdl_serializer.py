@@ -7,7 +7,6 @@ def serialize_sdl(sdl_document):
     return {
         "play": serialize_section(sdl_document, "play"),
         "characters": serialize_section(sdl_document, "characters"),
-        "network": serialize_section(sdl_document, "network"),
         "edges": serialize_edges_section(sdl_document),
     }
 

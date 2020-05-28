@@ -1,4 +1,5 @@
 TODO
+Incorporate support for additional, user-defined sections
 Write all of the tests, both unit and functional
 Big old refactor, especially of edge mappings
 

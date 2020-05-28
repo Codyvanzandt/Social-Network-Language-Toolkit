@@ -7,10 +7,6 @@ Isabella : { gender: female, archetype: innamorati }
 Flavio : { gender : male, archetype : innamorati }
 Pantalone : { gender : male, archetype : vecchi }
 
-# network
-multigraph: false
-directed : false
-
 # edges
 ## act1
 ### scene1

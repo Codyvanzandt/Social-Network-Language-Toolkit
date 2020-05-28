@@ -1,5 +1,7 @@
 import yaml
 from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges, valid_yaml
+from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
+
 
 def serialize_sdl(sdl_document):
     return {
@@ -38,12 +40,12 @@ def _serialize_edge_section(edge_section):
     try:
         return list(serialize_mapped_edges(edge_section))
     except:
-        return {
-            subsection.string_key(): _serialize_edge_section(subsection)
-            for subsection in (
-                subsection.to_section() for subsection in edge_section.elements()
-            )
-        }
-
-
-
+        try:
+            return list( serialize_enter_exit_edges(edge_section.elements()) )
+        except:
+            return {
+                subsection.string_key(): _serialize_edge_section(subsection)
+                for subsection in (
+                    subsection.to_section() for subsection in edge_section.elements()
+                )
+            }

@@ -12,5 +12,7 @@ weighted : true
 directed : false
 
 # edges
+## act1
+### scene2
 +Isabella, +Flavio, +Pantalone
-+Pedrolino
++Pedrolino, -Isabella

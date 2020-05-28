@@ -9,8 +9,4 @@ from src.sdl_tools.sdl_serializer import serialize_edges_section
 import toml
 import yaml
 
-dn = DramaNetwork("examples/fake_play")
-
-sdl_doc = parse_sdl_file("examples/fake_play2")
-edges_section = sdl_doc.section("edges")
-print( edges_section.elements())
+dn = DramaNetwork("examples/fake_play2")

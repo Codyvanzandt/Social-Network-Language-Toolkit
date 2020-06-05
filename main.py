@@ -10,4 +10,4 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
-pprint(dn.to_edge_list(division_data=True))
+print(dn.to_string())

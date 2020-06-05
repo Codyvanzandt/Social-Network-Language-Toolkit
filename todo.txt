@@ -4,6 +4,7 @@ Write all of the tests, both unit and functional
 Big old refactor, especially of edge mappings
 Think about an empty DramaNetwork
 Update enter-exit notation based on directed or undirected
+Error when some edges are underneath divisions and others aren't
 
 DONE
 Add pyyaml parser X

@@ -21,7 +21,7 @@ def serialize_section(sdl_document, section_name):
 
 
 def get_field_key_value(sdl_element):
-    if sdl_element.yields_field():
+    if hasattr(sdl_element, "yields_field") and sdl_element.yields_field():
         sdl_field = sdl_element.to_field()
         sdl_key = sdl_field.string_key()
         sdl_value = sdl_field.required_value(valid_yaml)
@@ -40,7 +40,11 @@ def _serialize_edge_section(edge_section):
         return list(serialize_mapped_edges(edge_section))
     except:
         try:
-            return list(serialize_enter_exit_edges(edge_section.elements()))
+            return list(
+                serialize_enter_exit_edges(
+                    element.string_key() for element in edge_section.elements()
+                )
+            )
         except:
             return {
                 subsection.string_key(): _serialize_edge_section(subsection)

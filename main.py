@@ -10,5 +10,4 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
-net = dn.to_networkx(directed=True, multigraph=True)
-pprint(net.edges(data=True))
+pprint(dn.data)

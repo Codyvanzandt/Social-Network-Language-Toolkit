@@ -9,3 +9,4 @@ pyyaml
 toml
 enolib
 networkx
+ordered_set

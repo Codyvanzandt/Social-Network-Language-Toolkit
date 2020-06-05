@@ -1,5 +1,12 @@
 import pytest
 import enolib
+from src.drama_network import DramaNetwork
+
+# Drama Network
+@pytest.fixture
+def fake_drama_network(fake_play_string):
+    return DramaNetwork(fake_play_string)
+
 
 # DOCUMENT SECTIONS
 @pytest.fixture
@@ -15,7 +22,7 @@ def section():
     return _section
 
 
-# PLAY STRING, PLAY DATA, and PLAY DOCUMENT
+# PLAY STRING, PLAY FILE, PLAY DATA, and PLAY DOCUMENT
 
 
 @pytest.fixture
@@ -92,6 +99,13 @@ def fake_play_data():
             },
         },
     }
+
+
+@pytest.fixture
+def fake_play_file(fake_play_string, tmp_path):
+    fake_file = tmp_path / "fake_file.sdl"
+    fake_file.write_text(fake_play_string)
+    return fake_file
 
 
 @pytest.fixture

@@ -1,9 +1,8 @@
 TODO
+Consider utlity functions/methods for getting custom subset networkx graphs
 Incorporate support for additional, user-defined sections
-Write all of the tests, both unit and functional
-Big old refactor, especially of edge mappings
+Write all of the basic unit tests
 Think about an empty DramaNetwork
-Update enter-exit notation based on directed or undirected
 Error when some edges are underneath divisions and others aren't
 
 DONE
@@ -23,4 +22,5 @@ file converter X
 networkx converter X
 write parser for enter-exit syntax X
 Add special exeunt syntax X
+Big old refactor, especially of edge mappings X
 

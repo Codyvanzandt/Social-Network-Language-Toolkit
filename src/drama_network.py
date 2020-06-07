@@ -15,9 +15,9 @@ class DramaNetwork:
             convert_to_edge_list(self, play_data=play_data, division_data=division_data)
         )
 
-    def to_networkx(self, directed, multigraph, play_data=False, division_data=False):
+    def to_networkx(self, directed, play_data=False, division_data=False):
         return convert_to_networkx(
-            self, directed, multigraph, play_data=play_data, division_data=division_data
+            self, directed, play_data=play_data, division_data=division_data
         )
 
     def to_string(self):

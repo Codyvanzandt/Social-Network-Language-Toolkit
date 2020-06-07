@@ -4,6 +4,8 @@ from src.drama_network import DramaNetwork
 from src.converters.string_converter import convert_to_string
 from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.sdl_file_converter import convert_to_file
+from src.converters.networkx_converter import convert_to_networkx
+from networkx.algorithms.isomorphism import is_isomorphic
 
 
 def test_init(fake_drama_network):
@@ -49,4 +51,13 @@ def test_to_edge_list(fake_drama_network):
 
 
 def test_to_networkx(fake_drama_network):
-    pass
+    def data_equivalent(a, b):
+        assert a == b
+        return True
+
+    assert is_isomorphic(
+        fake_drama_network.to_networkx(directed=True),
+        convert_to_networkx(fake_drama_network, directed=True),
+        node_match=data_equivalent,
+        edge_match=data_equivalent,
+    )

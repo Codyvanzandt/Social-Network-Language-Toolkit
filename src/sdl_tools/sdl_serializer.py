@@ -1,6 +1,7 @@
 import yaml
 from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges, valid_yaml
 from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
+from collections import ChainMap
 
 
 def serialize_sdl(sdl_document):
@@ -52,3 +53,31 @@ def _serialize_edge_section(edge_section):
                     subsection.to_section() for subsection in edge_section.elements()
                 )
             }
+
+
+def get_edge_division_structure(sdl_document):
+    edge_section = sdl_document.section("edges")
+    return _get_section_structure(edge_section)
+
+
+def _get_section_structure(section):
+    subsections = list(_get_subsections(section))
+    if len(subsections) == 0:
+        return {section.string_key(): None}
+    else:
+        return {
+            section.string_key(): dict(
+                ChainMap(
+                    *(_get_section_structure(subsection) for subsection in subsections)
+                )
+            )
+        }
+
+
+def _get_subsections(section):
+    is_section = (
+        lambda element: hasattr(element, "yields_section") and element.yields_section()
+    )
+    for element in section.elements():
+        if is_section(element):
+            yield element.to_section()

@@ -21,7 +21,7 @@ def test_convert_to_string(fake_drama_network):
 
 def test_convert_section_to_string(fake_drama_network):
     character_section_name = "characters"
-    character_section_data = fake_drama_network.data[character_section_name]
+    character_section_data = fake_drama_network.data.get(character_section_name, dict())
     actual_string = convert_section_to_string(
         fake_drama_network, character_section_name
     )

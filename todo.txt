@@ -1,7 +1,6 @@
 TODO
 Consider utlity functions/methods for getting custom subset networkx graphs
 Incorporate support for additional, user-defined sections
-Write all of the basic unit tests
 Think about an empty DramaNetwork
 Error when some edges are underneath divisions and others aren't
 
@@ -23,4 +22,5 @@ networkx converter X
 write parser for enter-exit syntax X
 Add special exeunt syntax X
 Big old refactor, especially of edge mappings X
+Write all of the basic unit tests X
 

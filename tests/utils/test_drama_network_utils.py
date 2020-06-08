@@ -1,6 +1,6 @@
 import pytest
 from src.drama_network import DramaNetwork
-from src.utils.edge_utils import get_edges_by_division, is_subarray
+from src.utils.drama_network_utils import get_edges_by_division, is_subarray
 
 
 def test_is_subarray():

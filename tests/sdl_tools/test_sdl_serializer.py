@@ -6,7 +6,7 @@ from src.sdl_tools.sdl_serializer import (
     serialize_section,
     serialize_edges_section,
     serialize_sdl,
-    get_edge_division_structure,
+    serialize_division_structure,
     _get_section_structure,
     _get_subsections,
 )
@@ -23,6 +23,9 @@ def test_serialize_sdl(fake_play_sdl_doc):
         fake_play_sdl_doc, "characters"
     )
     assert serialized_doc["edges"] == serialize_edges_section(fake_play_sdl_doc)
+    assert serialized_doc["divisions"] == serialize_division_structure(
+        fake_play_sdl_doc
+    )
 
 
 def test__serialize_edge_section_mapped():
@@ -94,7 +97,7 @@ def test_get_field_key_value_raises():
         get_field_key_value(parse_sdl_string("# section"))
 
 
-def test_get_edge_division_structure():
+def test_serialize_division_structure():
     doc = """
     # edges
     ## subsection0
@@ -108,7 +111,7 @@ def test_get_edge_division_structure():
             "subsection1": {"subsubsection1": None},
         }
     }
-    assert get_edge_division_structure(parse_sdl_string(doc)) == expected_structure
+    assert serialize_division_structure(parse_sdl_string(doc)) == expected_structure
 
 
 def test__get_section_structure():

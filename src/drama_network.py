@@ -9,6 +9,8 @@ from pprint import pformat
 class DramaNetwork:
     def __init__(self, data):
         self.data = self._load_sdl_data(data)
+        for attr_name, attr_value in self.data.items():
+            setattr(self, attr_name, attr_value)
 
     def to_edge_list(self, play_data=False, division_data=False):
         return list(

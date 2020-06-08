@@ -9,6 +9,7 @@ def serialize_sdl(sdl_document):
         "play": serialize_section(sdl_document, "play"),
         "characters": serialize_section(sdl_document, "characters"),
         "edges": serialize_edges_section(sdl_document),
+        "divisions": serialize_division_structure(sdl_document),
     }
 
 
@@ -55,7 +56,7 @@ def _serialize_edge_section(edge_section):
             }
 
 
-def get_edge_division_structure(sdl_document):
+def serialize_division_structure(sdl_document):
     edge_section = sdl_document.section("edges")
     return _get_section_structure(edge_section)
 

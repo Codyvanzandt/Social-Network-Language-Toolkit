@@ -25,8 +25,30 @@ def test_str(fake_drama_network):
 def test__load_sdl_data(
     fake_drama_network, fake_play_data, fake_play_file, fake_play_string
 ):
-    assert fake_drama_network._load_sdl_data(fake_play_file) == fake_play_data
-    assert fake_drama_network._load_sdl_data(fake_play_string) == fake_play_data
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_file)["play"]
+        == fake_play_data["play"]
+    )
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_file)["characters"]
+        == fake_play_data["characters"]
+    )
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_file)["edges"]
+        == fake_play_data["edges"]
+    )
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_string)["play"]
+        == fake_play_data["play"]
+    )
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_string)["characters"]
+        == fake_play_data["characters"]
+    )
+    assert (
+        fake_drama_network._load_sdl_data(fake_play_string)["edges"]
+        == fake_play_data["edges"]
+    )
 
 
 def test_to_string(fake_drama_network):

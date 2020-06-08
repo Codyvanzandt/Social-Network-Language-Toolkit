@@ -1,6 +1,4 @@
 TODO
-Add division-matching for custom edge subset
-Add regex division-matching for custom edge  subset
 Add division data test to edge list converter
 Consider utlity functions/methods for getting custom subset networkx graphs
 Incorporate support for additional, user-defined sections
@@ -26,4 +24,5 @@ write parser for enter-exit syntax X
 Add special exeunt syntax X
 Big old refactor, especially of edge mappings X
 Write all of the basic unit tests X
+Add division-matching for custom edge subset X
 

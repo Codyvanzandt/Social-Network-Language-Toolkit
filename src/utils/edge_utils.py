@@ -1,9 +1,11 @@
 import networkx
 
 
-def get_edges_by_division(drama_network, division):
+def get_edges_by_division(drama_network, division, play_data=False):
     target_division = tuple(division.split("."))
-    for source, target, edge_data in drama_network.to_edge_list(division_data=True):
+    for source, target, edge_data in drama_network.to_edge_list(
+        play_data=play_data, division_data=True
+    ):
         edge_division = edge_data.get("divisions", tuple())
         if is_subarray(target_division, edge_division):
             yield (source, target, edge_data)

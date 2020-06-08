@@ -35,13 +35,10 @@ def test_convert_to_edge_list(fake_drama_network):
 
         # expected data has play data attached
         e_d = dict(**e_d, **play_data)
-
-        # expected data has division data attached
-        # TODO: Division data is tricky to test. Give improving this a shot.
-
+        
         assert e_s == c_s
         assert e_t == c_t
-        assert len(e_d) == len(c_d)
+        assert e_d == c_d
 
 
 def test__yield_edges(fake_drama_network):

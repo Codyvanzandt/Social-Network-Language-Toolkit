@@ -1,9 +1,8 @@
 TODO
-Add deep copy graph subsetting by node
-Add deep copy graph subsetting by edge
-Add deep copy graph subsetting by division
-Add deep copy graph subsetting by node data_value
-Add deep copy graph subsetting by by edge data_value
+Add shallow copy graph subsetting by edge
+Add shallow copy graph subsetting by division
+Add shallow copy graph subsetting by node data_value
+Add shallow copy graph subsetting by by edge data_value
 Write function for combining edges together by adding weights, user-provided function for comparing data
 Consider utlity functions/methods for getting custom subset networkx graphs
 Incorporate support for additional, user-defined sections
@@ -30,5 +29,6 @@ Add special exeunt syntax X
 Big old refactor, especially of edge mappings X
 Write all of the basic unit tests X
 Add division-matching for custom edge subset X
-Add division data test to edge list converter
+Add division data test to edge list converter X
+Add shallow copy graph subsetting by node X
 

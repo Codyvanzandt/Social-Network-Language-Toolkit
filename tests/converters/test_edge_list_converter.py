@@ -35,7 +35,7 @@ def test_convert_to_edge_list(fake_drama_network):
 
         # expected data has play data attached
         e_d = dict(**e_d, **play_data)
-        
+
         assert e_s == c_s
         assert e_t == c_t
         assert e_d == c_d

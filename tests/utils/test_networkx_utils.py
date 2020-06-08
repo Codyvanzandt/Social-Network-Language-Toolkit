@@ -1,16 +1,128 @@
 import pytest
 import networkx
 from networkx.algorithms.isomorphism import is_isomorphic
+from src.drama_network import DramaNetwork
 from src.utils.networkx_utils import (
+    get_subgraph,
     get_node_subgraph,
     get_edge_subgraph,
+    get_division_subgraph,
+    get_edges_by_division,
     get_edges,
     get_nodes,
     yield_edges,
     yield_nodes,
     yield_edges_with_nodes,
     is_dict_subset,
+    is_subarray,
 )
+
+
+def test_get_subgraph():
+    edges = [
+        ("A", "B", {"type": 1, "size": "big", "divisions": ("act1", "scene1")}),
+        ("A", "B", {"type": 2, "size": "small", "divisions": ("act1", "scene2")}),
+        ("B", "C", {"type": 1, "size": "big", "divisions": ("act2", "scene1")}),
+    ]
+    nodes = [
+        ("A", {"type": 1, "size": "big"}),
+        ("B", {"type": 1, "size": "big"}),
+        ("C", {"type": 1, "size": "small"}),
+    ]
+    graph = networkx.MultiGraph(edges)
+    graph.add_nodes_from(nodes)
+
+    # get_subgraph is isomorphic to get_node_subgraph when using only nodes/node_data
+
+    assert is_isomorphic(
+        get_subgraph(graph, nodes=["A", "B"]),
+        get_node_subgraph(graph, nodes=["A", "B"]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, node_data={"type": 1, "size": "big"}),
+        get_node_subgraph(graph, node_data={"type": 1, "size": "big"}),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, nodes=["A", "C"], node_data={"type": 1,}),
+        get_node_subgraph(graph, nodes=["A", "C"], node_data={"type": 1,}),
+    )
+
+    # get_subgraph is isomorphic to get_edge_subgraph when using only edges/edge_data
+
+    assert is_isomorphic(
+        get_subgraph(graph, edges=[("A", "B")]),
+        get_edge_subgraph(graph, edges=[("A", "B")]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, edge_data={"type": 1, "size": "big"}),
+        get_edge_subgraph(graph, edge_data={"type": 1, "size": "big"}),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, edges=[("A", "B"), ("B", "C")], edge_data={"type": 1,}),
+        get_edge_subgraph(
+            graph, edges=[("A", "B"), ("B", "C")], edge_data={"type": 1,}
+        ),
+    )
+
+    # get_subgraph is isomorphic to intersection( get_node_subgraph, get_edge_subgraph ) when using both node and edge data
+    assert is_isomorphic(
+        get_subgraph(graph, nodes=["A", "B", "C"], edges=[("B", "C")]),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(
+            graph, nodes=["A", "B", "C"], edge_data={"type": 1, "size": "big"}
+        ),
+        networkx.MultiGraph([("A", "B", 0), ("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, node_data={"type": 1}, edges=[("B", "C")]),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(graph, node_data={"size": "small"}, edge_data={"size": "big"}),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
+
+    # get_subgraph is isomorphic to intersection( get_node_subgraph, get_edge_subgraph, get_division_subgraph ) when using node, edge, and division data
+    assert is_isomorphic(
+        get_subgraph(graph, division="act2", nodes=["A", "B", "C"], edges=[("B", "C")]),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(
+            graph,
+            division="scene1",
+            nodes=["A", "B", "C"],
+            edge_data={"type": 1, "size": "big"},
+        ),
+        networkx.MultiGraph([("A", "B", 0), ("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(
+            graph, division="act2.scene1", node_data={"type": 1}, edges=[("B", "C")]
+        ),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
+
+    assert is_isomorphic(
+        get_subgraph(
+            graph,
+            division="act2.scene1",
+            node_data={"size": "small"},
+            edge_data={"size": "big"},
+        ),
+        networkx.MultiGraph([("B", "C", 0)]),
+    )
 
 
 def test_get_node_subgraph():
@@ -80,6 +192,46 @@ def test_get_edge_subgraph():
             keys=True
         )
     ) == [("A", "B", 1),]
+
+
+def test_get_division_subgraph():
+    test_sdl = """
+    # edges
+    ## act1
+    ### scene1
+    A.B : {}
+    ### scene2
+    B.C : {}
+    ## act2
+    ### scene1
+    C.D : {}
+    ### scene2
+    D.E : {}
+    ### scene3
+    E.F : {}
+    """
+    graph = DramaNetwork(test_sdl).to_networkx(directed=False)
+    assert is_isomorphic(get_division_subgraph(graph, division=None), graph)
+
+    assert is_isomorphic(
+        get_division_subgraph(graph, division="act1.scene1"),
+        networkx.MultiGraph([("A", "B")]),
+    )
+
+    assert is_isomorphic(
+        get_division_subgraph(graph, division="act1"),
+        networkx.MultiGraph([("A", "B"), ("B", "C")]),
+    )
+
+    assert is_isomorphic(
+        get_division_subgraph(graph, division="scene1"),
+        networkx.MultiGraph([("A", "B"), ("C", "D")]),
+    )
+
+    assert is_isomorphic(
+        get_division_subgraph(graph, division="nonexistent_scene"),
+        networkx.MultiGraph(),
+    )
 
 
 def test_get_edges():
@@ -284,3 +436,79 @@ def test_is_dict_subset():
         {"A": 1, "B": 2}, {"A": 1, "B": 1}
     )  # larger set wrong value multiple
     assert not is_dict_subset({"A": 1, "B": 2}, {"A": 1})  # larger set missing element
+
+
+def test_get_edges_by_division():
+    test_sdl = """
+    # edges
+    ## act1
+    ### scene1
+    A.B : {}
+    ### scene2
+    B.C : {}
+    ## act2
+    ### scene1
+    C.D : {}
+    ### scene2
+    D.E : {}
+    ### scene3
+    E.F : {}
+    """
+    graph = DramaNetwork(test_sdl).to_networkx(directed=False)
+
+    # entire acts
+    assert list(get_edges_by_division(graph, "act1")) == [
+        ("A", "B", 0),
+        ("B", "C", 0),
+    ]
+    assert list(get_edges_by_division(graph, "act2")) == [
+        ("C", "D", 0),
+        ("D", "E", 0),
+        ("E", "F", 0),
+    ]
+
+    # specific fully-qualified scenes
+    assert list(get_edges_by_division(graph, "act1.scene1")) == [
+        ("A", "B", 0),
+    ]
+    assert list(get_edges_by_division(graph, "act1.scene2")) == [
+        ("B", "C", 0),
+    ]
+    assert list(get_edges_by_division(graph, "act2.scene1")) == [
+        ("C", "D", 0),
+    ]
+    assert list(get_edges_by_division(graph, "act2.scene2")) == [
+        ("D", "E", 0),
+    ]
+    assert list(get_edges_by_division(graph, "act2.scene3")) == [
+        ("E", "F", 0),
+    ]
+
+    # divisions that aren't fully qualified return everything that matches
+    assert list(get_edges_by_division(graph, "scene3")) == [
+        ("E", "F", 0),
+    ]
+
+    assert list(get_edges_by_division(graph, "scene1")) == [
+        ("A", "B", 0),
+        ("C", "D", 0),
+    ]
+
+
+def test_is_subarray():
+    assert is_subarray([1], [1])  # exactly equal
+    assert is_subarray([1, 2], [1, 2])  # exactly equal, multiple
+    assert is_subarray([1], [1, 2])  # left
+    assert is_subarray([1, 2], [1, 2, 3])  # left, multiple
+    assert is_subarray([1], [2, 1])  # right
+    assert is_subarray([1, 0], [2, 1, 0])  # right, multiple
+    assert is_subarray([1], [3, 1, 2])  # middle
+    assert is_subarray([1, 0], [2, 1, 0, -1])  # middle, multiple
+
+    assert not is_subarray([], [])  # empty empty
+    assert not is_subarray([], [1])  # empty, nonempty
+    assert not is_subarray([1], [])  # nonempty, empty
+    assert not is_subarray([1], [2])  # not present single
+    assert not is_subarray([1, 2], [1, 3])  # not present multiple
+    assert not is_subarray([1, 2], [1, 0, 2])  # present, but not sequential
+    assert not is_subarray([1, 2], [2, 1])  # present, but reversed

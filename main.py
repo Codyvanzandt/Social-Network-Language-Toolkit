@@ -10,4 +10,6 @@ import toml
 import yaml
 
 dn = DramaNetwork("examples/fake_play")
-print(dn.to_string())
+
+act1 = dn.to_networkx_subgraph(directed=False, division="act1", nodes=["Isabella"], edge_data={"type":"kissed"})
+pprint(list(act1.edges(data=True)))

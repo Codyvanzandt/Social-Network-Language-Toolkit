@@ -79,7 +79,9 @@ def test_to_networkx(fake_drama_network):
 
     assert is_isomorphic(
         fake_drama_network.to_networkx(directed=True),
-        convert_to_networkx(fake_drama_network, directed=True),
+        convert_to_networkx(
+            fake_drama_network, directed=True, play_data=True, division_data=True
+        ),
         node_match=data_equivalent,
         edge_match=data_equivalent,
     )

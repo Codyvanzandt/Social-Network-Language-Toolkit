@@ -3,6 +3,7 @@ from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
+from src.utils.networkx_utils import get_subgraph
 from pprint import pformat
 
 
@@ -17,9 +18,26 @@ class DramaNetwork:
             convert_to_edge_list(self, play_data=play_data, division_data=division_data)
         )
 
-    def to_networkx(self, directed, play_data=False, division_data=False):
-        return convert_to_networkx(
-            self, directed, play_data=play_data, division_data=division_data
+    def to_networkx(self, directed):
+        return convert_to_networkx(self, directed, play_data=True, division_data=True)
+
+    def to_networkx_subgraph(
+        self,
+        directed,
+        division=None,
+        nodes=None,
+        edges=None,
+        node_data=None,
+        edge_data=None,
+    ):
+        graph = self.to_networkx(directed)
+        return get_subgraph(
+            graph,
+            division=division,
+            nodes=nodes,
+            edges=edges,
+            node_data=node_data,
+            edge_data=edge_data,
         )
 
     def to_string(self):

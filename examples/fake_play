@@ -13,9 +13,13 @@ Pantalone : { gender : male, archetype : vecchi }
 Isabella.Pantalone : { weight : 1, type : hit }
 Isabella.Flavio : { weight : 2, type : kissed }
 Flavio.Pantalone : { weight: 3, type : hit}
-
-## act2
-### scene1
+### scene2
 Isabella.Pantalone : { weight : 4, type : hit }
 Isabella.Flavio : { weight : 5, type : kissed }
 Flavio.Pantalone : { weight: 6, type : hit}
+
+## act2
+### scene1
+Isabella.Pantalone : { weight : 7, type : hit }
+Isabella.Flavio : { weight : 8, type : kissed }
+Flavio.Pantalone : { weight: 9, type : hit}

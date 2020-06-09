@@ -210,7 +210,7 @@ def test_get_division_subgraph():
     ### scene3
     E.F : {}
     """
-    graph = DramaNetwork(test_sdl).to_networkx(directed=False)
+    graph = DramaNetwork(test_sdl)._graph
     assert is_isomorphic(get_division_subgraph(graph, division=None), graph)
 
     assert is_isomorphic(
@@ -454,7 +454,7 @@ def test_get_edges_by_division():
     ### scene3
     E.F : {}
     """
-    graph = DramaNetwork(test_sdl).to_networkx(directed=False)
+    graph = DramaNetwork(test_sdl)._graph
 
     # entire acts
     assert list(get_edges_by_division(graph, "act1")) == [

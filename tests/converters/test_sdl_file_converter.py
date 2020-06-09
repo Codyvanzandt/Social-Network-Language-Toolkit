@@ -8,4 +8,4 @@ def test_convert_to_file(tmp_path, fake_drama_network):
     temp_sdl_file = tmp_path / "test.sdl"
     temp_sdl_file_path = temp_sdl_file.absolute()
     convert_to_file(fake_drama_network, temp_sdl_file_path)
-    assert DramaNetwork(temp_sdl_file_path).data == fake_drama_network.data
+    assert DramaNetwork(temp_sdl_file_path)._data == fake_drama_network._data

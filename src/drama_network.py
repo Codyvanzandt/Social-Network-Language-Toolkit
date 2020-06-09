@@ -4,6 +4,7 @@ from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
 from src.utils.networkx_utils import get_subgraph, get_divisions
+from src.utils.general_utils import convert_to_container
 from pprint import pformat
 import copy
 
@@ -54,6 +55,10 @@ class DramaNetwork:
         character_data=None,
         edge_data=None,
     ):
+        divisions = convert_to_container(divisions)
+        characters = convert_to_container(characters)
+        edges = convert_to_container(edges, nested=True)
+
         subgraph = get_subgraph(
             self._graph,
             divisions=divisions,

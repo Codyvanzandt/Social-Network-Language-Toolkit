@@ -1,4 +1,5 @@
 import networkx
+from src.utils.general_utils import is_subarray, is_dict_subset
 
 
 def get_subgraph(
@@ -124,29 +125,3 @@ def yield_edges_with_nodes(graph, nodes):
     for s, t, k in graph.edges(keys=True):
         if s in nodes_set or t in nodes_set:
             yield (s, t, k)
-
-
-def is_dict_subset(smaller, larger):
-    return all(
-        larger.get(smaller_key, None) == smaller_val
-        for smaller_key, smaller_val in smaller.items()
-    )
-
-
-def is_subarray(a, b):
-    """
-    Given: sequences containing strings, a and b
-    Return: boolean, a is a subarray of b
-    """
-    a_pointer, b_pointer = 0, 0
-    len_a, len_b = len(a), len(b)
-    while a_pointer < len_a and b_pointer < len_b:
-        if a[a_pointer] == b[b_pointer]:
-            a_pointer += 1
-            b_pointer += 1
-            if a_pointer == len_a:
-                return True
-        else:
-            a_pointer = 0
-            b_pointer += 1
-    return False

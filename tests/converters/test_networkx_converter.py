@@ -6,13 +6,14 @@ from src.converters.networkx_converter import (
     _add_play_data,
     _add_character_data,
 )
+from src.converters.edge_list_converter import convert_to_edge_list
 from pprint import pprint
 
 
 def test_convert_to_networkx(fake_drama_network):
     # undirected
     resulting_graph = convert_to_networkx(fake_drama_network, directed=False)
-    for source, target, edge_data in fake_drama_network.to_edge_list():
+    for source, target, edge_data in convert_to_edge_list(fake_drama_network):
         assert resulting_graph.has_edge(source, target)
         assert resulting_graph.has_edge(target, source)
         assert resulting_graph.get_edge_data(

@@ -6,9 +6,9 @@ from src.sdl_tools.sdl_serializer import (
     serialize_section,
     serialize_edges_section,
     serialize_sdl,
-    serialize_division_structure,
-    _get_section_structure,
+    serialize_divisions,
     _get_subsections,
+    _get_subsections_from,
 )
 from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges
 from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
@@ -23,9 +23,7 @@ def test_serialize_sdl(fake_play_sdl_doc):
         fake_play_sdl_doc, "characters"
     )
     assert serialized_doc["edges"] == serialize_edges_section(fake_play_sdl_doc)
-    assert serialized_doc["divisions"] == serialize_division_structure(
-        fake_play_sdl_doc
-    )
+    assert serialized_doc["divisions"] == serialize_divisions(fake_play_sdl_doc)
 
 
 def test__serialize_edge_section_mapped():
@@ -97,24 +95,26 @@ def test_get_field_key_value_raises():
         get_field_key_value(parse_sdl_string("# section"))
 
 
-def test_serialize_division_structure():
+def test_serialize_divisions():
     doc = """
     # edges
-    ## subsection0
-    ### subsubsection0
-    ## subsection1
-    ### subsubsection1
+    ## section
+    ### subsection0
+    #### subsubsection0
+    ### subsection1
+    #### subsubsection1
     """
     expected_structure = {
-        "edges": {
-            "subsection0": {"subsubsection0": None},
-            "subsection1": {"subsubsection1": None},
-        }
+        "section",
+        "section.subsection0",
+        "section.subsection1",
+        "section.subsection0.subsubsection0",
+        "section.subsection1.subsubsection1",
     }
-    assert serialize_division_structure(parse_sdl_string(doc)) == expected_structure
+    assert serialize_divisions(parse_sdl_string(doc)) == expected_structure
 
 
-def test__get_section_structure():
+def test__get_subsections():
     sections = """
     # section
     ## subsection0
@@ -123,24 +123,25 @@ def test__get_section_structure():
     ### subsubsection1
     """
     section = parse_sdl_string(sections).section("section")
-    section_structure = _get_section_structure(section)
+    sections = _get_subsections(section)
     expected_structure = {
-        "section": {
-            "subsection0": {"subsubsection0": None},
-            "subsection1": {"subsubsection1": None},
-        }
+        "section",
+        "section.subsection0",
+        "section.subsection1",
+        "section.subsection0.subsubsection0",
+        "section.subsection1.subsubsection1",
     }
-    assert section_structure == expected_structure
+    assert sections == expected_structure
 
 
-def test__get_subsections():
+def test__get_subsections_from():
     some_subsections = """
     # section
     ## subsection0
     ## subsection1
     """
     section = parse_sdl_string(some_subsections).section("section")
-    subsections = _get_subsections(section)
+    subsections = _get_subsections_from(section)
     subsection_strings = [subsection.string_key() for subsection in subsections]
     assert subsection_strings == ["subsection0", "subsection1"]
 
@@ -148,6 +149,6 @@ def test__get_subsections():
     # section
     """
     section = parse_sdl_string(no_subsections).section("section")
-    subsections = _get_subsections(section)
+    subsections = _get_subsections_from(section)
     subsection_strings = [subsection.string_key() for subsection in subsections]
     assert subsection_strings == list()

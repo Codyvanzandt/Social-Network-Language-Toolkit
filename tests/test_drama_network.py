@@ -12,13 +12,8 @@ def test_init(fake_drama_network):
     assert fake_drama_network
 
 
-def test_repr(fake_drama_network):
-    expected_repr = "DramaNetwork(a title)"
-    assert repr(fake_drama_network) == expected_repr
-
-
 def test_str(fake_drama_network):
-    expected_str = f"DramaNetwork({pformat(fake_drama_network._data)})"
+    expected_str = "DramaNetwork(a title)"
     assert str(fake_drama_network) == expected_str
 
 
@@ -63,10 +58,4 @@ def test_to_file(fake_drama_network, tmp_path):
     assert (
         DramaNetwork(from_to_file.absolute())._data
         == DramaNetwork(from_convert_to_file.absolute())._data
-    )
-
-
-def test_to_edge_list(fake_drama_network):
-    assert fake_drama_network.to_edge_list() == list(
-        convert_to_edge_list(fake_drama_network)
     )

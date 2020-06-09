@@ -2,6 +2,7 @@ import yaml
 from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges, valid_yaml
 from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
 from collections import ChainMap
+from itertools import chain
 
 
 def serialize_sdl(sdl_document):
@@ -9,7 +10,7 @@ def serialize_sdl(sdl_document):
         "play": serialize_section(sdl_document, "play"),
         "characters": serialize_section(sdl_document, "characters"),
         "edges": serialize_edges_section(sdl_document),
-        "divisions": serialize_division_structure(sdl_document),
+        "divisions": serialize_divisions(sdl_document),
     }
 
 
@@ -56,26 +57,35 @@ def _serialize_edge_section(edge_section):
             }
 
 
-def serialize_division_structure(sdl_document):
+def serialize_divisions(sdl_document):
     edge_section = sdl_document.section("edges")
-    return _get_section_structure(edge_section)
-
-
-def _get_section_structure(section):
-    subsections = list(_get_subsections(section))
-    if len(subsections) == 0:
-        return {section.string_key(): None}
-    else:
-        return {
-            section.string_key(): dict(
-                ChainMap(
-                    *(_get_section_structure(subsection) for subsection in subsections)
-                )
-            )
-        }
+    return _get_subsections(edge_section)
 
 
 def _get_subsections(section):
+    subsections = list(_get_subsections_from(section))
+    if len(subsections) == 0:
+        return {section.string_key()}
+    else:
+        if section.string_key() == "edges":
+            return {
+                f"{subsection}"
+                for subsection in chain.from_iterable(
+                    _get_subsections(ss) for ss in subsections
+                )
+            }
+        else:
+            return {section.string_key()}.union(
+                {
+                    f"{section.string_key()}.{subsection}"
+                    for subsection in chain.from_iterable(
+                        _get_subsections(ss) for ss in subsections
+                    )
+                }
+            )
+
+
+def _get_subsections_from(section):
     is_section = (
         lambda element: hasattr(element, "yields_section") and element.yields_section()
     )

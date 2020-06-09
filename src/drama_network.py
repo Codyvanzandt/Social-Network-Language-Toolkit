@@ -41,8 +41,12 @@ class DramaNetwork:
     def characters(self, data=False, default=None):
         return self._graph.nodes(data=data, default=default)
 
-    def divisions(self):
-        return get_divisions(self._graph)
+    def divisions(self, level=None):
+        all_divisions = get_divisions(self._graph)
+        if level is None:
+            return all_divisions
+        else:
+            return [ division for division in all_divisions if len(division.split(".")) == level ]
 
     def edges(self, nbunch=None, data=False, default=None):
         return self._graph.edges(nbunch=nbunch, data=data, default=default)

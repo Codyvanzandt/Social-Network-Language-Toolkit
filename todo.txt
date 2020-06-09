@@ -38,3 +38,4 @@ Add division data to drama_network api X
 Allow multiple divisions in subnetwork divisions api X
 Allow single element in subnetwork api X
 Think about an empty DramaNetwork X
+Add levels to divisions api

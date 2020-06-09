@@ -1,6 +1,7 @@
 TODO
 Write tests for new drama_network api
-Write tests for networkx converter division data
+Fill in remaning test coverage
+Write edge combining subgraph
 Write function for combining edges together by adding weights, user-provided function for comparing data
 Incorporate support for additional, user-defined sections
 Refactor test_networkx_utils to clean up duplicate test data

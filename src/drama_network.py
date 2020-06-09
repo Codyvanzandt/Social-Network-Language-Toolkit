@@ -46,7 +46,11 @@ class DramaNetwork:
         if level is None:
             return all_divisions
         else:
-            return [ division for division in all_divisions if len(division.split(".")) == level ]
+            return [
+                division
+                for division in all_divisions
+                if len(division.split(".")) == level
+            ]
 
     def edges(self, nbunch=None, data=False, default=None):
         return self._graph.edges(nbunch=nbunch, data=data, default=default)

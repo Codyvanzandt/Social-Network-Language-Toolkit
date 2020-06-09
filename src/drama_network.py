@@ -21,9 +21,9 @@ class DramaNetwork:
             return self._data[name]
         except IndexError:
             return getattr(self._graph, name)
-        
+
     def get(self, name, default=None):
-        return self._data.get(name, default=default)
+        return self._data.get(name, default)
 
     def to_edge_list(self, play_data=False, division_data=False):
         return list(
@@ -68,5 +68,5 @@ class DramaNetwork:
         return f"{self.__class__.__name__}({pformat(self._data)})"
 
     def __repr__(self):
-        title = self._data.get("play", dict()).get("title", str())
+        title = self.get("play", dict()).get("title", str())
         return f"{self.__class__.__name__}({title})"

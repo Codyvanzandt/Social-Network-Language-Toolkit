@@ -21,9 +21,7 @@ def test_convert_to_string(fake_drama_network):
 
 def test_convert_section_to_string(fake_drama_network):
     character_section_name = "characters"
-    character_section_data = fake_drama_network._data.get(
-        character_section_name, dict()
-    )
+    character_section_data = fake_drama_network.get(character_section_name, dict())
     actual_string = convert_section_to_string(
         fake_drama_network, character_section_name
     )
@@ -59,7 +57,7 @@ def test_convert_section_data_to_string():
 
 
 def test_convert_edges_section_to_string(fake_drama_network):
-    edges_data = fake_drama_network._data["edges"]
+    edges_data = fake_drama_network.edges
     expected_string = convert_section_name_to_string(
         "edges"
     ) + convert_edges_data_to_string(edges_data)

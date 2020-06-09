@@ -10,7 +10,7 @@ def convert_to_string(social_network):
 
 
 def convert_section_to_string(social_network, section_name):
-    section_data = social_network._data.get(section_name, dict())
+    section_data = social_network.get(section_name, dict())
     return (
         convert_section_name_to_string(section_name)
         + convert_section_data_to_string(section_data)
@@ -38,7 +38,7 @@ def convert_yaml_data_to_string(yaml_data):
 
 
 def convert_edges_section_to_string(social_network):
-    edges_data = social_network._data.get("edges", dict())
+    edges_data = social_network.get("edges", dict())
     return convert_section_name_to_string("edges") + convert_edges_data_to_string(
         edges_data
     )

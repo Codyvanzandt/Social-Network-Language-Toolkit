@@ -2,10 +2,8 @@ import itertools
 
 
 def convert_to_edge_list(social_network, play_data=False, division_data=False):
-    edge_list = social_network._data.get("edges", tuple())
-    play_data = (
-        social_network._data.get("play", dict()) if play_data == True else dict()
-    )
+    edge_list = social_network.get("edges", tuple())
+    play_data = social_network.get("play", dict()) if play_data == True else dict()
     division_data = tuple() if division_data == True else division_data
     return _convert_to_edge_list(edge_list, play_data, division_data,)
 

@@ -18,7 +18,7 @@ def test_repr(fake_drama_network):
 
 
 def test_str(fake_drama_network):
-    expected_str = f"DramaNetwork({pformat(fake_drama_network.data)})"
+    expected_str = f"DramaNetwork({pformat(fake_drama_network._data)})"
     assert str(fake_drama_network) == expected_str
 
 
@@ -61,27 +61,12 @@ def test_to_file(fake_drama_network, tmp_path):
     fake_drama_network.to_file(path=from_to_file)
     convert_to_file(fake_drama_network, from_convert_to_file)
     assert (
-        DramaNetwork(from_to_file.absolute()).data
-        == DramaNetwork(from_convert_to_file.absolute()).data
+        DramaNetwork(from_to_file.absolute())._data
+        == DramaNetwork(from_convert_to_file.absolute())._data
     )
 
 
 def test_to_edge_list(fake_drama_network):
     assert fake_drama_network.to_edge_list() == list(
         convert_to_edge_list(fake_drama_network)
-    )
-
-
-def test_to_networkx(fake_drama_network):
-    def data_equivalent(a, b):
-        assert a == b
-        return True
-
-    assert is_isomorphic(
-        fake_drama_network.to_networkx(directed=True),
-        convert_to_networkx(
-            fake_drama_network, directed=True, play_data=True, division_data=True
-        ),
-        node_match=data_equivalent,
-        edge_match=data_equivalent,
     )

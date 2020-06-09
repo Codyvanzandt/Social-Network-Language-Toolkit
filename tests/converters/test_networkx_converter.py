@@ -33,14 +33,14 @@ def test__get_empty_graph():
 def test__add_play_data(fake_drama_network):
     empty_graph = _get_empty_graph(directed=False)
     _add_play_data(fake_drama_network, empty_graph)
-    for play_data_key, play_data_value in fake_drama_network.data["play"].items():
+    for play_data_key, play_data_value in fake_drama_network.play.items():
         assert empty_graph.graph[play_data_key] == play_data_value
 
 
 def test__add_character_data(fake_drama_network):
     empty_graph = _get_empty_graph(directed=False)
     _add_character_data(fake_drama_network, empty_graph)
-    for character_name, character_data in fake_drama_network.data["characters"].items():
+    for character_name, character_data in fake_drama_network.characters.items():
         assert character_name in empty_graph.nodes
         for char_data_key, char_data_value in character_data.items():
             assert empty_graph.nodes[character_name][char_data_key] == char_data_value

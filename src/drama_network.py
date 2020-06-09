@@ -4,41 +4,53 @@ from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
 from src.utils.networkx_utils import get_subgraph
+from src.utils.drama_network_utils import get_subgraph_data
 from pprint import pformat
+import copy
 
 
 class DramaNetwork:
-    def __init__(self, data):
-        self.data = self._load_sdl_data(data)
-        for attr_name, attr_value in self.data.items():
-            setattr(self, attr_name, attr_value)
+    def __init__(self, data=None, directed=False):
+        self._data = self._load_sdl_data(data) if data else dict()
+        self._graph = convert_to_networkx(
+            self, directed=directed, play_data=True, division_data=True
+        )
+
+    def __getattr__(self, name):
+        try:
+            return self._data[name]
+        except IndexError:
+            return getattr(self._graph, name)
+
+    def get(self, name, default=None):
+        return self._data.get(name, default)
 
     def to_edge_list(self, play_data=False, division_data=False):
         return list(
             convert_to_edge_list(self, play_data=play_data, division_data=division_data)
         )
 
-    def to_networkx(self, directed):
-        return convert_to_networkx(self, directed, play_data=True, division_data=True)
-
-    def to_networkx_subgraph(
+    def subgraph(
         self,
-        directed,
         division=None,
-        nodes=None,
+        characters=None,
         edges=None,
-        node_data=None,
+        character_data=None,
         edge_data=None,
     ):
-        graph = self.to_networkx(directed)
-        return get_subgraph(
-            graph,
+        subgraph = get_subgraph(
+            self._graph,
             division=division,
-            nodes=nodes,
+            nodes=characters,
             edges=edges,
-            node_data=node_data,
+            node_data=character_data,
             edge_data=edge_data,
         )
+        subgraph_data = get_subgraph_data(self, subgraph)
+        subgraph_drama_network = DramaNetwork()
+        subgraph_drama_network._graph = subgraph
+        subgraph_drama_network._data = subgraph_data
+        return subgraph_drama_network
 
     def to_string(self):
         return convert_to_string(self)
@@ -53,8 +65,8 @@ class DramaNetwork:
             return load_sdl_string(data)
 
     def __str__(self):
-        return f"{self.__class__.__name__}({pformat(self.data)})"
+        return f"{self.__class__.__name__}({pformat(self._data)})"
 
     def __repr__(self):
-        title = self.data.get("play", dict()).get("title", str())
+        title = self.get("play", dict()).get("title", str())
         return f"{self.__class__.__name__}({title})"

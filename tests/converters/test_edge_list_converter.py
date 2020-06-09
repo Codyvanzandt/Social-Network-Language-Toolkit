@@ -13,7 +13,7 @@ def test_convert_to_edge_list(fake_drama_network):
 
     # Case: play data, no division data
     computed_edges_with_play = convert_to_edge_list(fake_drama_network, play_data=True)
-    play_data = {"play": fake_drama_network.data["play"]}
+    play_data = {"play": fake_drama_network.play}
     for expected_edge, computed_edge in zip(expected_edges, computed_edges_with_play):
         e_s, e_t, e_d = expected_edge  # expected source, expected target, expected data
         c_s, c_t, c_d = computed_edge  # computed source, computed target, computed data
@@ -49,7 +49,7 @@ def test__yield_edges(fake_drama_network):
     assert list(computed_edges) == expected_edges
 
     # Case: play data, no division data
-    play_data = fake_drama_network.data["play"]
+    play_data = fake_drama_network.play
     computed_edges_with_play = _yield_edges(
         raw_edges, play_data=play_data, division_data=False
     )
@@ -57,7 +57,7 @@ def test__yield_edges(fake_drama_network):
     assert list(computed_edges_with_play) == expected_edges
 
     # Case: play data and division data
-    division_data = ("act1", "scene1")
+    division_data = ["act1", "scene1"]
     computed_edges_with_both = _yield_edges(
         raw_edges, play_data=play_data, division_data=division_data
     )
@@ -69,7 +69,7 @@ def test__yield_edges(fake_drama_network):
 
 
 def get_raw_edges(network):
-    for act, act_data in network.data["edges"].items():
+    for act, act_data in network._data["edges"].items():
         for scene, scene_data in act_data.items():
             for edge in scene_data:
                 yield edge

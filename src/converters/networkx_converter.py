@@ -20,13 +20,13 @@ def _get_empty_graph(directed):
 
 
 def _add_play_data(social_network, graph):
-    play_data = social_network.data.get("play", dict())
+    play_data = social_network.get("play", dict())
     for play_data_key, play_data_value in play_data.items():
         graph.graph[play_data_key] = play_data_value
 
 
 def _add_character_data(social_network, graph):
-    character_data = social_network.data.get("characters", dict())
+    character_data = social_network.get("characters", dict())
     for character_name, character_data in character_data.items():
         graph.add_node(character_name, **character_data)
 

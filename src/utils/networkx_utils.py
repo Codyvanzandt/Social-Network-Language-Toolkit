@@ -2,11 +2,11 @@ import networkx
 
 
 def get_subgraph(
-    graph, division=None, nodes=None, edges=None, node_data=None, edge_data=None
+    graph, divisions=None, nodes=None, edges=None, node_data=None, edge_data=None
 ):
     node_subgraph = get_node_subgraph(graph, nodes=nodes, node_data=node_data)
     edge_subgraph = get_edge_subgraph(graph, edges=edges, edge_data=edge_data)
-    division_subgraph = get_division_subgraph(graph, division=division)
+    division_subgraph = get_division_subgraph(graph, divisions=divisions)
     intersecting_edges = (
         edge
         for edge in graph.edges(keys=True)
@@ -44,14 +44,14 @@ def get_edge_subgraph(graph, edges=None, edge_data=None):
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
-def get_division_subgraph(graph, division):
+def get_division_subgraph(graph, divisions):
     """
     Given:
         division - a division like "act1" or a nested division like "act1.scene1"
     Return:
         A shallow-copy subgraph with edges from the given division.
     """
-    subgraph_edges = get_edges_by_division(graph, division=division)
+    subgraph_edges = get_edges_by_division(graph, divisions=divisions)
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
@@ -69,14 +69,17 @@ def get_divisions(graph):
     return tuple(sorted(divisions))
 
 
-def get_edges_by_division(graph, division):
-    if division is None:
+def get_edges_by_division(graph, divisions):
+    if divisions is None:
         yield from graph.edges(keys=True)
     else:
-        target_division = tuple(division.split("."))
+        target_divisions = {tuple(division.split(".")) for division in divisions}
         for source, target, key, edge_data in graph.edges(keys=True, data=True):
             edge_division = edge_data.get("divisions", tuple())
-            if is_subarray(target_division, edge_division):
+            if any(
+                is_subarray(target_division, edge_division)
+                for target_division in target_divisions
+            ):
                 yield (source, target, key)
 
 

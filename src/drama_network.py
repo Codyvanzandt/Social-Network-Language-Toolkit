@@ -48,7 +48,7 @@ class DramaNetwork:
 
     def subnetwork(
         self,
-        division=None,
+        divisions=None,
         characters=None,
         edges=None,
         character_data=None,
@@ -56,7 +56,7 @@ class DramaNetwork:
     ):
         subgraph = get_subgraph(
             self._graph,
-            division=division,
+            divisions=divisions,
             nodes=characters,
             edges=edges,
             node_data=character_data,

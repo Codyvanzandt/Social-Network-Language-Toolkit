@@ -10,7 +10,6 @@ def serialize_sdl(sdl_document):
         "play": serialize_section(sdl_document, "play"),
         "characters": serialize_section(sdl_document, "characters"),
         "edges": serialize_edges_section(sdl_document),
-        "divisions": serialize_divisions(sdl_document),
     }
 
 
@@ -55,40 +54,3 @@ def _serialize_edge_section(edge_section):
                     subsection.to_section() for subsection in edge_section.elements()
                 )
             }
-
-
-def serialize_divisions(sdl_document):
-    edge_section = sdl_document.section("edges")
-    return _get_subsections(edge_section)
-
-
-def _get_subsections(section):
-    subsections = list(_get_subsections_from(section))
-    if len(subsections) == 0:
-        return {section.string_key()}
-    else:
-        if section.string_key() == "edges":
-            return {
-                f"{subsection}"
-                for subsection in chain.from_iterable(
-                    _get_subsections(ss) for ss in subsections
-                )
-            }
-        else:
-            return {section.string_key()}.union(
-                {
-                    f"{section.string_key()}.{subsection}"
-                    for subsection in chain.from_iterable(
-                        _get_subsections(ss) for ss in subsections
-                    )
-                }
-            )
-
-
-def _get_subsections_from(section):
-    is_section = (
-        lambda element: hasattr(element, "yields_section") and element.yields_section()
-    )
-    for element in section.elements():
-        if is_section(element):
-            yield element.to_section()

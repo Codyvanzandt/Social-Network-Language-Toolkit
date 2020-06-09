@@ -55,6 +55,20 @@ def get_division_subgraph(graph, division):
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
+def get_divisions(graph):
+    divisions = set()
+    for s, t, division_data in graph.edges(data="divisions", default=dict()):
+        nested_division = str()
+        for division in division_data:
+            nested_division = (
+                division
+                if nested_division == str()
+                else f"{nested_division}.{division}"
+            )
+            divisions.add(nested_division)
+    return tuple(sorted(divisions))
+
+
 def get_edges_by_division(graph, division):
     if division is None:
         yield from graph.edges(keys=True)

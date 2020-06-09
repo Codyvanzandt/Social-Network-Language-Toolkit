@@ -6,9 +6,6 @@ from src.sdl_tools.sdl_serializer import (
     serialize_section,
     serialize_edges_section,
     serialize_sdl,
-    serialize_divisions,
-    _get_subsections,
-    _get_subsections_from,
 )
 from src.sdl_tools.mapped_edge_serializer import serialize_mapped_edges
 from src.sdl_tools.enter_exit_edge_serializer import serialize_enter_exit_edges
@@ -23,7 +20,6 @@ def test_serialize_sdl(fake_play_sdl_doc):
         fake_play_sdl_doc, "characters"
     )
     assert serialized_doc["edges"] == serialize_edges_section(fake_play_sdl_doc)
-    assert serialized_doc["divisions"] == serialize_divisions(fake_play_sdl_doc)
 
 
 def test__serialize_edge_section_mapped():
@@ -93,62 +89,3 @@ def test_get_field_key_value(section):
 def test_get_field_key_value_raises():
     with pytest.raises(ValueError, match=".* must be of the format `key : value`"):
         get_field_key_value(parse_sdl_string("# section"))
-
-
-def test_serialize_divisions():
-    doc = """
-    # edges
-    ## section
-    ### subsection0
-    #### subsubsection0
-    ### subsection1
-    #### subsubsection1
-    """
-    expected_structure = {
-        "section",
-        "section.subsection0",
-        "section.subsection1",
-        "section.subsection0.subsubsection0",
-        "section.subsection1.subsubsection1",
-    }
-    assert serialize_divisions(parse_sdl_string(doc)) == expected_structure
-
-
-def test__get_subsections():
-    sections = """
-    # section
-    ## subsection0
-    ### subsubsection0
-    ## subsection1
-    ### subsubsection1
-    """
-    section = parse_sdl_string(sections).section("section")
-    sections = _get_subsections(section)
-    expected_structure = {
-        "section",
-        "section.subsection0",
-        "section.subsection1",
-        "section.subsection0.subsubsection0",
-        "section.subsection1.subsubsection1",
-    }
-    assert sections == expected_structure
-
-
-def test__get_subsections_from():
-    some_subsections = """
-    # section
-    ## subsection0
-    ## subsection1
-    """
-    section = parse_sdl_string(some_subsections).section("section")
-    subsections = _get_subsections_from(section)
-    subsection_strings = [subsection.string_key() for subsection in subsections]
-    assert subsection_strings == ["subsection0", "subsection1"]
-
-    no_subsections = """
-    # section
-    """
-    section = parse_sdl_string(no_subsections).section("section")
-    subsections = _get_subsections_from(section)
-    subsection_strings = [subsection.string_key() for subsection in subsections]
-    assert subsection_strings == list()

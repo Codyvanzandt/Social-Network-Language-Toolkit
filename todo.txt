@@ -1,11 +1,14 @@
 TODO
+Allow multiple divisions in subnetwork divisions api
 Allow single element in subnetwork api
 Write tests for new drama_network api
+Write tests for networkx converter division data
 Write function for combining edges together by adding weights, user-provided function for comparing data
 Incorporate support for additional, user-defined sections
 Think about an empty DramaNetwork
 Refactor test_networkx_utils to clean up duplicate test data
 Error when some edges are underneath divisions and others aren't
+Write Sphinx-compatible docstrings for all the public functions
 
 DONE
 Add pyyaml parser X
@@ -34,3 +37,4 @@ Add shallow copy graph subsetting by edge X
 Add shallow copy graph subsetting by node data_value X
 Add shallow copy graph subsetting by by edge data_value X
 Add drama network api for subgraph X
+Add division data to drama_network api X

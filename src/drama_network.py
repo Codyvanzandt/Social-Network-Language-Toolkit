@@ -3,7 +3,7 @@ from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
-from src.utils.networkx_utils import get_subgraph
+from src.utils.networkx_utils import get_subgraph, get_divisions
 from pprint import pformat
 import copy
 
@@ -39,6 +39,9 @@ class DramaNetwork:
 
     def characters(self, data=False, default=None):
         return self._graph.nodes(data=data, default=default)
+
+    def divisions(self):
+        return get_divisions(self._graph)
 
     def edges(self, nbunch=None, data=False, default=None):
         return self._graph.edges(nbunch=nbunch, data=data, default=default)

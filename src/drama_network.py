@@ -17,13 +17,16 @@ class DramaNetwork:
         )
 
     def __getattr__(self, name):
-        try:
-            return self._data[name]
-        except IndexError:
-            return getattr(self._graph, name)
+        return getattr(self._graph, name)
 
-    def get(self, name, default=None):
-        return self._data.get(name, default)
+    def play(self):
+        return self._graph.graph
+
+    def characters(self, data=False, default=None):
+        return self._graph.nodes(data=data, default=default)
+
+    def edges(self, nbunch=None, data=False, default=None):
+        return self._graph.edges(nbunch=nbunch, data=data, default=default)
 
     def to_edge_list(self, play_data=False, division_data=False):
         return list(
@@ -68,5 +71,5 @@ class DramaNetwork:
         return f"{self.__class__.__name__}({pformat(self._data)})"
 
     def __repr__(self):
-        title = self.get("play", dict()).get("title", str())
+        title = self._data.get("play", dict()).get("title", str())
         return f"{self.__class__.__name__}({title})"

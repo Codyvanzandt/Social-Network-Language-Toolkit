@@ -16,8 +16,27 @@ class DramaNetwork:
             self, directed=directed, play_data=True, division_data=True
         )
 
+    def __iter__(self):
+        return iter(self._graph)
+
+    def __contains__(self, n):
+        return n in self._graph
+
+    def __len__(self):
+        return len(self._graph)
+
+    def __getitem__(self, n):
+        return self._graph[n]
+
     def __getattr__(self, name):
         return getattr(self._graph, name)
+
+    def __str__(self):
+        return f"{self.__class__.__name__}({pformat(self._data)})"
+
+    def __repr__(self):
+        title = self._data.get("play", dict()).get("title", str())
+        return f"{self.__class__.__name__}({title})"
 
     def play(self):
         return self._graph.graph
@@ -67,9 +86,3 @@ class DramaNetwork:
         except (OSError, FileNotFoundError):
             return load_sdl_string(data)
 
-    def __str__(self):
-        return f"{self.__class__.__name__}({pformat(self._data)})"
-
-    def __repr__(self):
-        title = self._data.get("play", dict()).get("title", str())
-        return f"{self.__class__.__name__}({title})"

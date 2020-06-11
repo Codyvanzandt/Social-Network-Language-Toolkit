@@ -1,11 +1,13 @@
 TODO
-Write tests for new drama_network api
-Fill in remaning test coverage
+Rewrite networkx converter to not use _data
+Rewrite string converter to not use _data
 Write edge combining subgraph
-Write function for combining edges together by adding weights, user-provided function for comparing data
 Incorporate support for additional, user-defined sections
 Refactor test_networkx_utils to clean up duplicate test data
+Write functional tests
 Error when some edges are underneath divisions and others aren't
+Write helpful error messages for common user errors
+Write helpful tests for different common user errors 
 Write Sphinx-compatible docstrings for all the public functions
 
 DONE
@@ -39,4 +41,6 @@ Add division data to drama_network api X
 Allow multiple divisions in subnetwork divisions api X
 Allow single element in subnetwork api X
 Think about an empty DramaNetwork X
-Add levels to divisions api
+Add levels to divisions api X
+Write tests for new drama_network api X
+Fill in remaning test coverage X

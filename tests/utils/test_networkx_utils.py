@@ -13,8 +13,6 @@ from src.utils.networkx_utils import (
     yield_edges,
     yield_nodes,
     yield_edges_with_nodes,
-    is_dict_subset,
-    is_subarray,
 )
 
 
@@ -93,14 +91,16 @@ def test_get_subgraph():
 
     # get_subgraph is isomorphic to intersection( get_node_subgraph, get_edge_subgraph, get_division_subgraph ) when using node, edge, and division data
     assert is_isomorphic(
-        get_subgraph(graph, division="act2", nodes=["A", "B", "C"], edges=[("B", "C")]),
+        get_subgraph(
+            graph, divisions=["act2"], nodes=["A", "B", "C"], edges=[("B", "C")]
+        ),
         networkx.MultiGraph([("B", "C", 0)]),
     )
 
     assert is_isomorphic(
         get_subgraph(
             graph,
-            division="scene1",
+            divisions=["scene1"],
             nodes=["A", "B", "C"],
             edge_data={"type": 1, "size": "big"},
         ),
@@ -109,7 +109,7 @@ def test_get_subgraph():
 
     assert is_isomorphic(
         get_subgraph(
-            graph, division="act2.scene1", node_data={"type": 1}, edges=[("B", "C")]
+            graph, divisions=["act2.scene1"], node_data={"type": 1}, edges=[("B", "C")]
         ),
         networkx.MultiGraph([("B", "C", 0)]),
     )
@@ -117,7 +117,7 @@ def test_get_subgraph():
     assert is_isomorphic(
         get_subgraph(
             graph,
-            division="act2.scene1",
+            divisions=["act2.scene1"],
             node_data={"size": "small"},
             edge_data={"size": "big"},
         ),
@@ -211,25 +211,25 @@ def test_get_division_subgraph():
     E.F : {}
     """
     graph = DramaNetwork(test_sdl)._graph
-    assert is_isomorphic(get_division_subgraph(graph, division=None), graph)
+    assert is_isomorphic(get_division_subgraph(graph, divisions=None), graph)
 
     assert is_isomorphic(
-        get_division_subgraph(graph, division="act1.scene1"),
+        get_division_subgraph(graph, divisions=["act1.scene1"]),
         networkx.MultiGraph([("A", "B")]),
     )
 
     assert is_isomorphic(
-        get_division_subgraph(graph, division="act1"),
+        get_division_subgraph(graph, divisions=["act1"]),
         networkx.MultiGraph([("A", "B"), ("B", "C")]),
     )
 
     assert is_isomorphic(
-        get_division_subgraph(graph, division="scene1"),
+        get_division_subgraph(graph, divisions=["scene1"]),
         networkx.MultiGraph([("A", "B"), ("C", "D")]),
     )
 
     assert is_isomorphic(
-        get_division_subgraph(graph, division="nonexistent_scene"),
+        get_division_subgraph(graph, divisions=["nonexistent_scene"]),
         networkx.MultiGraph(),
     )
 
@@ -421,23 +421,6 @@ def test_yield_edges_with_nodes():
     ]
 
 
-def test_is_dict_subset():
-    assert is_dict_subset(dict(), dict())  # empty, empty
-    assert is_dict_subset(dict(), {"A": 1})  # empty, non-empty
-    assert is_dict_subset({"A": 1}, {"A": 1})  # exact match, single
-    assert is_dict_subset({"A": 1, "B": 2}, {"A": 1, "B": 2})  # exact match, multiple
-    assert is_dict_subset({"A": 1}, {"A": 1, "B": 2})  # subset single
-    assert is_dict_subset({"A": 1, "B": 2}, {"A": 1, "B": 2, "C": 3})  # subset multiple
-
-    assert not is_dict_subset({"A": 1}, dict())  # non-empty,
-    assert not is_dict_subset({"A": 1}, {"B": 2})  # disjoint
-    assert not is_dict_subset({"A": 1,}, {"A": 2})  # larger set wrong value
-    assert not is_dict_subset(
-        {"A": 1, "B": 2}, {"A": 1, "B": 1}
-    )  # larger set wrong value multiple
-    assert not is_dict_subset({"A": 1, "B": 2}, {"A": 1})  # larger set missing element
-
-
 def test_get_edges_by_division():
     test_sdl = """
     # edges
@@ -457,58 +440,39 @@ def test_get_edges_by_division():
     graph = DramaNetwork(test_sdl)._graph
 
     # entire acts
-    assert list(get_edges_by_division(graph, "act1")) == [
+    assert list(get_edges_by_division(graph, ["act1"])) == [
         ("A", "B", 0),
         ("B", "C", 0),
     ]
-    assert list(get_edges_by_division(graph, "act2")) == [
+    assert list(get_edges_by_division(graph, ["act2"])) == [
         ("C", "D", 0),
         ("D", "E", 0),
         ("E", "F", 0),
     ]
 
     # specific fully-qualified scenes
-    assert list(get_edges_by_division(graph, "act1.scene1")) == [
+    assert list(get_edges_by_division(graph, ["act1.scene1"])) == [
         ("A", "B", 0),
     ]
-    assert list(get_edges_by_division(graph, "act1.scene2")) == [
+    assert list(get_edges_by_division(graph, ["act1.scene2"])) == [
         ("B", "C", 0),
     ]
-    assert list(get_edges_by_division(graph, "act2.scene1")) == [
+    assert list(get_edges_by_division(graph, ["act2.scene1"])) == [
         ("C", "D", 0),
     ]
-    assert list(get_edges_by_division(graph, "act2.scene2")) == [
+    assert list(get_edges_by_division(graph, ["act2.scene2"])) == [
         ("D", "E", 0),
     ]
-    assert list(get_edges_by_division(graph, "act2.scene3")) == [
+    assert list(get_edges_by_division(graph, ["act2.scene3"])) == [
         ("E", "F", 0),
     ]
 
     # divisions that aren't fully qualified return everything that matches
-    assert list(get_edges_by_division(graph, "scene3")) == [
+    assert list(get_edges_by_division(graph, ["scene3"])) == [
         ("E", "F", 0),
     ]
 
-    assert list(get_edges_by_division(graph, "scene1")) == [
+    assert list(get_edges_by_division(graph, ["scene1"])) == [
         ("A", "B", 0),
         ("C", "D", 0),
     ]
-
-
-def test_is_subarray():
-    assert is_subarray([1], [1])  # exactly equal
-    assert is_subarray([1, 2], [1, 2])  # exactly equal, multiple
-    assert is_subarray([1], [1, 2])  # left
-    assert is_subarray([1, 2], [1, 2, 3])  # left, multiple
-    assert is_subarray([1], [2, 1])  # right
-    assert is_subarray([1, 0], [2, 1, 0])  # right, multiple
-    assert is_subarray([1], [3, 1, 2])  # middle
-    assert is_subarray([1, 0], [2, 1, 0, -1])  # middle, multiple
-
-    assert not is_subarray([], [])  # empty empty
-    assert not is_subarray([], [1])  # empty, nonempty
-    assert not is_subarray([1], [])  # nonempty, empty
-    assert not is_subarray([1], [2])  # not present single
-    assert not is_subarray([1, 2], [1, 3])  # not present multiple
-    assert not is_subarray([1, 2], [1, 0, 2])  # present, but not sequential
-    assert not is_subarray([1, 2], [2, 1])  # present, but reversed

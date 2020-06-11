@@ -3,8 +3,8 @@ from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.networkx_converter import convert_to_networkx
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
-from src.utils.networkx_utils import get_subgraph
-from src.utils.drama_network_utils import get_subgraph_data
+from src.utils.networkx_utils import get_subgraph, get_divisions
+from src.utils.general_utils import convert_to_container
 from pprint import pformat
 import copy
 
@@ -16,43 +16,70 @@ class DramaNetwork:
             self, directed=directed, play_data=True, division_data=True
         )
 
+    def __iter__(self):
+        return iter(self._graph)
+
+    def __contains__(self, n):
+        return n in self._graph
+
+    def __len__(self):
+        return len(self._graph)
+
+    def __getitem__(self, n):
+        return self._graph[n]
+
     def __getattr__(self, name):
-        try:
-            return self._data[name]
-        except IndexError:
-            return getattr(self._graph, name)
+        return getattr(self._graph, name)
 
-    def get(self, name, default=None):
-        return self._data.get(name, default)
+    def __str__(self):
+        title = self.play().get("title", str())
+        return f"{self.__class__.__name__}({title})"
 
-    def to_edge_list(self, play_data=False, division_data=False):
-        return list(
-            convert_to_edge_list(self, play_data=play_data, division_data=division_data)
-        )
+    def play(self):
+        return self._graph.graph
 
-    def subgraph(
+    def characters(self, data=False, default=None):
+        return self._graph.nodes(data=data, default=default)
+
+    def divisions(self, level=None):
+        all_divisions = get_divisions(self._graph)
+        if level is None:
+            return all_divisions
+        else:
+            return [
+                division
+                for division in all_divisions
+                if len(division.split(".")) == level
+            ]
+
+    def edges(self, nbunch=None, data=False, default=None):
+        return self._graph.edges(nbunch=nbunch, data=data, default=default)
+
+    def subnetwork(
         self,
-        division=None,
+        divisions=None,
         characters=None,
         edges=None,
         character_data=None,
         edge_data=None,
     ):
+        divisions = convert_to_container(divisions)
+        characters = convert_to_container(characters)
+        edges = convert_to_container(edges, nested=True)
+
         subgraph = get_subgraph(
             self._graph,
-            division=division,
+            divisions=divisions,
             nodes=characters,
             edges=edges,
             node_data=character_data,
             edge_data=edge_data,
         )
-        subgraph_data = get_subgraph_data(self, subgraph)
         subgraph_drama_network = DramaNetwork()
         subgraph_drama_network._graph = subgraph
-        subgraph_drama_network._data = subgraph_data
         return subgraph_drama_network
 
-    def to_string(self):
+    def to_sdl_string(self):
         return convert_to_string(self)
 
     def to_file(self, path):
@@ -63,10 +90,3 @@ class DramaNetwork:
             return load_sdl_file(data)
         except (OSError, FileNotFoundError):
             return load_sdl_string(data)
-
-    def __str__(self):
-        return f"{self.__class__.__name__}({pformat(self._data)})"
-
-    def __repr__(self):
-        title = self.get("play", dict()).get("title", str())
-        return f"{self.__class__.__name__}({title})"

@@ -6,13 +6,14 @@ from src.converters.networkx_converter import (
     _add_play_data,
     _add_character_data,
 )
+from src.converters.edge_list_converter import convert_to_edge_list
 from pprint import pprint
 
 
 def test_convert_to_networkx(fake_drama_network):
     # undirected
     resulting_graph = convert_to_networkx(fake_drama_network, directed=False)
-    for source, target, edge_data in fake_drama_network.to_edge_list():
+    for source, target, edge_data in convert_to_edge_list(fake_drama_network):
         assert resulting_graph.has_edge(source, target)
         assert resulting_graph.has_edge(target, source)
         assert resulting_graph.get_edge_data(
@@ -33,14 +34,16 @@ def test__get_empty_graph():
 def test__add_play_data(fake_drama_network):
     empty_graph = _get_empty_graph(directed=False)
     _add_play_data(fake_drama_network, empty_graph)
-    for play_data_key, play_data_value in fake_drama_network.play.items():
+    for play_data_key, play_data_value in fake_drama_network._data["play"].items():
         assert empty_graph.graph[play_data_key] == play_data_value
 
 
 def test__add_character_data(fake_drama_network):
     empty_graph = _get_empty_graph(directed=False)
     _add_character_data(fake_drama_network, empty_graph)
-    for character_name, character_data in fake_drama_network.characters.items():
+    for character_name, character_data in fake_drama_network._data[
+        "characters"
+    ].items():
         assert character_name in empty_graph.nodes
         for char_data_key, char_data_value in character_data.items():
             assert empty_graph.nodes[character_name][char_data_key] == char_data_value

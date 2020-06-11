@@ -1,12 +1,13 @@
 import networkx
+from src.utils.general_utils import is_subarray, is_dict_subset
 
 
 def get_subgraph(
-    graph, division=None, nodes=None, edges=None, node_data=None, edge_data=None
+    graph, divisions=None, nodes=None, edges=None, node_data=None, edge_data=None
 ):
     node_subgraph = get_node_subgraph(graph, nodes=nodes, node_data=node_data)
     edge_subgraph = get_edge_subgraph(graph, edges=edges, edge_data=edge_data)
-    division_subgraph = get_division_subgraph(graph, division=division)
+    division_subgraph = get_division_subgraph(graph, divisions=divisions)
     intersecting_edges = (
         edge
         for edge in graph.edges(keys=True)
@@ -44,25 +45,42 @@ def get_edge_subgraph(graph, edges=None, edge_data=None):
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
-def get_division_subgraph(graph, division):
+def get_division_subgraph(graph, divisions):
     """
     Given:
         division - a division like "act1" or a nested division like "act1.scene1"
     Return:
         A shallow-copy subgraph with edges from the given division.
     """
-    subgraph_edges = get_edges_by_division(graph, division=division)
+    subgraph_edges = get_edges_by_division(graph, divisions=divisions)
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
-def get_edges_by_division(graph, division):
-    if division is None:
+def get_divisions(graph):
+    divisions = set()
+    for s, t, division_data in graph.edges(data="divisions", default=dict()):
+        nested_division = str()
+        for division in division_data:
+            nested_division = (
+                division
+                if nested_division == str()
+                else f"{nested_division}.{division}"
+            )
+            divisions.add(nested_division)
+    return tuple(sorted(divisions))
+
+
+def get_edges_by_division(graph, divisions):
+    if divisions is None:
         yield from graph.edges(keys=True)
     else:
-        target_division = tuple(division.split("."))
+        target_divisions = {tuple(division.split(".")) for division in divisions}
         for source, target, key, edge_data in graph.edges(keys=True, data=True):
             edge_division = edge_data.get("divisions", tuple())
-            if is_subarray(target_division, edge_division):
+            if any(
+                is_subarray(target_division, edge_division)
+                for target_division in target_divisions
+            ):
                 yield (source, target, key)
 
 
@@ -107,29 +125,3 @@ def yield_edges_with_nodes(graph, nodes):
     for s, t, k in graph.edges(keys=True):
         if s in nodes_set or t in nodes_set:
             yield (s, t, k)
-
-
-def is_dict_subset(smaller, larger):
-    return all(
-        larger.get(smaller_key, None) == smaller_val
-        for smaller_key, smaller_val in smaller.items()
-    )
-
-
-def is_subarray(a, b):
-    """
-    Given: sequences containing strings, a and b
-    Return: boolean, a is a subarray of b
-    """
-    a_pointer, b_pointer = 0, 0
-    len_a, len_b = len(a), len(b)
-    while a_pointer < len_a and b_pointer < len_b:
-        if a[a_pointer] == b[b_pointer]:
-            a_pointer += 1
-            b_pointer += 1
-            if a_pointer == len_a:
-                return True
-        else:
-            a_pointer = 0
-            b_pointer += 1
-    return False

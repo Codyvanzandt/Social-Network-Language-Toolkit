@@ -79,7 +79,7 @@ class DramaNetwork:
         subgraph_drama_network._graph = subgraph
         return subgraph_drama_network
 
-    def to_string(self):
+    def to_sdl_string(self):
         return convert_to_string(self)
 
     def to_file(self, path):

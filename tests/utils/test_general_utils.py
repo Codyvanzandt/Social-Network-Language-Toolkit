@@ -3,6 +3,8 @@ from src.utils.general_utils import (
     is_subarray,
     is_container,
     convert_to_container,
+    nested_dict_get,
+    nested_dict_set,
 )
 
 
@@ -56,3 +58,23 @@ def test_is_dict_subset():
         {"A": 1, "B": 2}, {"A": 1, "B": 1}
     )  # larger set wrong value multiple
     assert not is_dict_subset({"A": 1, "B": 2}, {"A": 1})  # larger set missing element
+
+
+def test_nested_dict_get():
+    nested_dict = {1: {2: {3: 4}}}
+    assert nested_dict_get(nested_dict, keys=[]) == {1: {2: {3: 4}}}
+    assert nested_dict_get(nested_dict, keys=[1]) == {2: {3: 4}}
+    assert nested_dict_get(nested_dict, keys=[1, 2]) == {3: 4}
+    assert nested_dict_get(nested_dict, keys=[1, 2]) == {3: 4}
+    assert nested_dict_get(nested_dict, keys=[1, 2, 3]) == 4
+    assert nested_dict_get(nested_dict, keys=[1, 2, 3, 4]) == dict()
+
+
+def test_nested_dict_set():
+    nested_dict = {1: {2: {3: 4}}}
+
+    nested_dict_set(nested_dict, [1, 2, 3], 5)
+    assert nested_dict_get(nested_dict, [1, 2, 3]) == 5
+
+    nested_dict_set(nested_dict, [1, 2, 6], 7)
+    assert nested_dict_get(nested_dict, [1, 2, 6]) == 7

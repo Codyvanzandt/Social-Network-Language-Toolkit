@@ -1,5 +1,4 @@
 TODO
-Rewrite networkx converter to not use _data
 Rewrite string converter to not use _data
 Write edge combining subgraph
 Incorporate support for additional, user-defined sections

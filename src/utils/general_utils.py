@@ -39,3 +39,17 @@ def is_subarray(a, b):
             a_pointer = 0
             b_pointer += 1
     return False
+
+
+def nested_dict_get(d, keys):
+    result = d
+    for key in keys:
+        try:
+            result = result.get(key, dict())
+        except AttributeError:
+            result = dict()
+    return result
+
+
+def nested_dict_set(d, keys, value):
+    nested_dict_get(d, keys[:-1])[keys[-1]] = value

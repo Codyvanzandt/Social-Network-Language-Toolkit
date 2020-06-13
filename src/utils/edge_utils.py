@@ -4,6 +4,6 @@ def walk_nested_edges(edge_data, func=None):
         return func(edge_data)
     elif isinstance(edge_data, dict):
         return {
-            section_key : walk_nested_edges(section_value)
+            section_key: walk_nested_edges(section_value)
             for section_key, section_value in edge_data.items()
         }

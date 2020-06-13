@@ -7,6 +7,8 @@ from src.utils.networkx_utils import (
     get_node_subgraph,
     get_edge_subgraph,
     get_division_subgraph,
+    get_empty_division_structure,
+    get_edges_underneath_divisions,
     get_edges_by_division,
     get_edges,
     get_nodes,
@@ -14,6 +16,7 @@ from src.utils.networkx_utils import (
     yield_nodes,
     yield_edges_with_nodes,
 )
+from pprint import pprint
 
 
 def test_get_subgraph():
@@ -232,6 +235,54 @@ def test_get_division_subgraph():
         get_division_subgraph(graph, divisions=["nonexistent_scene"]),
         networkx.MultiGraph(),
     )
+
+
+def test_get_empty_division_structure():
+    edges = [
+        ("A", "B", {"type": 1, "size": "big", "divisions": ("act1", "scene1")}),
+        ("A", "B", {"type": 2, "size": "small", "divisions": ("act1", "scene2")}),
+        (
+            "A",
+            "B",
+            {"type": 2, "size": "small", "divisions": ("act1", "scene2", "subscene1")},
+        ),
+        ("B", "C", {"type": 1, "size": "big", "divisions": ("act2", "scene1")}),
+    ]
+    graph = networkx.MultiGraph(edges)
+    expected_division_structure = {
+        "act1": {"scene1": {}, "scene2": {"subscene1": {}}},
+        "act2": {"scene1": {}},
+    }
+    assert get_empty_division_structure(graph) == expected_division_structure
+
+
+def test_get_edges_underneath_divisions():
+    test_sdl = """
+    # edges
+    ## act1
+    ### scene1
+    A.B : {}
+    B.C : {}
+    ## act2
+    ### scene1
+    C.D : {}
+    ### scene2
+    D.E : {}
+    """
+    graph = DramaNetwork(test_sdl)._graph
+    expected_structure = {
+        "act1": {
+            "scene1": [
+                ("A", "B", {"divisions": ("act1", "scene1")}),
+                ("B", "C", {"divisions": ("act1", "scene1")}),
+            ],
+        },
+        "act2": {
+            "scene1": [("C", "D", {"divisions": ("act2", "scene1")})],
+            "scene2": [("D", "E", {"divisions": ("act2", "scene2")})],
+        },
+    }
+    assert get_edges_underneath_divisions(graph) == expected_structure
 
 
 def test_get_edges():

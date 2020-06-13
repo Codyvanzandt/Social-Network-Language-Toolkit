@@ -72,9 +72,13 @@ def test_nested_dict_get():
 
 def test_nested_dict_set():
     nested_dict = {1: {2: {3: 4}}}
+    empty_dict = {}
 
     nested_dict_set(nested_dict, [1, 2, 3], 5)
     assert nested_dict_get(nested_dict, [1, 2, 3]) == 5
 
     nested_dict_set(nested_dict, [1, 2, 6], 7)
     assert nested_dict_get(nested_dict, [1, 2, 6]) == 7
+
+    nested_dict_set(empty_dict, [1, 2, 3], 4)
+    assert nested_dict_get(empty_dict, [1, 2, 3]) == 4

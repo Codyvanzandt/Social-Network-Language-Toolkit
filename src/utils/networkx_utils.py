@@ -1,5 +1,12 @@
 import networkx
-from src.utils.general_utils import is_subarray, is_dict_subset
+from src.utils.general_utils import (
+    is_subarray,
+    is_dict_subset,
+    nested_dict_get,
+    nested_dict_set,
+)
+
+# SUBGRAPH API
 
 
 def get_subgraph(
@@ -56,6 +63,9 @@ def get_division_subgraph(graph, divisions):
     return graph.edge_subgraph(subgraph_edges).copy()
 
 
+# DIVISION API
+
+
 def get_divisions(graph):
     divisions = set()
     for s, t, division_data in graph.edges(data="divisions", default=dict()):
@@ -68,6 +78,31 @@ def get_divisions(graph):
             )
             divisions.add(nested_division)
     return tuple(sorted(divisions))
+
+
+def get_empty_division_structure(graph):
+    division_structure = dict()
+    for _, _, edge_data in graph.edges(data=True):
+        edge_divisions = edge_data.get("divisions", tuple())
+        nested_dict_set(division_structure, edge_divisions, dict())
+    return division_structure
+
+
+# EDGES API
+
+
+def get_edges_underneath_divisions(graph):
+    division_structure = get_empty_division_structure(graph)
+    for s, t, edge_data in graph.edges(data=True):
+        edge_divisions = edge_data.get("divisions", tuple())
+        current_edges = nested_dict_get(division_structure, edge_divisions)
+        if current_edges == dict():
+            nested_dict_set(division_structure, edge_divisions, [(s, t, edge_data)])
+        else:
+            nested_dict_set(
+                division_structure, edge_divisions, current_edges + [(s, t, edge_data)]
+            )
+    return division_structure
 
 
 def get_edges_by_division(graph, divisions):
@@ -84,6 +119,13 @@ def get_edges_by_division(graph, divisions):
                 yield (source, target, key)
 
 
+def yield_edges_with_nodes(graph, nodes):
+    nodes_set = set(nodes)
+    for s, t, k in graph.edges(keys=True):
+        if s in nodes_set or t in nodes_set:
+            yield (s, t, k)
+
+
 def get_edges(graph, edges=None, edge_data=None):
     target_edges = edges if edges else graph.edges()
     if not edge_data:
@@ -93,6 +135,16 @@ def get_edges(graph, edges=None, edge_data=None):
             data = graph[s][t][k]
             if is_dict_subset(edge_data, data):
                 yield (s, t, k)
+
+
+def yield_edges(graph, edges):
+    edges_set = set(edges)
+    for s, t, k in graph.edges(keys=True):
+        if (s, t) in edges_set:
+            yield (s, t, k)
+
+
+# NODES API
 
 
 def get_nodes(graph, nodes=None, node_data=None):
@@ -106,22 +158,8 @@ def get_nodes(graph, nodes=None, node_data=None):
                 yield node
 
 
-def yield_edges(graph, edges):
-    edges_set = set(edges)
-    for s, t, k in graph.edges(keys=True):
-        if (s, t) in edges_set:
-            yield (s, t, k)
-
-
 def yield_nodes(graph, nodes):
     node_set = set(nodes)
     for node in graph.nodes():
         if node in node_set:
             yield node
-
-
-def yield_edges_with_nodes(graph, nodes):
-    nodes_set = set(nodes)
-    for s, t, k in graph.edges(keys=True):
-        if s in nodes_set or t in nodes_set:
-            yield (s, t, k)

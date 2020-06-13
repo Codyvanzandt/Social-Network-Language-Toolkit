@@ -57,7 +57,7 @@ def test__yield_edges(fake_drama_network):
     assert list(computed_edges_with_play) == expected_edges
 
     # Case: play data and division data
-    division_data = ["act1", "scene1"]
+    division_data = ("act1", "scene1")
     computed_edges_with_both = _yield_edges(
         raw_edges, play_data=play_data, division_data=division_data
     )

@@ -34,6 +34,6 @@ def _yield_edges(edge_list, play_data, division_data):
             final_play_data = {"play": play_data}
             edge_data = {**edge_data, **final_play_data}
         if division_data:
-            final_division_data = {"divisions": list(division_data)}
+            final_division_data = {"divisions": tuple(division_data)}
             edge_data = {**edge_data, **final_division_data}
         yield (source_character, target_character, edge_data)

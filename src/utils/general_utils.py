@@ -52,4 +52,9 @@ def nested_dict_get(d, keys):
 
 
 def nested_dict_set(d, keys, value):
+    result = d
+    for key in keys:
+        if key not in result:
+            result[key] = dict()
+        result = result.get(key, dict())
     nested_dict_get(d, keys[:-1])[keys[-1]] = value

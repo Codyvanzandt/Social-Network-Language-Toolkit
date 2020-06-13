@@ -1,4 +1,5 @@
 import yaml
+from src.utils.networkx_utils import get_edges_underneath_divisions
 
 
 def convert_to_string(social_network):
@@ -39,9 +40,23 @@ def convert_yaml_data_to_string(yaml_data):
 
 def convert_edges_section_to_string(social_network):
     edges_data = social_network._data.get("edges", dict())
+    # edges_data = get_edges_underneath_divisions(social_network._graph)
     return convert_section_name_to_string("edges") + convert_edges_data_to_string(
         edges_data
     )
+
+
+def prepare_edge_data_for_stringification(edges_data):
+    filtered_edges_data = filter_edges_data(edges_data, ("divisions", "play"))
+    return group_edges(filtered_edges_data)
+
+
+def filter_edges_data(edges_data, exclude=tuple()):
+    return edges_data
+
+
+def group_edges(edges_data):
+    return edges_data
 
 
 def convert_edges_data_to_string(edges_data, section_level=1):

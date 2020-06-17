@@ -1,5 +1,6 @@
 TODO
-Rewrite string converter to not use _data
+Confirm unit tests for all functiosn in string converter, edge_utils, general_utils 
+Add type hints
 Write edge combining subgraph
 Incorporate support for additional, user-defined sections
 Refactor test_networkx_utils to clean up duplicate test data
@@ -43,3 +44,4 @@ Think about an empty DramaNetwork X
 Add levels to divisions api X
 Write tests for new drama_network api X
 Fill in remaning test coverage X
+Rewrite string converter to not use _data X

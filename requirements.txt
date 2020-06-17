@@ -4,6 +4,7 @@ coverage
 pytest-cov
 black
 pyyaml
+mypy
 
 # Configuring project dependencies
 toml

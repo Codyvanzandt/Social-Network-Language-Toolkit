@@ -2,6 +2,8 @@ tasks:
   - init: pip3 install -r requirements.txt
   - init: git config core.hooksPath hooks
   - init: find ./hooks -type f -exec chmod +x {} \;
+  - command: alias run_tests="python3 -m pytest -s --disable-pytest-warnings --cov-report term-missing --cov $PROJECT_ROOT"
+  - command: alias check_types="mypy ./src ./tests --config-file mypy.ini --namespace-packages --ignore-missing-imports"
   
 github:
   prebuilds:

@@ -15,7 +15,7 @@ def test_init(fake_drama_network, fake_play_data):
     assert is_isomorphic(
         fake_drama_network._graph,
         convert_to_networkx(
-            fake_drama_network, directed=False, play_data=True, division_data=True
+            fake_drama_network, directed=True, play_data=True, division_data=True
         ),
     )
 

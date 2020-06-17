@@ -5,7 +5,7 @@ from src.drama_network import DramaNetwork
 # Drama Network
 @pytest.fixture
 def fake_drama_network(fake_play_string):
-    return DramaNetwork(fake_play_string)
+    return DramaNetwork(fake_play_string, directed=True)
 
 
 # DOCUMENT SECTIONS

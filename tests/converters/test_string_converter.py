@@ -2,37 +2,22 @@ import pytest
 from src.converters.string_converter import (
     convert_edges_list_to_string,
     convert_edges_data_to_string,
-    convert_edges_section_to_string,
     convert_section_data_to_string,
     convert_section_name_to_string,
-    convert_section_to_string,
+    convert_edges_section_to_string,
+    convert_play_section_to_string,
+    convert_characters_section_to_string,
     convert_to_string,
 )
 
 
 def test_convert_to_string(fake_drama_network):
     expected_string = (
-        convert_section_to_string(fake_drama_network, "play")
-        + convert_section_to_string(fake_drama_network, "characters")
+        convert_play_section_to_string(fake_drama_network)
+        + convert_characters_section_to_string(fake_drama_network)
         + convert_edges_section_to_string(fake_drama_network)
     )
     assert convert_to_string(fake_drama_network) == expected_string
-
-
-def test_convert_section_to_string(fake_drama_network):
-    character_section_name = "characters"
-    character_section_data = fake_drama_network._data.get(
-        character_section_name, dict()
-    )
-    actual_string = convert_section_to_string(
-        fake_drama_network, character_section_name
-    )
-    expected_string = (
-        convert_section_name_to_string(character_section_name)
-        + convert_section_data_to_string(character_section_data)
-        + "\n\n"
-    )
-    assert actual_string == expected_string
 
 
 def test_convert_section_name_to_string():

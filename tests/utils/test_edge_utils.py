@@ -7,9 +7,9 @@ EDGE_DATA = {
         "scene1": [
             ("A", "B", {"type": 1}),
             ("B", "C", {"type": 1}),
-            ("D", "E", {"type": 1}),
+            ("C", "D", {"type": 1}),
         ],
-        "scene2": [("E", "F", {"type": 1})],
+        "scene2": [("D", "E", {"type": 1})],
     }
 }
 
@@ -20,8 +20,8 @@ def test_walk_nested_edges():
 
     empty_edge_data = {
         "act1": {
-            "scene1": [("A", "B", {}), ("B", "C", {}), ("D", "E", {})],
-            "scene2": [("E", "F", {})],
+            "scene1": [("A", "B", {}), ("B", "C", {}), ("C", "D", {})],
+            "scene2": [("D", "E", {})],
         }
     }
 
@@ -35,6 +35,7 @@ def test_flatten_nested_edges():
     expected_edges = [
         ("A", "B", {"type": 1}),
         ("B", "C", {"type": 1}),
+        ("C", "D", {"type": 1}),
         ("D", "E", {"type": 1}),
-        ("E", "F", {"type": 1}),
     ]
+    assert flatten_nested_edges(EDGE_DATA) == expected_edges

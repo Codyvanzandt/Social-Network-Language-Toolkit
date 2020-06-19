@@ -1,9 +1,7 @@
 import itertools
-from src.standard_types import EdgeSection, EdgeList, Edge  # type: ignore
-from typing import Callable, List
 
 
-def walk_nested_edges(edge_section: EdgeSection, func: Callable[[EdgeList],EdgeList] = None) -> EdgeSection:
+def walk_nested_edges(edge_section, func=None):
     func = func if func is not None else lambda x: x
     if isinstance(edge_section, list):
         return func(edge_section)
@@ -14,12 +12,13 @@ def walk_nested_edges(edge_section: EdgeSection, func: Callable[[EdgeList],EdgeL
         }
 
 
-def flatten_nested_edges(edge_section: EdgeSection) -> List[Edge]:
+def flatten_nested_edges(edge_section):
     if isinstance(edge_section, list):
         return edge_section
     else:
         return list(
             itertools.chain.from_iterable(
-                flatten_nested_edges(subsection) for _, subsection in edge_section.items()
+                flatten_nested_edges(subsection)
+                for _, subsection in edge_section.items()
             )
         )

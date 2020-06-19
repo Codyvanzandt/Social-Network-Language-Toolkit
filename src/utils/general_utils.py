@@ -1,20 +1,4 @@
-from src.standard_types import T  # type: ignore
-from typing import (
-    Optional,
-    Tuple,
-    Union,
-    Mapping,
-    MutableMapping,
-    Hashable,
-    Any,
-    Sequence,
-    Iterable,
-)
-
-
-def convert_to_container(
-    element: T, nested: bool = False
-) -> Union[T, Optional[Tuple[T]]]:
+def convert_to_container(element, nested=False):
     if element is None:
         return element
     elif is_container(element):
@@ -23,13 +7,11 @@ def convert_to_container(
         return (element,)
 
 
-def is_container(element: T) -> bool:
+def is_container(element):
     return not isinstance(element, str) and hasattr(element, "__iter__")
 
 
-def is_dict_subset(
-    smaller: Mapping[Hashable, Any], larger: Mapping[Hashable, Any]
-) -> bool:
+def is_dict_subset(smaller, larger):
     """
     Given: dicts, smaller and larger
     Return: are the keys and values in smaller a subset of larger
@@ -40,7 +22,7 @@ def is_dict_subset(
     )
 
 
-def is_subarray(a: Sequence[Any], b: Sequence[Any]) -> bool:
+def is_subarray(a, b):
     """
     Given: sequences a and b
     Return: boolean, a is a subarray of b
@@ -59,7 +41,7 @@ def is_subarray(a: Sequence[Any], b: Sequence[Any]) -> bool:
     return False
 
 
-def nested_dict_get(d: Mapping[Hashable, Any], keys: Iterable[Hashable]) -> Any:
+def nested_dict_get(d, keys):
     result = d
     for key in keys:
         try:
@@ -69,9 +51,7 @@ def nested_dict_get(d: Mapping[Hashable, Any], keys: Iterable[Hashable]) -> Any:
     return result
 
 
-def nested_dict_set(
-    d: MutableMapping[Hashable, Any], keys: Sequence[Hashable], value: Any
-):
+def nested_dict_set(d, keys, value):
     result = d
     for key in keys:
         if key not in result:

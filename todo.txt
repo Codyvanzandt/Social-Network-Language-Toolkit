@@ -1,6 +1,5 @@
 TODO
 Confirm unit tests for all functiosn in string converter, edge_utils, general_utils 
-Add type hints
 Write edge combining subgraph
 Incorporate support for additional, user-defined sections
 Refactor test_networkx_utils to clean up duplicate test data

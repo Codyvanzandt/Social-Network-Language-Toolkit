@@ -1,17 +1,20 @@
 from src.sdl_tools.sdl_api import load_sdl_string, load_sdl_file
 from src.converters.edge_list_converter import convert_to_edge_list
-from src.converters.networkx_converter import convert_to_networkx
+from src.converters.networkx_converter import convert_to_networkx, _get_empty_graph
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
 from src.utils.networkx_utils import get_subgraph, get_divisions
 from src.utils.general_utils import convert_to_container
+from src.utils.edge_utils import edges_equal, combine_edges, combine_all_edges
 from pprint import pformat
 import copy
+import networkx
 
 
 class DramaNetwork:
     def __init__(self, data=None, directed=False):
         self._data = self._load_sdl_data(data) if data else dict()
+        self.directed = directed
         self._graph = convert_to_networkx(
             self, directed=directed, play_data=True, division_data=True
         )
@@ -78,6 +81,22 @@ class DramaNetwork:
         subgraph_drama_network = DramaNetwork()
         subgraph_drama_network._graph = subgraph
         return subgraph_drama_network
+
+    def combine_edges(self, equal_func=None, combine_func=None):
+        equal_func = equal_func if equal_func is not None else edges_equal
+        combine_func = combine_func if combine_func is not None else combine_edges
+        new_edges = combine_all_edges(self.edges(data=True), equal_func, combine_func)
+
+        new_graph = (
+            networkx.MultiDiGraph(new_edges, **self._graph.graph)
+            if self.directed
+            else networkx.MultiGraph(new_edges, **self._graph.graph)
+        )
+        new_graph.add_nodes_from(self.characters(data=True))
+
+        new_network = DramaNetwork(directed=self.directed)
+        new_network._graph = new_graph
+        return new_network
 
     def to_sdl_string(self):
         return convert_to_string(self)

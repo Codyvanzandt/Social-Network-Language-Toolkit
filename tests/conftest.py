@@ -81,23 +81,115 @@ def fake_play_data():
         "edges": {
             "act1": {
                 "scene1": [
-                    ("Isabella", "Flavio", {"type": "kissed", "weight": 1}),
-                    ("Isabella", "Flavio", {"type": "kissed", "weight": 3}),
-                    ("Flavio", "Isabella", {"type": "kissed", "weight": 5}),
-                    ("Isabella", "Flavio", {"type": "hit", "weight": 7}),
+                    ("Isabella", "Flavio", {"type": "kissed", "weight": 1,},),
+                    ("Isabella", "Flavio", {"type": "kissed", "weight": 3,},),
+                    ("Flavio", "Isabella", {"type": "kissed", "weight": 5,},),
+                    ("Isabella", "Flavio", {"type": "hit", "weight": 7,},),
                 ],
                 "scene2": [
-                    ("Isabella", "Pantalone", {"type": "hit", "weight": 1}),
-                    ("Isabella", "Flavio", {}),
+                    ("Isabella", "Pantalone", {"type": "hit", "weight": 1,},),
+                    ("Isabella", "Flavio", {},),
                 ],
             },
             "act2": {
                 "scene1": [
-                    ("Pantalone", "Flavio", {}),
-                    ("Flavio", "Pantalone", {"type": "hit", "weight": 1}),
+                    ("Pantalone", "Flavio", {},),
+                    ("Flavio", "Pantalone", {"type": "hit", "weight": 1,},),
                 ]
             },
         },
+    }
+
+
+@pytest.fixture
+def fake_play_data_with_edge_data():
+    return {
+        "play": {
+            "title": "a title",
+            "author": "an author",
+            "boolean": True,
+            "integer": 42,
+            "float": 42.0,
+            "array": [42, 42, 42],
+            "nested": {"nested": "nested"},
+        },
+        "characters": {
+            "Flavio": {"archetype": "innamorati", "gender": "male",},
+            "Isabella": {"archetype": "innamorati", "gender": "female"},
+            "Pantalone": {"archetype": "vecchi", "gender": "male"},
+        },
+        "edges": [
+            (
+                "Isabella",
+                "Flavio",
+                {
+                    "type": "kissed",
+                    "weight": 1,
+                    "divisions": ("act1", "scene1"),
+                    "play": "a title",
+                },
+            ),
+            (
+                "Isabella",
+                "Flavio",
+                {
+                    "type": "kissed",
+                    "weight": 3,
+                    "divisions": ("act1", "scene1"),
+                    "play": "a title",
+                },
+            ),
+            (
+                "Flavio",
+                "Isabella",
+                {
+                    "type": "kissed",
+                    "weight": 5,
+                    "divisions": ("act1", "scene1"),
+                    "play": "a title",
+                },
+            ),
+            (
+                "Isabella",
+                "Flavio",
+                {
+                    "type": "hit",
+                    "weight": 7,
+                    "divisions": ("act1", "scene1"),
+                    "play": "a title",
+                },
+            ),
+            (
+                "Isabella",
+                "Pantalone",
+                {
+                    "type": "hit",
+                    "weight": 1,
+                    "divisions": ("act1", "scene2"),
+                    "play": "a title",
+                },
+            ),
+            (
+                "Isabella",
+                "Flavio",
+                {"divisions": ("act1", "scene2"), "play": "a title"},
+            ),
+            (
+                "Pantalone",
+                "Flavio",
+                {"divisions": ("act2", "scene1"), "play": "a title"},
+            ),
+            (
+                "Flavio",
+                "Pantalone",
+                {
+                    "type": "hit",
+                    "weight": 1,
+                    "divisions": ("act2", "scene1"),
+                    "play": "a title",
+                },
+            ),
+        ],
     }
 
 

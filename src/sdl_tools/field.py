@@ -1,0 +1,26 @@
+from functools import partial
+import yaml
+
+
+class Field:
+    def __init__(self, enolib_field, yaml_loader="default"):
+        self._yaml_loader = self.get_yaml_loader(yaml_loader)
+        self._enolib_field = enolib_field
+        self.key = self.get_key()
+        self.data = self.get_data()
+
+    def __repr__(self):
+        return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.values)})>"
+
+    def to_dict(self):
+        return {self.key: self.data}
+
+    @staticmethod
+    def get_yaml_loader(yaml_loader_str):
+        return {"default": partial(yaml.load, Loader=yaml.FullLoader)}[yaml_loader_str]
+
+    def get_key(self):
+        return self._enolib_field.string_key()
+
+    def get_data(self):
+        return self._enolib_field.required_value(self._yaml_loader)

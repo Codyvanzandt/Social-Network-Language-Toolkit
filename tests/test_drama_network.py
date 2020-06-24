@@ -2,16 +2,16 @@ import pytest
 from pprint import pformat
 from src.drama_network import DramaNetwork
 from src.converters.string_converter import convert_to_string
-from src.converters.edge_list_converter import convert_to_edge_list
 from src.converters.sdl_file_converter import convert_to_file
 from src.converters.networkx_converter import convert_to_networkx
 from src.utils.networkx_utils import get_subgraph, get_divisions
 from networkx.algorithms.isomorphism import is_isomorphic
+from pprint import pprint
 
 
-def test_init(fake_drama_network, fake_play_data):
+def test_init(fake_drama_network, fake_play_data_with_edge_data):
     assert fake_drama_network
-    assert fake_drama_network._data == fake_play_data
+    assert fake_drama_network._data == fake_play_data_with_edge_data
     assert is_isomorphic(
         fake_drama_network._graph,
         convert_to_networkx(
@@ -160,33 +160,4 @@ def test_to_file(fake_drama_network, tmp_path):
     assert (
         DramaNetwork(from_to_file.absolute())._data
         == DramaNetwork(from_convert_to_file.absolute())._data
-    )
-
-
-def test__load_sdl_data(
-    fake_drama_network, fake_play_data, fake_play_file, fake_play_string
-):
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_file)["play"]
-        == fake_play_data["play"]
-    )
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_file)["characters"]
-        == fake_play_data["characters"]
-    )
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_file)["edges"]
-        == fake_play_data["edges"]
-    )
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_string)["play"]
-        == fake_play_data["play"]
-    )
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_string)["characters"]
-        == fake_play_data["characters"]
-    )
-    assert (
-        fake_drama_network._load_sdl_data(fake_play_string)["edges"]
-        == fake_play_data["edges"]
     )

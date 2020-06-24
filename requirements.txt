@@ -11,3 +11,4 @@ toml
 enolib
 networkx
 ordered_set
+multidict

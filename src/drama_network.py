@@ -1,5 +1,4 @@
-from src.sdl_tools.sdl_api import load_sdl_string, load_sdl_file
-from src.converters.edge_list_converter import convert_to_edge_list
+from src.sdl_tools.sdl_document import SDLDocument
 from src.converters.networkx_converter import convert_to_networkx, _get_empty_graph
 from src.converters.string_converter import convert_to_string
 from src.converters.sdl_file_converter import convert_to_file
@@ -13,7 +12,8 @@ import networkx
 
 class DramaNetwork:
     def __init__(self, data=None, directed=False):
-        self._data = self._load_sdl_data(data) if data else dict()
+        self._doc = SDLDocument(data)
+        self._data = self._doc.data
         self.directed = directed
         self._graph = convert_to_networkx(
             self, directed=directed, play_data=True, division_data=True
@@ -103,9 +103,3 @@ class DramaNetwork:
 
     def to_file(self, path):
         return convert_to_file(self, path)
-
-    def _load_sdl_data(self, data):
-        try:
-            return load_sdl_file(data)
-        except (OSError, FileNotFoundError):
-            return load_sdl_string(data)

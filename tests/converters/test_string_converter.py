@@ -9,6 +9,7 @@ from src.converters.string_converter import (
     convert_characters_section_to_string,
     convert_to_string,
 )
+from src.utils.networkx_utils import get_edges_underneath_divisions
 
 
 def test_convert_to_string(fake_drama_network):
@@ -44,10 +45,11 @@ def test_convert_section_data_to_string():
 
 
 def test_convert_edges_section_to_string(fake_drama_network):
-    edges_data = fake_drama_network._data["edges"]
+    edges_data = get_edges_underneath_divisions(fake_drama_network._graph)
     expected_string = convert_section_name_to_string(
         "edges"
     ) + convert_edges_data_to_string(edges_data)
+
     assert convert_edges_section_to_string(fake_drama_network) == expected_string
 
 

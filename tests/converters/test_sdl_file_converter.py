@@ -1,6 +1,5 @@
 import pytest
 from src.converters.sdl_file_converter import convert_to_file
-from src.utils.edge_utils import flatten_nested_edges
 from src.drama_network import DramaNetwork
 from unittest.mock import patch
 

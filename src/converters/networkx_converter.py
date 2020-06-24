@@ -1,5 +1,4 @@
 import networkx
-from src.converters.edge_list_converter import convert_to_edge_list
 
 
 def convert_to_networkx(social_network, directed, play_data=False, division_data=False):
@@ -32,5 +31,5 @@ def _add_character_data(social_network, graph):
 
 
 def _add_edge_data(social_network, graph, play_data, division_data):
-    edges = convert_to_edge_list(social_network, play_data, division_data)
+    edges = social_network._doc.data.get("edges", list())
     graph.add_edges_from(edges)

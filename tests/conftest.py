@@ -1,11 +1,18 @@
 import pytest
 import enolib
 from src.drama_network import DramaNetwork
+from src.sdl_tools.sdl_document import SDLDocument
 
 # Drama Network
 @pytest.fixture
 def fake_drama_network(fake_play_string):
     return DramaNetwork(fake_play_string, directed=True)
+
+
+# SDL Document
+@pytest.fixture
+def fake_sdl_document(fake_play_string):
+    return SDLDocument(fake_play_string)
 
 
 # DOCUMENT SECTIONS
@@ -122,72 +129,34 @@ def fake_play_data_with_edge_data():
             (
                 "Isabella",
                 "Flavio",
-                {
-                    "type": "kissed",
-                    "weight": 1,
-                    "divisions": ("act1", "scene1"),
-                    "play": "a title",
-                },
+                {"type": "kissed", "weight": 1, "divisions": ("act1", "scene1"),},
             ),
             (
                 "Isabella",
                 "Flavio",
-                {
-                    "type": "kissed",
-                    "weight": 3,
-                    "divisions": ("act1", "scene1"),
-                    "play": "a title",
-                },
+                {"type": "kissed", "weight": 3, "divisions": ("act1", "scene1"),},
             ),
             (
                 "Flavio",
                 "Isabella",
-                {
-                    "type": "kissed",
-                    "weight": 5,
-                    "divisions": ("act1", "scene1"),
-                    "play": "a title",
-                },
+                {"type": "kissed", "weight": 5, "divisions": ("act1", "scene1"),},
             ),
             (
                 "Isabella",
                 "Flavio",
-                {
-                    "type": "hit",
-                    "weight": 7,
-                    "divisions": ("act1", "scene1"),
-                    "play": "a title",
-                },
+                {"type": "hit", "weight": 7, "divisions": ("act1", "scene1"),},
             ),
             (
                 "Isabella",
                 "Pantalone",
-                {
-                    "type": "hit",
-                    "weight": 1,
-                    "divisions": ("act1", "scene2"),
-                    "play": "a title",
-                },
+                {"type": "hit", "weight": 1, "divisions": ("act1", "scene2"),},
             ),
-            (
-                "Isabella",
-                "Flavio",
-                {"divisions": ("act1", "scene2"), "play": "a title"},
-            ),
-            (
-                "Pantalone",
-                "Flavio",
-                {"divisions": ("act2", "scene1"), "play": "a title"},
-            ),
+            ("Isabella", "Flavio", {"divisions": ("act1", "scene2"),},),
+            ("Pantalone", "Flavio", {"divisions": ("act2", "scene1"),},),
             (
                 "Flavio",
                 "Pantalone",
-                {
-                    "type": "hit",
-                    "weight": 1,
-                    "divisions": ("act2", "scene1"),
-                    "play": "a title",
-                },
+                {"type": "hit", "weight": 1, "divisions": ("act2", "scene1"),},
             ),
         ],
     }

@@ -9,11 +9,8 @@ class Section:
         self.divisions = self.get_divisions(divisions)
         self.data = self.get_data()
 
-    def __str__(self):
-        return f"<{self.__class__.__name__}({repr(self.key)})>"
-
     def __repr__(self):
-        return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.values)})>"
+        return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.data)})>"
 
     def get_key(self):
         return self._enolib_section.string_key()
@@ -36,13 +33,17 @@ class Section:
                 )
         return section_data
 
+    def to_string(self, level=1):
+        section_name = f"{'#'*level} {self.key}"
+        section_data_strings = (datum.to_string(level=level + 1) for datum in self.data)
+        return "\n".join((section_name, *section_data_strings))
+
     def to_dict(self):
         is_edges_section = self.key == "edges"
         section_dict = MultiDict()
         for element in self.data:
             section_dict.extend(element.to_dict())
-        return (
-            {self.key: section_dict}
-            if is_edges_section
-            else {self.key: dict(section_dict)}
-        )
+        if is_edges_section:
+            return {self.key: section_dict}
+        else:
+            return {self.key: dict(section_dict)}

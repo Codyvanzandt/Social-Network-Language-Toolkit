@@ -1,18 +1,13 @@
 import pytest
 import networkx
-from src.converters.networkx_converter import (
-    convert_to_networkx,
-    _get_empty_graph,
-    _add_play_data,
-    _add_character_data,
-)
+from src.converters.networkx_converters import SDLConverter
 from pprint import pprint
 
 
-def test_convert_to_networkx(fake_drama_network):
+def test_convert_to_networkx(fake_sdl_document):
     # undirected
-    resulting_graph = convert_to_networkx(fake_drama_network, directed=False)
-    for source, target, edge_data in fake_drama_network._doc.data["edges"]:
+    resulting_graph = SDLConverter(fake_sdl_document).to_networkx(directed=False)
+    for source, target, edge_data in fake_sdl_document.data["edges"]:
         assert resulting_graph.has_edge(source, target)
         assert resulting_graph.has_edge(target, source)
         assert resulting_graph.get_edge_data(
@@ -22,27 +17,27 @@ def test_convert_to_networkx(fake_drama_network):
 
 
 def test__get_empty_graph():
-    assert isinstance(_get_empty_graph(directed=True), networkx.MultiDiGraph)
-    assert isinstance(_get_empty_graph(directed=False), networkx.MultiGraph)
+    assert isinstance(
+        SDLConverter.get_empty_graph(directed=True), networkx.MultiDiGraph
+    )
+    assert isinstance(SDLConverter.get_empty_graph(directed=False), networkx.MultiGraph)
     with pytest.raises(
         ValueError, match="The value for `directed` must be one of.*",
     ):
-        _get_empty_graph(directed="bad value")
+        SDLConverter.get_empty_graph(directed="bad value")
 
 
-def test__add_play_data(fake_drama_network):
-    empty_graph = _get_empty_graph(directed=False)
-    _add_play_data(fake_drama_network, empty_graph)
-    for play_data_key, play_data_value in fake_drama_network._data["play"].items():
+def test__add_play_data(fake_sdl_document):
+    empty_graph = SDLConverter.get_empty_graph(directed=False)
+    SDLConverter.add_play_data(empty_graph, fake_sdl_document.data.get("play", dict()))
+    for play_data_key, play_data_value in fake_sdl_document.data["play"].items():
         assert empty_graph.graph[play_data_key] == play_data_value
 
 
-def test__add_character_data(fake_drama_network):
-    empty_graph = _get_empty_graph(directed=False)
-    _add_character_data(fake_drama_network, empty_graph)
-    for character_name, character_data in fake_drama_network._data[
-        "characters"
-    ].items():
+def test__add_character_data(fake_sdl_document):
+    empty_graph = SDLConverter.get_empty_graph(directed=False)
+    SDLConverter.add_character_data(empty_graph, fake_sdl_document.data["characters"])
+    for character_name, character_data in fake_sdl_document.data["characters"].items():
         assert character_name in empty_graph.nodes
         for char_data_key, char_data_value in character_data.items():
             assert empty_graph.nodes[character_name][char_data_key] == char_data_value

@@ -1,6 +1,5 @@
 from src.sdl_tools.sdl_document import SDLDocument
-from src.converters.networkx_converter import convert_to_networkx, _get_empty_graph
-from src.converters.string_converter import convert_to_string
+from src.converters.networkx_converters import DramaNetworkConverter
 from src.converters.sdl_file_converter import convert_to_file
 from src.utils.networkx_utils import get_subgraph, get_divisions
 from src.utils.general_utils import convert_to_container
@@ -15,8 +14,8 @@ class DramaNetwork:
         self._doc = SDLDocument(data)
         self._data = self._doc.data
         self.directed = directed
-        self._graph = convert_to_networkx(
-            self, directed=directed, play_data=True, division_data=True
+        self._graph = DramaNetworkConverter(self).to_networkx(
+            directed=directed, embed_play=True
         )
 
     def __iter__(self):
@@ -99,7 +98,7 @@ class DramaNetwork:
         return new_network
 
     def to_sdl_string(self):
-        return convert_to_string(self)
+        return self._doc.to_string()
 
     def to_file(self, path):
         return convert_to_file(self, path)

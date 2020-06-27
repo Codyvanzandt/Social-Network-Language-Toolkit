@@ -10,10 +10,13 @@ class Field:
         self.data = self.get_data()
 
     def __repr__(self):
-        return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.values)})>"
+        return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.data)})>"
 
     def to_dict(self):
         return {self.key: self.data}
+
+    def to_string(self, **kwargs):
+        return f"{self.key} : {self.data}"
 
     @staticmethod
     def get_yaml_loader(yaml_loader_str):

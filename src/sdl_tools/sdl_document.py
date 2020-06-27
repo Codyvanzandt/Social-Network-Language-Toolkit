@@ -1,6 +1,5 @@
 import enolib
 from multidict import MultiDict
-from src.sdl_tools.field import Field
 from src.sdl_tools.section import Section
 from src.sdl_tools.edges import MappedEdges
 
@@ -11,35 +10,23 @@ class SDLDocument:
         self._loaded_data = self.load_data()
         self._parsed_data = self.parse_data()
         self._intermediate_data = self.serialize_to_itermediate_data()
-        self.data = self.serialize_to_dict()
+        self.data = self.to_dict()
 
-    def serialize_to_dict(self):
+    @classmethod
+    def from_networkx(cls, data):
+        pass
+
+    def to_string(self):
+        return "\n\n".join((datum.to_string() for datum in self._intermediate_data))
+
+    def to_dict(self):
         data_dict = dict()
         for element in self._intermediate_data:
             if element.key == "edges":
-                extra_edge_data = self._get_extra_edge_data()
-                data_dict["edges"] = MappedEdges(element, **extra_edge_data).edges
+                data_dict["edges"] = MappedEdges(element).edges
             else:
                 data_dict.update(dict(element.to_dict()))
         return data_dict
-
-    def _get_extra_edge_data(self):
-        play_title = self._get_play_title()
-        if play_title:
-            return {"play": play_title}
-        else:
-            return dict()
-
-    def _get_play_title(self):
-        play_data = next(
-            (
-                element.to_dict()
-                for element in self._intermediate_data
-                if element.key == "play"
-            ),
-            dict(),
-        )
-        return play_data.get("play", dict()).get("title", None)
 
     def serialize_to_itermediate_data(self):
         serialized_data = list()

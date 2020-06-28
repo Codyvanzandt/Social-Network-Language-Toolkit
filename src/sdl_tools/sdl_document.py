@@ -12,10 +12,6 @@ class SDLDocument:
         self._intermediate_data = self.serialize_to_itermediate_data()
         self.data = self.to_dict()
 
-    @classmethod
-    def from_networkx(cls, data):
-        pass
-
     def to_string(self):
         return "\n\n".join((datum.to_string() for datum in self._intermediate_data))
 

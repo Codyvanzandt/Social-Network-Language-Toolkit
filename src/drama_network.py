@@ -1,5 +1,5 @@
 from src.sdl_tools.sdl_document import SDLDocument
-from src.converters.networkx_converters import DramaNetworkConverter
+import src.converters.converters as converters
 from src.converters.sdl_file_converter import convert_to_file
 from src.utils.networkx_utils import get_subgraph, get_divisions
 from src.utils.general_utils import convert_to_container
@@ -14,8 +14,8 @@ class DramaNetwork:
         self._doc = SDLDocument(data)
         self._data = self._doc.data
         self.directed = directed
-        self._graph = DramaNetworkConverter(self).to_networkx(
-            directed=directed, embed_play=True
+        self._graph = converters.drama_network_to_networkx(
+            self, directed=self.directed, embed_play=True
         )
 
     def __iter__(self):
@@ -77,9 +77,7 @@ class DramaNetwork:
             node_data=character_data,
             edge_data=edge_data,
         )
-        subgraph_drama_network = DramaNetwork()
-        subgraph_drama_network._graph = subgraph
-        return subgraph_drama_network
+        return converters.networkx_to_drama_network(subgraph)
 
     def combine_edges(self, equal_func=None, combine_func=None):
         equal_func = equal_func if equal_func is not None else edges_equal
@@ -93,11 +91,9 @@ class DramaNetwork:
         )
         new_graph.add_nodes_from(self.characters(data=True))
 
-        new_network = DramaNetwork(directed=self.directed)
-        new_network._graph = new_graph
-        return new_network
+        return converters.networkx_to_drama_network(new_graph)
 
-    def to_sdl_string(self):
+    def to_string(self):
         return self._doc.to_string()
 
     def to_file(self, path):

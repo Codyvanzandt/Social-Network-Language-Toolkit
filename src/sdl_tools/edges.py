@@ -38,7 +38,7 @@ class MappedEdges:
     def get_edge_data(self, field, divisions):
         return {
             k: v
-            for d in (field.data, {"divisions": divisions}, self.extra_data)
+            for d in (field.data, {"divisions": list(divisions)}, self.extra_data)
             for k, v in d.items()
         }
 

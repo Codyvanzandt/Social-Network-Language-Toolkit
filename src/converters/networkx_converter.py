@@ -54,7 +54,7 @@ class AbstractNetworkxConverter(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
 
-class SDLConverter(AbstractNetworkxConverter):
+class SDLToNXConverter(AbstractNetworkxConverter):
     def get_play_data(self):
         return self.obj.data.get("play", dict())
 
@@ -65,12 +65,14 @@ class SDLConverter(AbstractNetworkxConverter):
         if not embed_play:
             yield from self.obj.data.get("edges", list())
         else:
-            play_data = self.get_play_data()
+            play_data = (
+                {"play": play_data} if (play_data := self.get_play_data()) else dict()
+            )
             for source, target, data in self.obj.data.get("edges", list()):
                 new_data = {k: v for d in (data, play_data) for k, v in d.items()}
                 yield (source, target, new_data)
 
 
-class DramaNetworkConverter(SDLConverter):
+class DramaNetworkToNXConverter(SDLToNXConverter):
     def __init__(self, obj):
         self.obj = obj._doc

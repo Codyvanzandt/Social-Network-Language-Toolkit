@@ -33,6 +33,18 @@ def section():
 
 
 @pytest.fixture
+def fake_play_file(fake_play_string, tmp_path):
+    fake_file = tmp_path / "fake_file.sdl"
+    fake_file.write_text(fake_play_string)
+    return fake_file
+
+
+@pytest.fixture
+def fake_play_sdl_doc(fake_play_string):
+    return enolib.parse(fake_play_string)
+
+
+@pytest.fixture
 def fake_play_string():
     return """
 # play
@@ -129,46 +141,34 @@ def fake_play_data_with_edge_data():
             (
                 "Isabella",
                 "Flavio",
-                {"type": "kissed", "weight": 1, "divisions": ("act1", "scene1"),},
+                {"type": "kissed", "weight": 1, "divisions": ["act1", "scene1"],},
             ),
             (
                 "Isabella",
                 "Flavio",
-                {"type": "kissed", "weight": 3, "divisions": ("act1", "scene1"),},
+                {"type": "kissed", "weight": 3, "divisions": ["act1", "scene1"],},
             ),
             (
                 "Flavio",
                 "Isabella",
-                {"type": "kissed", "weight": 5, "divisions": ("act1", "scene1"),},
+                {"type": "kissed", "weight": 5, "divisions": ["act1", "scene1"],},
             ),
             (
                 "Isabella",
                 "Flavio",
-                {"type": "hit", "weight": 7, "divisions": ("act1", "scene1"),},
+                {"type": "hit", "weight": 7, "divisions": ["act1", "scene1"],},
             ),
             (
                 "Isabella",
                 "Pantalone",
-                {"type": "hit", "weight": 1, "divisions": ("act1", "scene2"),},
+                {"type": "hit", "weight": 1, "divisions": ["act1", "scene2"],},
             ),
-            ("Isabella", "Flavio", {"divisions": ("act1", "scene2"),},),
-            ("Pantalone", "Flavio", {"divisions": ("act2", "scene1"),},),
+            ("Isabella", "Flavio", {"divisions": ["act1", "scene2"],},),
+            ("Pantalone", "Flavio", {"divisions": ["act2", "scene1"],},),
             (
                 "Flavio",
                 "Pantalone",
-                {"type": "hit", "weight": 1, "divisions": ("act2", "scene1"),},
+                {"type": "hit", "weight": 1, "divisions": ["act2", "scene1"],},
             ),
         ],
     }
-
-
-@pytest.fixture
-def fake_play_file(fake_play_string, tmp_path):
-    fake_file = tmp_path / "fake_file.sdl"
-    fake_file.write_text(fake_play_string)
-    return fake_file
-
-
-@pytest.fixture
-def fake_play_sdl_doc(fake_play_string):
-    return enolib.parse(fake_play_string)

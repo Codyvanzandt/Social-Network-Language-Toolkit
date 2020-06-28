@@ -94,7 +94,7 @@ def get_empty_division_structure(graph):
 def get_edges_underneath_divisions(graph):
     division_structure = get_empty_division_structure(graph)
     for s, t, edge_data in graph.edges(data=True):
-        edge_divisions = edge_data.get("divisions", tuple())
+        edge_divisions = edge_data.pop("divisions", tuple())
         current_edges = nested_dict_get(division_structure, edge_divisions)
         if current_edges == dict():
             nested_dict_set(division_structure, edge_divisions, [(s, t, edge_data)])

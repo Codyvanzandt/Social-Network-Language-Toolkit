@@ -2,7 +2,7 @@ import pytest
 from pprint import pformat
 from src.drama_network import DramaNetwork
 from src.converters.sdl_file_converter import convert_to_file
-from src.converters.networkx_converters import DramaNetworkConverter
+from src.converters.networkx_converter import DramaNetworkToNXConverter
 from src.utils.networkx_utils import get_subgraph, get_divisions
 from networkx.algorithms.isomorphism import is_isomorphic
 from pprint import pprint
@@ -13,7 +13,7 @@ def test_init(fake_drama_network, fake_play_data_with_edge_data):
     assert fake_drama_network._data == fake_play_data_with_edge_data
     assert is_isomorphic(
         fake_drama_network._graph,
-        DramaNetworkConverter(fake_drama_network).to_networkx(
+        DramaNetworkToNXConverter(fake_drama_network).to_networkx(
             directed=True, embed_play=True
         ),
     )
@@ -147,7 +147,7 @@ def test_subnetwork(fake_drama_network):
     )
 
 
-def test_to_sdl_string(fake_drama_network):
+def test_to_string(fake_drama_network):
     assert True
 
 

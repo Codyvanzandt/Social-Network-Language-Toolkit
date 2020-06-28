@@ -271,8 +271,16 @@ def test_get_edges_underneath_divisions():
     """
     graph = DramaNetwork(test_sdl)._graph
     expected_structure = {
-        "act1": {"scene1": [("A", "B", {}), ("B", "C", {}),],},
-        "act2": {"scene1": [("C", "D", {})], "scene2": [("D", "E", {})],},
+        "act1": {
+            "scene1": [
+                ("A", "B", {"divisions": ["act1", "scene1"]}),
+                ("B", "C", {"divisions": ["act1", "scene1"]}),
+            ],
+        },
+        "act2": {
+            "scene1": [("C", "D", {"divisions": ["act2", "scene1"]})],
+            "scene2": [("D", "E", {"divisions": ["act2", "scene2"]})],
+        },
     }
     assert get_edges_underneath_divisions(graph) == expected_structure
 

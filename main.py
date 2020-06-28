@@ -4,3 +4,4 @@ from src.converters.sdl_converter import NetworkxToSDLConverter
 from src.converters.drama_network_converter import NXToDramaNetwork
 
 a = DramaNetwork("examples/fake_play")
+print(a.edges(data=True))

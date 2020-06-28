@@ -6,7 +6,7 @@ class AbstractNetworkxConverter(metaclass=abc.ABCMeta):
     def __init__(self, obj):
         self.obj = obj
 
-    def to_networkx(self, directed=False, embed_play=False):
+    def to_networkx(self, directed=False, embed_play=True):
         new_graph = self.get_empty_graph(directed=directed)
 
         play_data = self.get_play_data()
@@ -50,7 +50,7 @@ class AbstractNetworkxConverter(metaclass=abc.ABCMeta):
         raise NotImplementedError()
 
     @abc.abstractmethod
-    def get_edge_data(self, embed_play=False):
+    def get_edge_data(self, embed_play=True):
         raise NotImplementedError()
 
 
@@ -61,7 +61,7 @@ class SDLToNXConverter(AbstractNetworkxConverter):
     def get_character_data(self):
         return self.obj.data.get("characters", dict())
 
-    def get_edge_data(self, embed_play=False):
+    def get_edge_data(self, embed_play=True):
         if not embed_play:
             yield from self.obj.data.get("edges", list())
         else:

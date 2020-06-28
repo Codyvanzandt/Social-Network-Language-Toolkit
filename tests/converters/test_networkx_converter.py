@@ -6,7 +6,9 @@ from pprint import pprint
 
 def test_convert_to_networkx(fake_sdl_document):
     # undirected
-    resulting_graph = SDLToNXConverter(fake_sdl_document).to_networkx(directed=False)
+    resulting_graph = SDLToNXConverter(fake_sdl_document).to_networkx(
+        directed=False, embed_play=False
+    )
     for source, target, edge_data in fake_sdl_document.data["edges"]:
         assert resulting_graph.has_edge(source, target)
         assert resulting_graph.has_edge(target, source)

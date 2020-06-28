@@ -19,13 +19,13 @@ def sdl_doc_to_drama_network(sdl_doc):
 # Converting to Networkx
 
 
-def sdl_doc_to_networkx(sdl_doc, directed=False, embed_play=False):
+def sdl_doc_to_networkx(sdl_doc, directed=False, embed_play=True):
     return src.converters.networkx_converter.SDLToNXConverter(sdl_doc).to_networkx(
         directed=directed, embed_play=embed_play
     )
 
 
-def drama_network_to_networkx(drama_network, directed=False, embed_play=False):
+def drama_network_to_networkx(drama_network, directed=False, embed_play=True):
     return src.converters.networkx_converter.DramaNetworkToNXConverter(
         drama_network
     ).to_networkx(directed=directed, embed_play=embed_play)

@@ -1,5 +1,6 @@
 from functools import partial
 import yaml
+import pytest
 
 
 class Field:
@@ -8,6 +9,12 @@ class Field:
         self._enolib_field = enolib_field
         self.key = self.get_key()
         self.data = self.get_data()
+
+    def __eq__(self, other):
+        try:
+            return (self.key == other.key) and (self.data == other.data)
+        except AttributeError:
+            return False
 
     def __repr__(self):
         return f"<{self.__class__.__name__}({repr(self.key)}: {repr(self.data)})>"

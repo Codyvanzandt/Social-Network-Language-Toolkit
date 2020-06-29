@@ -3,10 +3,12 @@ import enolib
 from src.dnl_tools.section import Section
 from src.dnl_tools.field import Field
 
-FAKE_SECTION_STRING = """# section_name
+FAKE_SECTION_STRING = """# edges
 key : {nested : { value : 1 } }
 """
-FAKE_SECTION = Section(enolib.parse(FAKE_SECTION_STRING).section("section_name"))
+FAKE_SECTION = Section(enolib.parse(FAKE_SECTION_STRING).section("edges"))
+
+BAD_SECTION_STRING = "bad_data"
 
 FAKE_FIELD_STRING = """key : {nested : { value : 1 } }
 """
@@ -21,14 +23,13 @@ def test_repr():
 
 
 def test_get_key():
-    assert FAKE_SECTION.get_key() == "section_name"
+    assert FAKE_SECTION.get_key() == "edges"
 
 
 def test_get_divisions():
-    assert FAKE_SECTION.get_divisions(divisions=tuple()) == ("section_name",)
+    assert FAKE_SECTION.get_divisions(divisions=tuple()) == tuple()
     assert FAKE_SECTION.get_divisions(divisions=("containing_section",)) == (
         "containing_section",
-        "section_name",
     )
 
 
@@ -39,10 +40,15 @@ def test_get_data():
 def test_to_string():
     assert (
         FAKE_SECTION.to_string()
-        == """# section_name
+        == """# edges
 key : {'nested': {'value': 1}}"""
     )
 
 
 def test_to_dict():
-    assert FAKE_SECTION.to_dict() == {"section_name": {"key": {"nested": {"value": 1}}}}
+    assert FAKE_SECTION.to_dict() == {"edges": {"key": {"nested": {"value": 1}}}}
+
+
+def test_bad_input():
+    with pytest.raises(ValueError):
+        bad_section = Section(enolib.parse(BAD_SECTION_STRING))

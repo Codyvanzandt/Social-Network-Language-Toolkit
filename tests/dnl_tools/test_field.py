@@ -18,6 +18,7 @@ OTHER_FAKE_FIELD = make_field(OTHER_FAKE_FIELD_STRING)
 def test_eq():
     assert FAKE_FIELD == FAKE_FIELD
     assert FAKE_FIELD != OTHER_FAKE_FIELD
+    assert FAKE_FIELD != "a non-field"
 
 
 def test_field_key():

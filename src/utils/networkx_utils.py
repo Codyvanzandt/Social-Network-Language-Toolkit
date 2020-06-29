@@ -8,6 +8,7 @@ from src.utils.general_utils import (
 
 # SUBGRAPH API
 
+
 def get_subgraph(
     old_graph, divisions=None, nodes=None, edges=None, node_data=None, edge_data=None
 ):
@@ -71,45 +72,6 @@ def get_division_subgraph(graph, divisions):
 
 
 # DIVISION API
-
-
-def get_divisions(graph):
-    divisions = set()
-    for s, t, division_data in graph.edges(data="divisions", default=dict()):
-        nested_division = str()
-        for division in division_data:
-            nested_division = (
-                division
-                if nested_division == str()
-                else f"{nested_division}.{division}"
-            )
-            divisions.add(nested_division)
-    return tuple(sorted(divisions))
-
-
-def get_empty_division_structure(graph):
-    division_structure = dict()
-    for _, _, edge_data in graph.edges(data=True):
-        edge_divisions = edge_data.get("divisions", tuple())
-        nested_dict_set(division_structure, edge_divisions, dict())
-    return division_structure
-
-
-# EDGES API
-
-
-def get_edges_underneath_divisions(graph):
-    division_structure = get_empty_division_structure(graph)
-    for s, t, edge_data in graph.edges(data=True):
-        edge_divisions = edge_data.get("divisions", tuple())
-        current_edges = nested_dict_get(division_structure, edge_divisions)
-        if current_edges == dict():
-            nested_dict_set(division_structure, edge_divisions, [(s, t, edge_data)])
-        else:
-            nested_dict_set(
-                division_structure, edge_divisions, current_edges + [(s, t, edge_data)]
-            )
-    return division_structure
 
 
 def get_edges_by_division(graph, divisions):

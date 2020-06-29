@@ -1,8 +1,4 @@
-import itertools
 import copy
-from operator import add
-from statistics import mean, geometric_mean, harmonic_mean, median
-import functools
 
 
 def combine_all_edges(edges, equal_func, combine_func):
@@ -25,10 +21,15 @@ def edges_equal(e1, e2):
     same_divisions = d1.get("divisions", tuple()) == d2.get("divisions", tuple())
     return same_nodes and same_type and same_divisions
 
+
 def combine_edges(e1, e2):
     s1, t1, d1 = e1
     _, _, d2 = e2
     edge_weight = d1.get("weight", 1) + d2.get("weight", 1)
-    edge_type = d2.get("type",None)
+    edge_type = d2.get("type", None)
     edge_divisions = d2.get("divisions", tuple())
-    return s1, t1, {"weight" : edge_weight, "type" : edge_type, "divisions": edge_divisions}
+    return (
+        s1,
+        t1,
+        {"weight": edge_weight, "type": edge_type, "divisions": edge_divisions},
+    )

@@ -30,6 +30,7 @@ def add_edges_section_to_graph(sdl_doc, graph):
     edges = sdl_doc.data.get("edges", tuple())
     graph.add_edges_from(edges)
 
+
 def add_characters_section_to_graph(sdl_doc, graph):
     character_dict = sdl_doc.data.get("characters", dict())
     for character_name, character_data in character_dict.items():

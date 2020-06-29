@@ -4,9 +4,8 @@ from src.sdl_tools.section import Section
 
 
 class MappedEdges:
-    def __init__(self, edges_section, **extra_data):
+    def __init__(self, edges_section):
         self.edges_section = edges_section
-        self.extra_data = extra_data
         self.edges = list(self.get_edge_list(self.edges_section))
 
     def get_edge_list(self, edges_section):
@@ -38,13 +37,12 @@ class MappedEdges:
     def get_edge_data(self, field, divisions):
         return {
             k: v
-            for d in (field.data, {"divisions": list(divisions)}, self.extra_data)
+            for d in (field.data, {"divisions": list(divisions)})
             for k, v in d.items()
         }
 
 
 class MovementEdges:
-    def __init__(self, edges_section, **extra_data):
+    def __init__(self, edges_section):
         self.edges_section = edges_section
-        self.extra_data = extra_data
         self.edges = list(self.get_edge_list(self.edges_section))

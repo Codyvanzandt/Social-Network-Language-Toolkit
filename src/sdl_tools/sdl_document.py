@@ -6,7 +6,7 @@ from src.sdl_tools.edges import MappedEdges
 
 class SDLDocument:
     def __init__(self, data):
-        self._data = data if data is not None else str()
+        self._input_data = data if data is not None else str()
         self._loaded_data = self.load_data()
         self._parsed_data = self.parse_data()
         self._intermediate_data = self.serialize_to_itermediate_data()
@@ -40,15 +40,15 @@ class SDLDocument:
 
     def load_data(self):
         try:
-            loaded_data = self.load_file_path_data(self._data)
+            loaded_data = self.load_from_file_path(self._input_data)
         except (OSError, FileNotFoundError):
             try:
-                loaded_data = self._data.read()
+                loaded_data = self._input_data.read()
             except AttributeError:
-                loaded_data = self._data
+                loaded_data = self._input_data
         return loaded_data
 
     @staticmethod
-    def load_file_path_data(data):
+    def load_from_file_path(data):
         with open(data, "r") as data_file:
             return data_file.read()

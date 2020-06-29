@@ -1,6 +1,4 @@
 TODO
-Change sdl (social drama network) to dnl (drama network language)
-Ensure no references to social_drama, socialdrama, or sdl
 Write tests for field
 Write tests for section
 Write tests for sdl_document
@@ -53,3 +51,4 @@ Rewrite string converter to not use _data X
 Write edge combining subgraph X
 Refactor the too-large, too-complex drama network mess X
 Incorporate support for additional, user-defined sections X
+Change sdl (social drama network) to dnl (drama network language) X

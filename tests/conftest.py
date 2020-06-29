@@ -50,33 +50,31 @@ def fake_play_string():
 # play
 title : a title
 author : an author
-boolean : true
+boolean : True
 integer : 42
 float : 42.0
 array : [42, 42, 42]
-nested : {nested: nested}
+nested : {'nested': 'nested'}
 
 # characters
-Flavio : {archetype: innamorati, gender: male}
-Isabella : {archetype: innamorati, gender: female}
-Pantalone : {archetype: vecchi, gender: male}
+Flavio : {'archetype': 'innamorati', 'gender': 'male'}
+Isabella : {'archetype': 'innamorati', 'gender': 'female'}
+Pantalone : {'archetype': 'vecchi', 'gender': 'male'}
 
 # edges
 ## act1
 ### scene1
-Isabella.Flavio : {type: kissed, weight: 1}
-Isabella.Flavio : {type: kissed, weight: 3}
-Flavio.Isabella : {type: kissed, weight: 5}
-Isabella.Flavio : {type: hit, weight: 7}
-
+Isabella.Flavio : {'type': 'kissed', 'weight': 1}
+Isabella.Flavio : {'type': 'kissed', 'weight': 3}
+Flavio.Isabella : {'type': 'kissed', 'weight': 5}
+Isabella.Flavio : {'type': 'hit', 'weight': 7}
 ### scene2
-Isabella.Pantalone : {type: hit, weight: 1}
+Isabella.Pantalone : {'type': 'hit', 'weight': 1}
 Isabella.Flavio : {}
-
 ## act2
 ### scene1
 Pantalone.Flavio : {}
-Flavio.Pantalone : {type: hit, weight: 1}
+Flavio.Pantalone : {'type': 'hit', 'weight': 1}
 """
 
 

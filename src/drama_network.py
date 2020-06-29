@@ -1,5 +1,5 @@
-from src.sdl_tools.sdl_document import SDLDocument
-from src.sdl_tools.sdl_to_graph import sdl_doc_to_graph
+from src.dnl_tools.dnl_document import DNLDocument
+from src.dnl_tools.dnl_to_graph import dnl_doc_to_graph
 from src.utils.general_utils import convert_to_container
 from src.utils.edge_utils import combine_all_edges, edges_equal, combine_edges
 from src.utils.networkx_utils import get_subgraph, new_graph_from_edges
@@ -7,13 +7,13 @@ from src.utils.networkx_utils import get_subgraph, new_graph_from_edges
 
 class DramaNetwork:
     def __init__(self, data):
-        self.doc = SDLDocument(data)
+        self.doc = DNLDocument(data)
 
     def __getitem__(self, key):
         return self.doc.data[key]
 
     def to_graph(self, directed=False):
-        return sdl_doc_to_graph(self.doc, directed=directed)
+        return dnl_doc_to_graph(self.doc, directed=directed)
 
     def to_subgraph(
         self,

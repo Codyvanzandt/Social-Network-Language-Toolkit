@@ -196,7 +196,7 @@ def test_get_edge_subgraph():
 
 
 def test_get_division_subgraph():
-    test_sdl = """
+    test_dnl = """
     # edges
     ## act1
     ### scene1
@@ -211,7 +211,7 @@ def test_get_division_subgraph():
     ### scene3
     E.F : {}
     """
-    graph = DramaNetwork(test_sdl).to_graph()
+    graph = DramaNetwork(test_dnl).to_graph()
     assert is_isomorphic(get_division_subgraph(graph, divisions=None), graph)
 
     assert is_isomorphic(
@@ -423,7 +423,7 @@ def test_yield_edges_with_nodes():
 
 
 def test_get_edges_by_division():
-    test_sdl = """
+    test_dnl = """
     # edges
     ## act1
     ### scene1
@@ -438,7 +438,7 @@ def test_get_edges_by_division():
     ### scene3
     E.F : {}
     """
-    graph = DramaNetwork(test_sdl).to_graph()
+    graph = DramaNetwork(test_dnl).to_graph()
 
     # entire acts
     assert list(get_edges_by_division(graph, ["act1"])) == [

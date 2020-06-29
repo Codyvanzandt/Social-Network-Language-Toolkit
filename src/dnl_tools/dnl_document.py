@@ -1,10 +1,10 @@
 import enolib
 from multidict import MultiDict
-from src.sdl_tools.section import Section
-from src.sdl_tools.edges import MappedEdges
+from src.dnl_tools.section import Section
+from src.dnl_tools.edges import MappedEdges
 
 
-class SDLDocument:
+class DNLDocument:
     def __init__(self, data):
         self._input_data = data if data is not None else str()
         self._loaded_data = self.load_data()

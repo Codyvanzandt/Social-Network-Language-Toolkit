@@ -1,6 +1,6 @@
 import pytest
 from itertools import product, combinations, chain
-from src.sdl_tools.enter_exit_edge_serializer import (
+from src.dnl_tools.enter_exit_edge_serializer import (
     generate_edges,
     parse_entry_or_exit,
     parse_entries_and_exits,

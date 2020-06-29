@@ -1,6 +1,15 @@
 TODO
+Change sdl (social drama network) to dnl (drama network language)
+Ensure no references to social_drama, socialdrama, or sdl
+Write tests for field
+Write tests for section
+Write tests for sdl_document
+Write tests for sdl_to_graph
+Write tests for drama_network
+Update tests for edge_utils
+Update tets for networkx_utils
+Write functional tests for drama_network
 Refactor test_networkx_utils to clean up duplicate test data
-Write functional tests
 Error when some edges are underneath divisions and others aren't
 Write helpful error messages for common user errors
 Write helpful tests for different common user errors 

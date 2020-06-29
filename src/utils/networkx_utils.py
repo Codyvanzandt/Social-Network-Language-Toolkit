@@ -8,21 +8,28 @@ from src.utils.general_utils import (
 
 # SUBGRAPH API
 
-
 def get_subgraph(
-    graph, divisions=None, nodes=None, edges=None, node_data=None, edge_data=None
+    old_graph, divisions=None, nodes=None, edges=None, node_data=None, edge_data=None
 ):
-    node_subgraph = get_node_subgraph(graph, nodes=nodes, node_data=node_data)
-    edge_subgraph = get_edge_subgraph(graph, edges=edges, edge_data=edge_data)
-    division_subgraph = get_division_subgraph(graph, divisions=divisions)
+    node_subgraph = get_node_subgraph(old_graph, nodes=nodes, node_data=node_data)
+    edge_subgraph = get_edge_subgraph(old_graph, edges=edges, edge_data=edge_data)
+    division_subgraph = get_division_subgraph(old_graph, divisions=divisions)
     intersecting_edges = (
         edge
-        for edge in graph.edges(keys=True)
+        for edge in old_graph.edges(keys=True)
         if node_subgraph.has_edge(*edge)
         and edge_subgraph.has_edge(*edge)
         and division_subgraph.has_edge(*edge)
     )
-    return graph.edge_subgraph(intersecting_edges).copy()
+    return new_graph_from_edges(old_graph, intersecting_edges)
+
+
+def new_graph_from_edges(old_graph, edges):
+    new_graph = old_graph.__class__()
+    new_graph.add_edges_from(edges)
+    new_graph.add_nodes_from((n, old_graph.nodes[n]) for n in new_graph.nodes())
+    new_graph.graph.update(old_graph.graph)
+    return new_graph
 
 
 def get_node_subgraph(graph, nodes=None, node_data=None):

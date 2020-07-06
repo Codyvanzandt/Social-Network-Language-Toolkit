@@ -1,7 +1,4 @@
 TODO
-Write tests for drama_network
-Update tests for edge_utils
-Update tets for networkx_utils
 Create interface to networkx graph
 Create interface to graph-tool graph
 Refactor enter_exit_edges to src/edges.py MovementEdges
@@ -54,3 +51,6 @@ Write tests for field X
 Write tests for section 
 Write tests for sdl_document X
 Write tests for sdl_to_graph X
+Write tests for drama_network X
+Update tests for edge_utils X
+Update tests for networkx_utils X

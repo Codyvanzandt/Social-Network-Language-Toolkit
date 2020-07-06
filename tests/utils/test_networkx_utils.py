@@ -4,6 +4,7 @@ from networkx.algorithms.isomorphism import is_isomorphic
 from src.drama_network import DramaNetwork
 from src.utils.networkx_utils import (
     get_subgraph,
+    new_graph_from_edges,
     get_node_subgraph,
     get_edge_subgraph,
     get_division_subgraph,
@@ -124,6 +125,26 @@ def test_get_subgraph():
         ),
         networkx.MultiGraph([("B", "C", 0)]),
     )
+
+
+def test_new_graph_from_edges():
+    edges = [
+        ("A", "B", {"type": 1, "size": "big", "divisions": ("act1", "scene1")}),
+        ("A", "B", {"type": 2, "size": "small", "divisions": ("act1", "scene2")}),
+        ("B", "C", {"type": 1, "size": "big", "divisions": ("act2", "scene1")}),
+    ]
+    nodes = [
+        ("A", {"type": 1, "size": "big"}),
+        ("B", {"type": 1, "size": "big"}),
+        ("C", {"type": 1, "size": "small"}),
+    ]
+    graph = networkx.MultiGraph(edges)
+    graph.add_nodes_from(nodes)
+    graph.graph["key"] = {"nested": "value"}
+    new_graph = new_graph_from_edges(graph, edges=graph.edges(data=True))
+    assert is_isomorphic(new_graph, graph)
+    assert new_graph.graph == graph.graph
+    assert list(new_graph.nodes()) == list(graph.nodes())
 
 
 def test_get_node_subgraph():

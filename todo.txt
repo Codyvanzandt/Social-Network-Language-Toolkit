@@ -1,9 +1,10 @@
 TODO
-Write tests for sdl_to_graph
 Write tests for drama_network
 Update tests for edge_utils
 Update tets for networkx_utils
-Write functional tests for drama_network
+Create interface to networkx graph
+Create interface to graph-tool graph
+Refactor enter_exit_edges to src/edges.py MovementEdges
 Refactor test_networkx_utils to clean up duplicate test data
 Error when some edges are underneath divisions and others aren't
 Write helpful error messages for common user errors
@@ -52,3 +53,4 @@ Change sdl (social drama network) to dnl (drama network language) X
 Write tests for field X
 Write tests for section 
 Write tests for sdl_document X
+Write tests for sdl_to_graph X

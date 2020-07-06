@@ -6,7 +6,7 @@ from src.dnl_tools.dnl_document import DNLDocument
 
 @pytest.fixture
 def fake_drama_network(fake_play_string):
-    return DramaNetwork(fake_play_string, directed=True)
+    return DramaNetwork(fake_play_string)
 
 
 @pytest.fixture

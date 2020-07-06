@@ -8,10 +8,12 @@ from src.dnl_tools.dnl_document import DNLDocument
 def fake_drama_network(fake_play_string):
     return DramaNetwork(fake_play_string, directed=True)
 
+
 @pytest.fixture
 def dnl_doc_factory():
     def make_dnl_doc(data):
         return DNLDocument(data)
+
     return make_dnl_doc
 
 

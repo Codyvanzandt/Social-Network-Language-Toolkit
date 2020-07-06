@@ -1,7 +1,4 @@
 TODO
-Write tests for field
-Write tests for section
-Write tests for sdl_document
 Write tests for sdl_to_graph
 Write tests for drama_network
 Update tests for edge_utils
@@ -52,3 +49,6 @@ Write edge combining subgraph X
 Refactor the too-large, too-complex drama network mess X
 Incorporate support for additional, user-defined sections X
 Change sdl (social drama network) to dnl (drama network language) X
+Write tests for field X
+Write tests for section 
+Write tests for sdl_document X

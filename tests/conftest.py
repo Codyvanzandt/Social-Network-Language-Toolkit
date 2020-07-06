@@ -3,10 +3,16 @@ import enolib
 from src.drama_network import DramaNetwork
 from src.dnl_tools.dnl_document import DNLDocument
 
-# Drama Network
+
 @pytest.fixture
 def fake_drama_network(fake_play_string):
     return DramaNetwork(fake_play_string, directed=True)
+
+@pytest.fixture
+def dnl_doc_factory():
+    def make_dnl_doc(data):
+        return DNLDocument(data)
+    return make_dnl_doc
 
 
 # PLAY STRING, PLAY FILE, PLAY DATA, and PLAY DOCUMENT

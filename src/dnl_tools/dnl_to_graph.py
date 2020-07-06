@@ -11,13 +11,13 @@ def dnl_doc_to_graph(dnl_doc, directed=False):
 
 
 def get_empty_graph(directed, multigraph):
-    if directed and multigraph:
+    if directed == True and multigraph == True:
         return networkx.MultiDiGraph()
-    elif directed and not multigraph:
+    elif directed == True and multigraph == False:
         return networkx.DiGraph()
-    elif not directed and multigraph:
+    elif directed == False and multigraph == True:
         return networkx.MultiGraph()
-    elif not directed and not multigraph:
+    elif directed == False and multigraph == False:
         return networkx.Graph()
     else:
         raise ValueError(

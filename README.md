@@ -26,6 +26,7 @@ Charlie : {type : 3, size: 2, alias: C}
 -> : {directedness: directed}
 
 # edges
+@ act1, scene1
 A->B
 A,B -> C
 A-C

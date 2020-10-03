@@ -6,9 +6,5 @@ black
 pyyaml
 
 # Configuring project dependencies
-toml
-enolib
 networkx
-ordered_set
-multidict
 lark-parser

@@ -11,3 +11,4 @@ enolib
 networkx
 ordered_set
 multidict
+lark-parser

@@ -7,6 +7,7 @@ Notes:
 3. You've decided to let people define their own edge definitions in the "#edge definitions" section.
 4. You've decided to let folks load in edge and node definitions from other files.
 5. You've decided to let folks define when an edge happened with "@act1, scene1" syntax
+6. You've decided to go ahead and implement node aliases.
 
 Here's an example...
 
@@ -16,9 +17,9 @@ author : Some Author
 title : Some Title
 
 # node definitions
-A : {type: 1, size:4}
-B : {type : 2, size:3}
-C : {type : 3, size: 2}
+Alice : {type: 1, size:4, alias: A}
+Bob : {type : 2, size:3, alias: B}
+Charlie : {type : 3, size: 2, alias: C}
 
 # edge definitions
 - : {directedness: undirected}

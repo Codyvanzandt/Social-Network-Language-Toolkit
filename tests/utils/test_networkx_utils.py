@@ -45,8 +45,20 @@ def test_get_subgraph():
     )
 
     assert is_isomorphic(
-        get_subgraph(graph, nodes=["A", "C"], node_data={"type": 1,}),
-        get_node_subgraph(graph, nodes=["A", "C"], node_data={"type": 1,}),
+        get_subgraph(
+            graph,
+            nodes=["A", "C"],
+            node_data={
+                "type": 1,
+            },
+        ),
+        get_node_subgraph(
+            graph,
+            nodes=["A", "C"],
+            node_data={
+                "type": 1,
+            },
+        ),
     )
 
     # get_subgraph is isomorphic to get_edge_subgraph when using only edges/edge_data
@@ -62,9 +74,19 @@ def test_get_subgraph():
     )
 
     assert is_isomorphic(
-        get_subgraph(graph, edges=[("A", "B"), ("B", "C")], edge_data={"type": 1,}),
+        get_subgraph(
+            graph,
+            edges=[("A", "B"), ("B", "C")],
+            edge_data={
+                "type": 1,
+            },
+        ),
         get_edge_subgraph(
-            graph, edges=[("A", "B"), ("B", "C")], edge_data={"type": 1,}
+            graph,
+            edges=[("A", "B"), ("B", "C")],
+            edge_data={
+                "type": 1,
+            },
         ),
     )
 
@@ -213,7 +235,9 @@ def test_get_edge_subgraph():
         get_edge_subgraph(graph, edge_data={"type": 2, "size": "small"}).edges(
             keys=True
         )
-    ) == [("A", "B", 1),]
+    ) == [
+        ("A", "B", 1),
+    ]
 
 
 def test_get_division_subgraph():

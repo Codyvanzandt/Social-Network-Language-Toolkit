@@ -40,7 +40,7 @@ def get_node_subgraph(graph, nodes=None, node_data=None):
         node_data - a dict of node data
     Return:
         A shallow-copy subgraph with the given nodes.
-        If node_data is specified, only nodes with matching data will be included. 
+        If node_data is specified, only nodes with matching data will be included.
     """
     subgraph_nodes = get_nodes(graph, nodes=nodes, node_data=node_data)
     subgraph_edges = yield_edges_with_nodes(graph, subgraph_nodes)
@@ -54,7 +54,7 @@ def get_edge_subgraph(graph, edges=None, edge_data=None):
         edge_data - a dict of edge data
     Return:
         A shallow-copy subgraph with the given edges.
-        If edge_data is specified, only edges with matching data will be included. 
+        If edge_data is specified, only edges with matching data will be included.
     """
     subgraph_edges = get_edges(graph, edges=edges, edge_data=edge_data)
     return graph.edge_subgraph(subgraph_edges).copy()

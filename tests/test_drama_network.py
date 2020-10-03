@@ -42,7 +42,9 @@ def test_to_subgraph(fake_drama_network):
             fake_drama_network.to_graph(directed=True),
             divisions=("act1",),
             nodes=("Isabella",),
-            edges=[("Isabella", "Flavio"),],
+            edges=[
+                ("Isabella", "Flavio"),
+            ],
             node_data={"archetype": "innamorati"},
             edge_data={"type": "kissed"},
         ),

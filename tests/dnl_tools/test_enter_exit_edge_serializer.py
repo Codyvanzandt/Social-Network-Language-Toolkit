@@ -65,7 +65,8 @@ def test_parse_entries_and_exits(entries_and_exits):
 
 
 @pytest.mark.parametrize(
-    "entry_or_exit", ["A+", "A-", "'A B C'-", "EXEUNT"],
+    "entry_or_exit",
+    ["A+", "A-", "'A B C'-", "EXEUNT"],
 )
 def test_parse_entry_or_exit(entry_or_exit):
     if entry_or_exit == "EXEUNT":
@@ -79,7 +80,8 @@ def test_parse_entry_or_exit(entry_or_exit):
 
 def test_parse_entry_or_exit_raises():
     with pytest.raises(
-        ValueError, match=r"Entry-Exit record .* must be formatted as .*",
+        ValueError,
+        match=r"Entry-Exit record .* must be formatted as .*",
     ):
         parse_entry_or_exit("A")
 

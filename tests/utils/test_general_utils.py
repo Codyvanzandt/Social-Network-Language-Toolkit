@@ -53,7 +53,12 @@ def test_is_dict_subset():
 
     assert not is_dict_subset({"A": 1}, dict())  # non-empty,
     assert not is_dict_subset({"A": 1}, {"B": 2})  # disjoint
-    assert not is_dict_subset({"A": 1,}, {"A": 2})  # larger set wrong value
+    assert not is_dict_subset(
+        {
+            "A": 1,
+        },
+        {"A": 2},
+    )  # larger set wrong value
     assert not is_dict_subset(
         {"A": 1, "B": 2}, {"A": 1, "B": 1}
     )  # larger set wrong value multiple

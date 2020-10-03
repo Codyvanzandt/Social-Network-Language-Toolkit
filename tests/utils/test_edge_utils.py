@@ -13,7 +13,11 @@ EDGES = [
 
 def test_combine_all_edges():
     expected_edges = [
-        ("A", "B", {"weight": 2, "type": 1, "divisions": (1, 2)},),
+        (
+            "A",
+            "B",
+            {"weight": 2, "type": 1, "divisions": (1, 2)},
+        ),
     ] + EDGES[2::]
     assert combine_all_edges(EDGES, edges_equal, combine_edges) == expected_edges
 

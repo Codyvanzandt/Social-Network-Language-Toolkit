@@ -74,7 +74,10 @@ def fake_play_data_with_edge_data():
             "nested": {"nested": "nested"},
         },
         "characters": {
-            "Flavio": {"archetype": "innamorati", "gender": "male",},
+            "Flavio": {
+                "archetype": "innamorati",
+                "gender": "male",
+            },
             "Isabella": {"archetype": "innamorati", "gender": "female"},
             "Pantalone": {"archetype": "vecchi", "gender": "male"},
         },
@@ -82,34 +85,70 @@ def fake_play_data_with_edge_data():
             (
                 "Isabella",
                 "Flavio",
-                {"type": "kissed", "weight": 1, "divisions": ["act1", "scene1"],},
+                {
+                    "type": "kissed",
+                    "weight": 1,
+                    "divisions": ["act1", "scene1"],
+                },
             ),
             (
                 "Isabella",
                 "Flavio",
-                {"type": "kissed", "weight": 3, "divisions": ["act1", "scene1"],},
+                {
+                    "type": "kissed",
+                    "weight": 3,
+                    "divisions": ["act1", "scene1"],
+                },
             ),
             (
                 "Flavio",
                 "Isabella",
-                {"type": "kissed", "weight": 5, "divisions": ["act1", "scene1"],},
+                {
+                    "type": "kissed",
+                    "weight": 5,
+                    "divisions": ["act1", "scene1"],
+                },
             ),
             (
                 "Isabella",
                 "Flavio",
-                {"type": "hit", "weight": 7, "divisions": ["act1", "scene1"],},
+                {
+                    "type": "hit",
+                    "weight": 7,
+                    "divisions": ["act1", "scene1"],
+                },
             ),
             (
                 "Isabella",
                 "Pantalone",
-                {"type": "hit", "weight": 1, "divisions": ["act1", "scene2"],},
+                {
+                    "type": "hit",
+                    "weight": 1,
+                    "divisions": ["act1", "scene2"],
+                },
             ),
-            ("Isabella", "Flavio", {"divisions": ["act1", "scene2"],},),
-            ("Pantalone", "Flavio", {"divisions": ["act2", "scene1"],},),
+            (
+                "Isabella",
+                "Flavio",
+                {
+                    "divisions": ["act1", "scene2"],
+                },
+            ),
+            (
+                "Pantalone",
+                "Flavio",
+                {
+                    "divisions": ["act2", "scene1"],
+                },
+            ),
             (
                 "Flavio",
                 "Pantalone",
-                {"type": "hit", "weight": 1, "divisions": ["act2", "scene1"],},
+                {
+                    "type": "hit",
+                    "weight": 1,
+                    "divisions": ["act2", "scene1"],
+                },
             ),
         ],
     }

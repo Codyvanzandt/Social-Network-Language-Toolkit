@@ -3,7 +3,7 @@
 
 Notes:
 1. You're working in the minimal branch. The original branch was a series of costly mistakes.
-2. You've decided that "#sections" are a good idea, but "##subsections" aren't.
+2. You've decided that "#sections" are a good idea, but "##subsections" aren't. Section names are arbitrary, with a few exceptions (node/edge definitions).
 3. You've decided to let people define their own edge definitions in the "#edge definitions" section.
 4. You've decided to let folks load in edge and node definitions from other files.
 5. You've decided to let folks define when an edge happened with "@act1, scene1" syntax

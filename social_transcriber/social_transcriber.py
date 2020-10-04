@@ -1,12 +1,12 @@
 from social_transcriber.parser import parser
-from social_transcriber.transformers import TreeToDict, DictToGraph, GraphToSTL
+from social_transcriber.transformers import TreeToDict, EdgeData, DictToGraph, GraphToSTL
 
 
 class SocialTranscriber:
     def to_graph(self, data, directed=True):
         raw_stl = self.load_stl(data)
         stl_tree = parser.parse(raw_stl)
-        stl_dict = TreeToDict().transform(stl_tree)
+        stl_dict = EdgeData().transform( TreeToDict().transform(stl_tree) )
         return DictToGraph().transform(stl_dict, directed=directed)
 
     def to_string(self, graph):

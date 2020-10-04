@@ -16,8 +16,10 @@ list : "[" [value ("," value)*] "]"
 dict : "{" [pair ("," pair)*] "}"
 pair : name ":" value
 
-edge : name edge_mark name [":" value]
+edge : ( (name edge_mark name [":" value]) | time_mark )
 edge_mark : "-" name? "-"
+time_mark : "@" time_value
+time_value : /[A-Za-z0-9:_]+/
 
 section : "#" name ( pair* | edge*)
 document: section*

@@ -7,6 +7,7 @@ EDGES_KEY = "edges"
 EDGE_DEF_KEY = "edge definitions"
 
 NEWLINE = "\n"
+TIME_MARK = "@"
 
 
 class GraphToSTL:
@@ -18,10 +19,14 @@ class GraphToSTL:
         )
 
     def write_edges(self, graph):
+        edges = self.sort_edges_by_time( graph.edges(data=True) )
         return f"""# {EDGES_KEY}
-{NEWLINE.join(f'{source} -- {target}{self.format_edge_data(data)}' for source, target, data in graph.edges(data=True) )}
+{NEWLINE.join(f'{source} -- {target}{self.format_edge_data(data)}' for source, target, data in edges )}
 
 """
+    @staticmethod
+    def sort_edges_by_time(edges):
+        return sorted( edges, key=lambda edge: edge[2].get("time", 0))
 
     def format_edge_data(self, datum):
         return f": {datum}" if datum else ""
@@ -51,13 +56,8 @@ class DictToGraph:
         return graph
 
     def get_edge_data(self, dictionary):
-        edge_def_data = dictionary.get(EDGE_DEF_KEY, dict())
-        edge_data = dictionary.pop(EDGES_KEY, tuple())
-        for source, edge_marker, target, data in edge_data:
-            pre_defined_data = edge_def_data.get(edge_marker, dict())
-            final_data = {**pre_defined_data, **data}
-            yield (source, target, final_data)
-
+        return dictionary.pop(EDGES_KEY, tuple())
+            
     def get_node_data(self, dictionary):
         return dictionary.pop(NODES_KEY, dict()).items()
 
@@ -65,6 +65,35 @@ class DictToGraph:
     def get_empty_graph(directed=True):
         return MultiDiGraph() if directed else MultiGraph()
 
+class EdgeData():
+    def transform(self, dictionary):
+        self.substitute_edge_definitions(dictionary)
+        self.add_time_mark_data(dictionary)
+        self.remove_time_marks(dictionary)
+        self.remove_edge_marks(dictionary)
+        return dictionary
+
+    def substitute_edge_definitions(self, dictionary):
+        edge_definitions = dictionary.get(EDGE_DEF_KEY, dict())
+        edge_data = dictionary.get(EDGES_KEY, tuple())
+        for _, edge_marker, _, data in edge_data:
+            data.update( edge_definitions.get(edge_marker, dict()) )
+
+    def add_time_mark_data(self, dictionary):
+        edge_data = dictionary.get(EDGES_KEY, tuple())
+        current_time_mark_value = None
+        for potential_time_mark, potential_time_mark_value, _, data in edge_data:
+            if potential_time_mark == TIME_MARK:
+                current_time_mark_value = potential_time_mark_value
+                continue
+            if current_time_mark_value is not None:
+                data.update( {"time" : current_time_mark_value} )
+
+    def remove_time_marks(self, dictionary):
+        dictionary[EDGES_KEY] = [ edge for edge in dictionary[EDGES_KEY] if edge[0] != TIME_MARK ]
+
+    def remove_edge_marks(self, dictionary):
+        dictionary[EDGES_KEY] = [ (s,t,d) for s,_,t,d in dictionary[EDGES_KEY] ]
 
 class TreeToDict(Transformer):
     def space(self, children):
@@ -94,6 +123,8 @@ class TreeToDict(Transformer):
 
     def edge(self, children):
         num_children = len(children)
+        if num_children == 1:
+            return (TIME_MARK, ) + tuple(children) + (tuple(), dict())
         if num_children == 3:
             return tuple(children) + (dict(),)
         elif num_children == 4:
@@ -102,6 +133,12 @@ class TreeToDict(Transformer):
             raise ValueError(f"edge {children} improperly formatted")
 
     def edge_mark(self, children):
+        return "".join(children)
+
+    def time_mark(self, children):
+        return "".join(children)
+
+    def time_value(self, children):
         return "".join(children)
 
     def section(self, children):

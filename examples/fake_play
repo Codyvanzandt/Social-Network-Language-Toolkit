@@ -12,7 +12,8 @@ kissed : {type : kissed}
 hit : {type : hit}
 
 # edges
-Pedrolino -- Arlecchino
+@ act1
 Isabella -- Flavio : { type : kissed }
 Flavio -hit- Pantalone
+@ act2
 Isabella -kissed- Flavio : {weight : 1}

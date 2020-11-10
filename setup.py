@@ -7,7 +7,7 @@ requirements = ["lark-parser", "networkx"]
 
 setuptools.setup(
     name="snltoolkit", # Replace with your own username
-    version="0.0.1",
+    version="0.0.2",
     author="Cody VanZandt",
     author_email="cody.a.vanzandt@gmail.com",
     description="A toolkit for working with Social Network Language documents.",

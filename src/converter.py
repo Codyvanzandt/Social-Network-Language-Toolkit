@@ -1,11 +1,11 @@
-from social_transcriber.parser import parser
-from social_transcriber.transformers import TreeToDict, EdgeData, DictToGraph, GraphToSTL
+from src.parser import Parser
+from src.transformers import TreeToDict, EdgeData, DictToGraph, GraphToSTL
 
 
-class SocialTranscriber:
+class Converter:
     def to_graph(self, data, directed=True):
         raw_stl = self.load_stl(data)
-        stl_tree = parser.parse(raw_stl)
+        stl_tree = Parser.parse(raw_stl)
         stl_dict = EdgeData().transform( TreeToDict().transform(stl_tree) )
         return DictToGraph().transform(stl_dict, directed=directed)
 
@@ -22,10 +22,3 @@ class SocialTranscriber:
             except AttributeError:
                 loaded_data = stl_data
         return loaded_data
-
-
-st = SocialTranscriber()
-
-graph = st.to_graph("examples/fake_play")
-
-print(st.to_string(graph))

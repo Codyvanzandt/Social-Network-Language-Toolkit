@@ -8,22 +8,6 @@ The SNL-Toolkit combines two Python-language tools for working with SNL document
 Both the Social Network Language and its Toolkit are currently under active development.
 They both are changing rapidly, and as such, are not yet publicly available.
 
-## The State of the Language 
-
-The language currently supports all of its core features (nodes and edge transcription, arbitrary metadata transcription, temporal markers), although the exact expression of those features is still subject to change.
-
-Further work is neccessary on name-handling, e.g., ensuring that "Tom Jones", "Tom-Jones", and "Tom_Jones" are all valid expressions.
-
-## The State of the Converter
-
-The converter correctly converts SDL documents to networkx graphs insofar as the nodes, edges, and arbitrary metadata are correctly converted. 
-
-The converter does not currently convert networkx graphs to SDL documents.
-
-## The State of the Writer
-
-Design and development for the writer are not yet under way.
-
 # Installing the Social Network Language Toolkit
 
 The Toolkit is currently unavailable for installation. It will soon be pip-installable in an experimental form.

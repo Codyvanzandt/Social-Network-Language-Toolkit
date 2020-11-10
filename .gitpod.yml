@@ -1,5 +1,6 @@
 tasks:
   - init: pip3 install -r requirements.txt
+  - init: pip3 install -r requirements_dev.txt
   - init: git config core.hooksPath hooks
   - init: find ./hooks -type f -exec chmod +x {} \;
 github:

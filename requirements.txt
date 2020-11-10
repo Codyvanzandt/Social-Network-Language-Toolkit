@@ -1,10 +1,2 @@
-# Configuring testing tools and code formatters
-pytest
-coverage
-pytest-cov
-black
-pyyaml
-
-# Configuring project dependencies
 networkx
 lark-parser

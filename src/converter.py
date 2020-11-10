@@ -6,7 +6,7 @@ class Converter:
     def to_graph(self, data, directed=True):
         raw_stl = self.load_stl(data)
         stl_tree = Parser.parse(raw_stl)
-        stl_dict = EdgeData().transform( TreeToDict().transform(stl_tree) )
+        stl_dict = EdgeData().transform(TreeToDict().transform(stl_tree))
         return DictToGraph().transform(stl_dict, directed=directed)
 
     def to_string(self, graph):

@@ -1,0 +1,11 @@
+# Testing tools and code formatters
+pytest
+coverage
+pytest-cov
+black
+pyyaml
+
+# Project dependencies
+networkx
+lark-parser
+

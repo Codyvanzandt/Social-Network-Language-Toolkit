@@ -105,3 +105,12 @@ venv.bak/
 
 # theia ide
 .theia/
+
+# gitpod
+.gitpod.yml
+
+# hooks
+/hooks
+
+
+

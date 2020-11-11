@@ -1,10 +1,17 @@
 from networkx import MultiDiGraph, MultiGraph
 from lark import Transformer
 from collections import ChainMap
-from src.constants import EDGES_KEY, NODES_KEY, EDGE_DEF_KEY, TIME_KEY, TIME_MARK, NEWLINE
+from src.constants import (
+    EDGES_KEY,
+    NODES_KEY,
+    EDGE_DEF_KEY,
+    TIME_KEY,
+    TIME_MARK,
+    NEWLINE,
+)
 
 
-class GraphToSNL:
+class GraphToString:
     def transform(self, graph):
         return (
             self.write_sections(graph)
@@ -61,7 +68,7 @@ class DictToGraph:
         return MultiDiGraph() if directed else MultiGraph()
 
 
-class EdgeData:
+class EdgesToAugmentedEdges:
     def transform(self, dictionary):
         self.substitute_edge_definitions(dictionary)
         self.add_time_mark_data(dictionary)

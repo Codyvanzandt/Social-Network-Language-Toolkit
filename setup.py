@@ -6,7 +6,7 @@ with open("README.md", "r") as f:
 requirements = ["lark-parser", "networkx"]
 
 setuptools.setup(
-    name="snltoolkit", # Replace with your own username
+    name="snltoolkit",  # Replace with your own username
     version="0.0.2",
     author="Cody VanZandt",
     author_email="cody.a.vanzandt@gmail.com",
@@ -20,5 +20,5 @@ setuptools.setup(
         "License :: OSI Approved :: MIT License",
         "Operating System :: OS Independent",
     ],
-    python_requires='>=3.6',
+    python_requires=">=3.6",
 )

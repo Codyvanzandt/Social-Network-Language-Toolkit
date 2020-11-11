@@ -1,16 +1,10 @@
 from networkx import MultiDiGraph, MultiGraph
 from lark import Transformer
 from collections import ChainMap
-
-NODES_KEY = "nodes"
-EDGES_KEY = "edges"
-EDGE_DEF_KEY = "edge definitions"
-
-NEWLINE = "\n"
-TIME_MARK = "@"
+from src.constants import EDGES_KEY, NODES_KEY, EDGE_DEF_KEY, TIME_KEY, TIME_MARK, NEWLINE
 
 
-class GraphToSTL:
+class GraphToSNL:
     def transform(self, graph):
         return (
             self.write_sections(graph)
@@ -27,7 +21,7 @@ class GraphToSTL:
 
     @staticmethod
     def sort_edges_by_time(edges):
-        return sorted(edges, key=lambda edge: edge[2].get("time", 0))
+        return sorted(edges, key=lambda edge: edge[2].get(TIME_KEY, 0))
 
     def format_edge_data(self, datum):
         return f": {datum}" if datum else ""
@@ -89,7 +83,7 @@ class EdgeData:
                 current_time_mark_value = potential_time_mark_value
                 continue
             if current_time_mark_value is not None:
-                data.update({"time": current_time_mark_value})
+                data.update({TIME_KEY: current_time_mark_value})
 
     def remove_time_marks(self, dictionary):
         dictionary[EDGES_KEY] = [

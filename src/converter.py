@@ -1,5 +1,5 @@
 from src.parser import Parser
-from src.transformers import TreeToDict, EdgeData, DictToGraph, GraphToSTL
+from src.transformers import TreeToDict, EdgeData, DictToGraph, GraphToSNL
 
 
 class Converter:
@@ -10,7 +10,7 @@ class Converter:
         return DictToGraph().transform(stl_dict, directed=directed)
 
     def to_string(self, graph):
-        return GraphToSTL().transform(graph)
+        return GraphToSNL().transform(graph)
 
     def load_stl(self, stl_data):
         try:
